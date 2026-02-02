@@ -51,6 +51,7 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
+  OtpCode: 'OtpCode',
   User: 'User'
 } as const
 
@@ -70,17 +71,46 @@ export const TransactionIsolationLevel = {
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
+export const OtpCodeScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  code: 'code',
+  expiresAt: 'expiresAt',
+  verified: 'verified',
+  createdAt: 'createdAt'
+} as const
+
+export type OtpCodeScalarFieldEnum = (typeof OtpCodeScalarFieldEnum)[keyof typeof OtpCodeScalarFieldEnum]
+
+
 export const UserScalarFieldEnum = {
   id: 'id',
-  firstname: 'firstname',
-  lastname: 'lastname',
-  username: 'username',
-  fcmToken: 'fcmToken',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  athleteFullName: 'athleteFullName',
+  dateOfBirth: 'dateOfBirth',
+  email: 'email',
   password: 'password',
+  imgUrl: 'imgUrl',
+  parentName: 'parentName',
+  city: 'city',
+  state: 'state',
+  gradYear: 'gradYear',
+  position: 'position',
+  height: 'height',
+  weight: 'weight',
+  school: 'school',
+  gpa: 'gpa',
+  agreedToTerms: 'agreedToTerms',
+  fcmToken: 'fcmToken',
   isActive: 'isActive',
   isDeleted: 'isDeleted',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  role: 'role',
+  ppg: 'ppg',
+  rpg: 'rpg',
+  apg: 'apg',
+  spg: 'spg',
+  blk: 'blk'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]

@@ -20,88 +20,240 @@ export type UserModel = runtime.Types.Result.DefaultSelection<Prisma.$UserPayloa
 
 export type AggregateUser = {
   _count: UserCountAggregateOutputType | null
+  _avg: UserAvgAggregateOutputType | null
+  _sum: UserSumAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
   _max: UserMaxAggregateOutputType | null
 }
 
+export type UserAvgAggregateOutputType = {
+  gradYear: number | null
+  height: number | null
+  weight: number | null
+  gpa: number | null
+  ppg: number | null
+  rpg: number | null
+  apg: number | null
+  spg: number | null
+  blk: number | null
+}
+
+export type UserSumAggregateOutputType = {
+  gradYear: number | null
+  height: number | null
+  weight: number | null
+  gpa: number | null
+  ppg: number | null
+  rpg: number | null
+  apg: number | null
+  spg: number | null
+  blk: number | null
+}
+
 export type UserMinAggregateOutputType = {
   id: string | null
-  firstname: string | null
-  lastname: string | null
-  username: string | null
-  fcmToken: string | null
-  password: string | null
-  isActive: boolean | null
-  isDeleted: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
+  athleteFullName: string | null
+  dateOfBirth: Date | null
+  email: string | null
+  password: string | null
+  imgUrl: string | null
+  parentName: string | null
+  city: string | null
+  state: string | null
+  gradYear: number | null
+  position: string | null
+  height: number | null
+  weight: number | null
+  school: string | null
+  gpa: number | null
+  agreedToTerms: boolean | null
+  fcmToken: string | null
+  isActive: boolean | null
+  isDeleted: boolean | null
+  role: $Enums.userRole | null
+  ppg: number | null
+  rpg: number | null
+  apg: number | null
+  spg: number | null
+  blk: number | null
 }
 
 export type UserMaxAggregateOutputType = {
   id: string | null
-  firstname: string | null
-  lastname: string | null
-  username: string | null
-  fcmToken: string | null
-  password: string | null
-  isActive: boolean | null
-  isDeleted: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
+  athleteFullName: string | null
+  dateOfBirth: Date | null
+  email: string | null
+  password: string | null
+  imgUrl: string | null
+  parentName: string | null
+  city: string | null
+  state: string | null
+  gradYear: number | null
+  position: string | null
+  height: number | null
+  weight: number | null
+  school: string | null
+  gpa: number | null
+  agreedToTerms: boolean | null
+  fcmToken: string | null
+  isActive: boolean | null
+  isDeleted: boolean | null
+  role: $Enums.userRole | null
+  ppg: number | null
+  rpg: number | null
+  apg: number | null
+  spg: number | null
+  blk: number | null
 }
 
 export type UserCountAggregateOutputType = {
   id: number
-  firstname: number
-  lastname: number
-  username: number
-  fcmToken: number
-  password: number
-  isActive: number
-  isDeleted: number
   createdAt: number
   updatedAt: number
+  athleteFullName: number
+  dateOfBirth: number
+  email: number
+  password: number
+  imgUrl: number
+  parentName: number
+  city: number
+  state: number
+  gradYear: number
+  position: number
+  height: number
+  weight: number
+  school: number
+  gpa: number
+  agreedToTerms: number
+  fcmToken: number
+  isActive: number
+  isDeleted: number
+  role: number
+  ppg: number
+  rpg: number
+  apg: number
+  spg: number
+  blk: number
   _all: number
 }
 
 
+export type UserAvgAggregateInputType = {
+  gradYear?: true
+  height?: true
+  weight?: true
+  gpa?: true
+  ppg?: true
+  rpg?: true
+  apg?: true
+  spg?: true
+  blk?: true
+}
+
+export type UserSumAggregateInputType = {
+  gradYear?: true
+  height?: true
+  weight?: true
+  gpa?: true
+  ppg?: true
+  rpg?: true
+  apg?: true
+  spg?: true
+  blk?: true
+}
+
 export type UserMinAggregateInputType = {
   id?: true
-  firstname?: true
-  lastname?: true
-  username?: true
-  fcmToken?: true
-  password?: true
-  isActive?: true
-  isDeleted?: true
   createdAt?: true
   updatedAt?: true
+  athleteFullName?: true
+  dateOfBirth?: true
+  email?: true
+  password?: true
+  imgUrl?: true
+  parentName?: true
+  city?: true
+  state?: true
+  gradYear?: true
+  position?: true
+  height?: true
+  weight?: true
+  school?: true
+  gpa?: true
+  agreedToTerms?: true
+  fcmToken?: true
+  isActive?: true
+  isDeleted?: true
+  role?: true
+  ppg?: true
+  rpg?: true
+  apg?: true
+  spg?: true
+  blk?: true
 }
 
 export type UserMaxAggregateInputType = {
   id?: true
-  firstname?: true
-  lastname?: true
-  username?: true
-  fcmToken?: true
-  password?: true
-  isActive?: true
-  isDeleted?: true
   createdAt?: true
   updatedAt?: true
+  athleteFullName?: true
+  dateOfBirth?: true
+  email?: true
+  password?: true
+  imgUrl?: true
+  parentName?: true
+  city?: true
+  state?: true
+  gradYear?: true
+  position?: true
+  height?: true
+  weight?: true
+  school?: true
+  gpa?: true
+  agreedToTerms?: true
+  fcmToken?: true
+  isActive?: true
+  isDeleted?: true
+  role?: true
+  ppg?: true
+  rpg?: true
+  apg?: true
+  spg?: true
+  blk?: true
 }
 
 export type UserCountAggregateInputType = {
   id?: true
-  firstname?: true
-  lastname?: true
-  username?: true
-  fcmToken?: true
-  password?: true
-  isActive?: true
-  isDeleted?: true
   createdAt?: true
   updatedAt?: true
+  athleteFullName?: true
+  dateOfBirth?: true
+  email?: true
+  password?: true
+  imgUrl?: true
+  parentName?: true
+  city?: true
+  state?: true
+  gradYear?: true
+  position?: true
+  height?: true
+  weight?: true
+  school?: true
+  gpa?: true
+  agreedToTerms?: true
+  fcmToken?: true
+  isActive?: true
+  isDeleted?: true
+  role?: true
+  ppg?: true
+  rpg?: true
+  apg?: true
+  spg?: true
+  blk?: true
   _all?: true
 }
 
@@ -143,6 +295,18 @@ export type UserAggregateArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: UserAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: UserSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: UserMinAggregateInputType
@@ -173,22 +337,43 @@ export type UserGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
   take?: number
   skip?: number
   _count?: UserCountAggregateInputType | true
+  _avg?: UserAvgAggregateInputType
+  _sum?: UserSumAggregateInputType
   _min?: UserMinAggregateInputType
   _max?: UserMaxAggregateInputType
 }
 
 export type UserGroupByOutputType = {
   id: string
-  firstname: string
-  lastname: string
-  username: string
-  fcmToken: string | null
-  password: string
-  isActive: boolean
-  isDeleted: boolean
   createdAt: Date
   updatedAt: Date
+  athleteFullName: string
+  dateOfBirth: Date
+  email: string
+  password: string
+  imgUrl: string | null
+  parentName: string | null
+  city: string | null
+  state: string | null
+  gradYear: number | null
+  position: string | null
+  height: number | null
+  weight: number | null
+  school: string | null
+  gpa: number | null
+  agreedToTerms: boolean
+  fcmToken: string | null
+  isActive: boolean
+  isDeleted: boolean
+  role: $Enums.userRole
+  ppg: number | null
+  rpg: number | null
+  apg: number | null
+  spg: number | null
+  blk: number | null
   _count: UserCountAggregateOutputType | null
+  _avg: UserAvgAggregateOutputType | null
+  _sum: UserSumAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
   _max: UserMaxAggregateOutputType | null
 }
@@ -213,60 +398,130 @@ export type UserWhereInput = {
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   id?: Prisma.StringFilter<"User"> | string
-  firstname?: Prisma.StringFilter<"User"> | string
-  lastname?: Prisma.StringFilter<"User"> | string
-  username?: Prisma.StringFilter<"User"> | string
-  fcmToken?: Prisma.StringNullableFilter<"User"> | string | null
-  password?: Prisma.StringFilter<"User"> | string
-  isActive?: Prisma.BoolFilter<"User"> | boolean
-  isDeleted?: Prisma.BoolFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  athleteFullName?: Prisma.StringFilter<"User"> | string
+  dateOfBirth?: Prisma.DateTimeFilter<"User"> | Date | string
+  email?: Prisma.StringFilter<"User"> | string
+  password?: Prisma.StringFilter<"User"> | string
+  imgUrl?: Prisma.StringNullableFilter<"User"> | string | null
+  parentName?: Prisma.StringNullableFilter<"User"> | string | null
+  city?: Prisma.StringNullableFilter<"User"> | string | null
+  state?: Prisma.StringNullableFilter<"User"> | string | null
+  gradYear?: Prisma.IntNullableFilter<"User"> | number | null
+  position?: Prisma.StringNullableFilter<"User"> | string | null
+  height?: Prisma.FloatNullableFilter<"User"> | number | null
+  weight?: Prisma.FloatNullableFilter<"User"> | number | null
+  school?: Prisma.StringNullableFilter<"User"> | string | null
+  gpa?: Prisma.FloatNullableFilter<"User"> | number | null
+  agreedToTerms?: Prisma.BoolFilter<"User"> | boolean
+  fcmToken?: Prisma.StringNullableFilter<"User"> | string | null
+  isActive?: Prisma.BoolFilter<"User"> | boolean
+  isDeleted?: Prisma.BoolFilter<"User"> | boolean
+  role?: Prisma.EnumuserRoleFilter<"User"> | $Enums.userRole
+  ppg?: Prisma.FloatNullableFilter<"User"> | number | null
+  rpg?: Prisma.FloatNullableFilter<"User"> | number | null
+  apg?: Prisma.FloatNullableFilter<"User"> | number | null
+  spg?: Prisma.FloatNullableFilter<"User"> | number | null
+  blk?: Prisma.FloatNullableFilter<"User"> | number | null
 }
 
 export type UserOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  firstname?: Prisma.SortOrder
-  lastname?: Prisma.SortOrder
-  username?: Prisma.SortOrder
-  fcmToken?: Prisma.SortOrderInput | Prisma.SortOrder
-  password?: Prisma.SortOrder
-  isActive?: Prisma.SortOrder
-  isDeleted?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  athleteFullName?: Prisma.SortOrder
+  dateOfBirth?: Prisma.SortOrder
+  email?: Prisma.SortOrder
+  password?: Prisma.SortOrder
+  imgUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  parentName?: Prisma.SortOrderInput | Prisma.SortOrder
+  city?: Prisma.SortOrderInput | Prisma.SortOrder
+  state?: Prisma.SortOrderInput | Prisma.SortOrder
+  gradYear?: Prisma.SortOrderInput | Prisma.SortOrder
+  position?: Prisma.SortOrderInput | Prisma.SortOrder
+  height?: Prisma.SortOrderInput | Prisma.SortOrder
+  weight?: Prisma.SortOrderInput | Prisma.SortOrder
+  school?: Prisma.SortOrderInput | Prisma.SortOrder
+  gpa?: Prisma.SortOrderInput | Prisma.SortOrder
+  agreedToTerms?: Prisma.SortOrder
+  fcmToken?: Prisma.SortOrderInput | Prisma.SortOrder
+  isActive?: Prisma.SortOrder
+  isDeleted?: Prisma.SortOrder
+  role?: Prisma.SortOrder
+  ppg?: Prisma.SortOrderInput | Prisma.SortOrder
+  rpg?: Prisma.SortOrderInput | Prisma.SortOrder
+  apg?: Prisma.SortOrderInput | Prisma.SortOrder
+  spg?: Prisma.SortOrderInput | Prisma.SortOrder
+  blk?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  username?: string
+  email?: string
   AND?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
-  firstname?: Prisma.StringFilter<"User"> | string
-  lastname?: Prisma.StringFilter<"User"> | string
-  fcmToken?: Prisma.StringNullableFilter<"User"> | string | null
-  password?: Prisma.StringFilter<"User"> | string
-  isActive?: Prisma.BoolFilter<"User"> | boolean
-  isDeleted?: Prisma.BoolFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
-}, "id" | "username">
+  athleteFullName?: Prisma.StringFilter<"User"> | string
+  dateOfBirth?: Prisma.DateTimeFilter<"User"> | Date | string
+  password?: Prisma.StringFilter<"User"> | string
+  imgUrl?: Prisma.StringNullableFilter<"User"> | string | null
+  parentName?: Prisma.StringNullableFilter<"User"> | string | null
+  city?: Prisma.StringNullableFilter<"User"> | string | null
+  state?: Prisma.StringNullableFilter<"User"> | string | null
+  gradYear?: Prisma.IntNullableFilter<"User"> | number | null
+  position?: Prisma.StringNullableFilter<"User"> | string | null
+  height?: Prisma.FloatNullableFilter<"User"> | number | null
+  weight?: Prisma.FloatNullableFilter<"User"> | number | null
+  school?: Prisma.StringNullableFilter<"User"> | string | null
+  gpa?: Prisma.FloatNullableFilter<"User"> | number | null
+  agreedToTerms?: Prisma.BoolFilter<"User"> | boolean
+  fcmToken?: Prisma.StringNullableFilter<"User"> | string | null
+  isActive?: Prisma.BoolFilter<"User"> | boolean
+  isDeleted?: Prisma.BoolFilter<"User"> | boolean
+  role?: Prisma.EnumuserRoleFilter<"User"> | $Enums.userRole
+  ppg?: Prisma.FloatNullableFilter<"User"> | number | null
+  rpg?: Prisma.FloatNullableFilter<"User"> | number | null
+  apg?: Prisma.FloatNullableFilter<"User"> | number | null
+  spg?: Prisma.FloatNullableFilter<"User"> | number | null
+  blk?: Prisma.FloatNullableFilter<"User"> | number | null
+}, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  firstname?: Prisma.SortOrder
-  lastname?: Prisma.SortOrder
-  username?: Prisma.SortOrder
-  fcmToken?: Prisma.SortOrderInput | Prisma.SortOrder
-  password?: Prisma.SortOrder
-  isActive?: Prisma.SortOrder
-  isDeleted?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  athleteFullName?: Prisma.SortOrder
+  dateOfBirth?: Prisma.SortOrder
+  email?: Prisma.SortOrder
+  password?: Prisma.SortOrder
+  imgUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  parentName?: Prisma.SortOrderInput | Prisma.SortOrder
+  city?: Prisma.SortOrderInput | Prisma.SortOrder
+  state?: Prisma.SortOrderInput | Prisma.SortOrder
+  gradYear?: Prisma.SortOrderInput | Prisma.SortOrder
+  position?: Prisma.SortOrderInput | Prisma.SortOrder
+  height?: Prisma.SortOrderInput | Prisma.SortOrder
+  weight?: Prisma.SortOrderInput | Prisma.SortOrder
+  school?: Prisma.SortOrderInput | Prisma.SortOrder
+  gpa?: Prisma.SortOrderInput | Prisma.SortOrder
+  agreedToTerms?: Prisma.SortOrder
+  fcmToken?: Prisma.SortOrderInput | Prisma.SortOrder
+  isActive?: Prisma.SortOrder
+  isDeleted?: Prisma.SortOrder
+  role?: Prisma.SortOrder
+  ppg?: Prisma.SortOrderInput | Prisma.SortOrder
+  rpg?: Prisma.SortOrderInput | Prisma.SortOrder
+  apg?: Prisma.SortOrderInput | Prisma.SortOrder
+  spg?: Prisma.SortOrderInput | Prisma.SortOrder
+  blk?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
+  _avg?: Prisma.UserAvgOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
   _min?: Prisma.UserMinOrderByAggregateInput
+  _sum?: Prisma.UserSumOrderByAggregateInput
 }
 
 export type UserScalarWhereWithAggregatesInput = {
@@ -274,233 +529,537 @@ export type UserScalarWhereWithAggregatesInput = {
   OR?: Prisma.UserScalarWhereWithAggregatesInput[]
   NOT?: Prisma.UserScalarWhereWithAggregatesInput | Prisma.UserScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"User"> | string
-  firstname?: Prisma.StringWithAggregatesFilter<"User"> | string
-  lastname?: Prisma.StringWithAggregatesFilter<"User"> | string
-  username?: Prisma.StringWithAggregatesFilter<"User"> | string
-  fcmToken?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
-  password?: Prisma.StringWithAggregatesFilter<"User"> | string
-  isActive?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
-  isDeleted?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
+  athleteFullName?: Prisma.StringWithAggregatesFilter<"User"> | string
+  dateOfBirth?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
+  email?: Prisma.StringWithAggregatesFilter<"User"> | string
+  password?: Prisma.StringWithAggregatesFilter<"User"> | string
+  imgUrl?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  parentName?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  city?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  state?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  gradYear?: Prisma.IntNullableWithAggregatesFilter<"User"> | number | null
+  position?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  height?: Prisma.FloatNullableWithAggregatesFilter<"User"> | number | null
+  weight?: Prisma.FloatNullableWithAggregatesFilter<"User"> | number | null
+  school?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  gpa?: Prisma.FloatNullableWithAggregatesFilter<"User"> | number | null
+  agreedToTerms?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  fcmToken?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  isActive?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  isDeleted?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  role?: Prisma.EnumuserRoleWithAggregatesFilter<"User"> | $Enums.userRole
+  ppg?: Prisma.FloatNullableWithAggregatesFilter<"User"> | number | null
+  rpg?: Prisma.FloatNullableWithAggregatesFilter<"User"> | number | null
+  apg?: Prisma.FloatNullableWithAggregatesFilter<"User"> | number | null
+  spg?: Prisma.FloatNullableWithAggregatesFilter<"User"> | number | null
+  blk?: Prisma.FloatNullableWithAggregatesFilter<"User"> | number | null
 }
 
 export type UserCreateInput = {
   id?: string
-  firstname: string
-  lastname: string
-  username: string
-  fcmToken?: string | null
-  password: string
-  isActive?: boolean
-  isDeleted?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  athleteFullName: string
+  dateOfBirth: Date | string
+  email: string
+  password: string
+  imgUrl?: string | null
+  parentName?: string | null
+  city?: string | null
+  state?: string | null
+  gradYear?: number | null
+  position?: string | null
+  height?: number | null
+  weight?: number | null
+  school?: string | null
+  gpa?: number | null
+  agreedToTerms?: boolean
+  fcmToken?: string | null
+  isActive?: boolean
+  isDeleted?: boolean
+  role?: $Enums.userRole
+  ppg?: number | null
+  rpg?: number | null
+  apg?: number | null
+  spg?: number | null
+  blk?: number | null
 }
 
 export type UserUncheckedCreateInput = {
   id?: string
-  firstname: string
-  lastname: string
-  username: string
-  fcmToken?: string | null
-  password: string
-  isActive?: boolean
-  isDeleted?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  athleteFullName: string
+  dateOfBirth: Date | string
+  email: string
+  password: string
+  imgUrl?: string | null
+  parentName?: string | null
+  city?: string | null
+  state?: string | null
+  gradYear?: number | null
+  position?: string | null
+  height?: number | null
+  weight?: number | null
+  school?: string | null
+  gpa?: number | null
+  agreedToTerms?: boolean
+  fcmToken?: string | null
+  isActive?: boolean
+  isDeleted?: boolean
+  role?: $Enums.userRole
+  ppg?: number | null
+  rpg?: number | null
+  apg?: number | null
+  spg?: number | null
+  blk?: number | null
 }
 
 export type UserUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  firstname?: Prisma.StringFieldUpdateOperationsInput | string
-  lastname?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
-  fcmToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
+  dateOfBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  imgUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  parentName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gradYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  position?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  height?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  weight?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  school?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gpa?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  agreedToTerms?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  fcmToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  role?: Prisma.EnumuserRoleFieldUpdateOperationsInput | $Enums.userRole
+  ppg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  rpg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  apg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  spg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  blk?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
 }
 
 export type UserUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  firstname?: Prisma.StringFieldUpdateOperationsInput | string
-  lastname?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
-  fcmToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
+  dateOfBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  imgUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  parentName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gradYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  position?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  height?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  weight?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  school?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gpa?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  agreedToTerms?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  fcmToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  role?: Prisma.EnumuserRoleFieldUpdateOperationsInput | $Enums.userRole
+  ppg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  rpg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  apg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  spg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  blk?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
 }
 
 export type UserCreateManyInput = {
   id?: string
-  firstname: string
-  lastname: string
-  username: string
-  fcmToken?: string | null
-  password: string
-  isActive?: boolean
-  isDeleted?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  athleteFullName: string
+  dateOfBirth: Date | string
+  email: string
+  password: string
+  imgUrl?: string | null
+  parentName?: string | null
+  city?: string | null
+  state?: string | null
+  gradYear?: number | null
+  position?: string | null
+  height?: number | null
+  weight?: number | null
+  school?: string | null
+  gpa?: number | null
+  agreedToTerms?: boolean
+  fcmToken?: string | null
+  isActive?: boolean
+  isDeleted?: boolean
+  role?: $Enums.userRole
+  ppg?: number | null
+  rpg?: number | null
+  apg?: number | null
+  spg?: number | null
+  blk?: number | null
 }
 
 export type UserUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  firstname?: Prisma.StringFieldUpdateOperationsInput | string
-  lastname?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
-  fcmToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
+  dateOfBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  imgUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  parentName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gradYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  position?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  height?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  weight?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  school?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gpa?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  agreedToTerms?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  fcmToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  role?: Prisma.EnumuserRoleFieldUpdateOperationsInput | $Enums.userRole
+  ppg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  rpg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  apg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  spg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  blk?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
 }
 
 export type UserUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  firstname?: Prisma.StringFieldUpdateOperationsInput | string
-  lastname?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
-  fcmToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
+  dateOfBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  imgUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  parentName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gradYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  position?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  height?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  weight?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  school?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gpa?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  agreedToTerms?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  fcmToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  role?: Prisma.EnumuserRoleFieldUpdateOperationsInput | $Enums.userRole
+  ppg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  rpg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  apg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  spg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  blk?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
 }
 
 export type UserCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  firstname?: Prisma.SortOrder
-  lastname?: Prisma.SortOrder
-  username?: Prisma.SortOrder
-  fcmToken?: Prisma.SortOrder
-  password?: Prisma.SortOrder
-  isActive?: Prisma.SortOrder
-  isDeleted?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  athleteFullName?: Prisma.SortOrder
+  dateOfBirth?: Prisma.SortOrder
+  email?: Prisma.SortOrder
+  password?: Prisma.SortOrder
+  imgUrl?: Prisma.SortOrder
+  parentName?: Prisma.SortOrder
+  city?: Prisma.SortOrder
+  state?: Prisma.SortOrder
+  gradYear?: Prisma.SortOrder
+  position?: Prisma.SortOrder
+  height?: Prisma.SortOrder
+  weight?: Prisma.SortOrder
+  school?: Prisma.SortOrder
+  gpa?: Prisma.SortOrder
+  agreedToTerms?: Prisma.SortOrder
+  fcmToken?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
+  isDeleted?: Prisma.SortOrder
+  role?: Prisma.SortOrder
+  ppg?: Prisma.SortOrder
+  rpg?: Prisma.SortOrder
+  apg?: Prisma.SortOrder
+  spg?: Prisma.SortOrder
+  blk?: Prisma.SortOrder
+}
+
+export type UserAvgOrderByAggregateInput = {
+  gradYear?: Prisma.SortOrder
+  height?: Prisma.SortOrder
+  weight?: Prisma.SortOrder
+  gpa?: Prisma.SortOrder
+  ppg?: Prisma.SortOrder
+  rpg?: Prisma.SortOrder
+  apg?: Prisma.SortOrder
+  spg?: Prisma.SortOrder
+  blk?: Prisma.SortOrder
 }
 
 export type UserMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  firstname?: Prisma.SortOrder
-  lastname?: Prisma.SortOrder
-  username?: Prisma.SortOrder
-  fcmToken?: Prisma.SortOrder
-  password?: Prisma.SortOrder
-  isActive?: Prisma.SortOrder
-  isDeleted?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  athleteFullName?: Prisma.SortOrder
+  dateOfBirth?: Prisma.SortOrder
+  email?: Prisma.SortOrder
+  password?: Prisma.SortOrder
+  imgUrl?: Prisma.SortOrder
+  parentName?: Prisma.SortOrder
+  city?: Prisma.SortOrder
+  state?: Prisma.SortOrder
+  gradYear?: Prisma.SortOrder
+  position?: Prisma.SortOrder
+  height?: Prisma.SortOrder
+  weight?: Prisma.SortOrder
+  school?: Prisma.SortOrder
+  gpa?: Prisma.SortOrder
+  agreedToTerms?: Prisma.SortOrder
+  fcmToken?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
+  isDeleted?: Prisma.SortOrder
+  role?: Prisma.SortOrder
+  ppg?: Prisma.SortOrder
+  rpg?: Prisma.SortOrder
+  apg?: Prisma.SortOrder
+  spg?: Prisma.SortOrder
+  blk?: Prisma.SortOrder
 }
 
 export type UserMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  firstname?: Prisma.SortOrder
-  lastname?: Prisma.SortOrder
-  username?: Prisma.SortOrder
-  fcmToken?: Prisma.SortOrder
-  password?: Prisma.SortOrder
-  isActive?: Prisma.SortOrder
-  isDeleted?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  athleteFullName?: Prisma.SortOrder
+  dateOfBirth?: Prisma.SortOrder
+  email?: Prisma.SortOrder
+  password?: Prisma.SortOrder
+  imgUrl?: Prisma.SortOrder
+  parentName?: Prisma.SortOrder
+  city?: Prisma.SortOrder
+  state?: Prisma.SortOrder
+  gradYear?: Prisma.SortOrder
+  position?: Prisma.SortOrder
+  height?: Prisma.SortOrder
+  weight?: Prisma.SortOrder
+  school?: Prisma.SortOrder
+  gpa?: Prisma.SortOrder
+  agreedToTerms?: Prisma.SortOrder
+  fcmToken?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
+  isDeleted?: Prisma.SortOrder
+  role?: Prisma.SortOrder
+  ppg?: Prisma.SortOrder
+  rpg?: Prisma.SortOrder
+  apg?: Prisma.SortOrder
+  spg?: Prisma.SortOrder
+  blk?: Prisma.SortOrder
 }
 
-export type StringFieldUpdateOperationsInput = {
-  set?: string
+export type UserSumOrderByAggregateInput = {
+  gradYear?: Prisma.SortOrder
+  height?: Prisma.SortOrder
+  weight?: Prisma.SortOrder
+  gpa?: Prisma.SortOrder
+  ppg?: Prisma.SortOrder
+  rpg?: Prisma.SortOrder
+  apg?: Prisma.SortOrder
+  spg?: Prisma.SortOrder
+  blk?: Prisma.SortOrder
 }
 
 export type NullableStringFieldUpdateOperationsInput = {
   set?: string | null
 }
 
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
 }
 
-export type DateTimeFieldUpdateOperationsInput = {
-  set?: Date | string
+export type NullableFloatFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
+export type EnumuserRoleFieldUpdateOperationsInput = {
+  set?: $Enums.userRole
 }
 
 
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  firstname?: boolean
-  lastname?: boolean
-  username?: boolean
-  fcmToken?: boolean
-  password?: boolean
-  isActive?: boolean
-  isDeleted?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  athleteFullName?: boolean
+  dateOfBirth?: boolean
+  email?: boolean
+  password?: boolean
+  imgUrl?: boolean
+  parentName?: boolean
+  city?: boolean
+  state?: boolean
+  gradYear?: boolean
+  position?: boolean
+  height?: boolean
+  weight?: boolean
+  school?: boolean
+  gpa?: boolean
+  agreedToTerms?: boolean
+  fcmToken?: boolean
+  isActive?: boolean
+  isDeleted?: boolean
+  role?: boolean
+  ppg?: boolean
+  rpg?: boolean
+  apg?: boolean
+  spg?: boolean
+  blk?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  firstname?: boolean
-  lastname?: boolean
-  username?: boolean
-  fcmToken?: boolean
-  password?: boolean
-  isActive?: boolean
-  isDeleted?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  athleteFullName?: boolean
+  dateOfBirth?: boolean
+  email?: boolean
+  password?: boolean
+  imgUrl?: boolean
+  parentName?: boolean
+  city?: boolean
+  state?: boolean
+  gradYear?: boolean
+  position?: boolean
+  height?: boolean
+  weight?: boolean
+  school?: boolean
+  gpa?: boolean
+  agreedToTerms?: boolean
+  fcmToken?: boolean
+  isActive?: boolean
+  isDeleted?: boolean
+  role?: boolean
+  ppg?: boolean
+  rpg?: boolean
+  apg?: boolean
+  spg?: boolean
+  blk?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  firstname?: boolean
-  lastname?: boolean
-  username?: boolean
-  fcmToken?: boolean
-  password?: boolean
-  isActive?: boolean
-  isDeleted?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  athleteFullName?: boolean
+  dateOfBirth?: boolean
+  email?: boolean
+  password?: boolean
+  imgUrl?: boolean
+  parentName?: boolean
+  city?: boolean
+  state?: boolean
+  gradYear?: boolean
+  position?: boolean
+  height?: boolean
+  weight?: boolean
+  school?: boolean
+  gpa?: boolean
+  agreedToTerms?: boolean
+  fcmToken?: boolean
+  isActive?: boolean
+  isDeleted?: boolean
+  role?: boolean
+  ppg?: boolean
+  rpg?: boolean
+  apg?: boolean
+  spg?: boolean
+  blk?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectScalar = {
   id?: boolean
-  firstname?: boolean
-  lastname?: boolean
-  username?: boolean
-  fcmToken?: boolean
-  password?: boolean
-  isActive?: boolean
-  isDeleted?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  athleteFullName?: boolean
+  dateOfBirth?: boolean
+  email?: boolean
+  password?: boolean
+  imgUrl?: boolean
+  parentName?: boolean
+  city?: boolean
+  state?: boolean
+  gradYear?: boolean
+  position?: boolean
+  height?: boolean
+  weight?: boolean
+  school?: boolean
+  gpa?: boolean
+  agreedToTerms?: boolean
+  fcmToken?: boolean
+  isActive?: boolean
+  isDeleted?: boolean
+  role?: boolean
+  ppg?: boolean
+  rpg?: boolean
+  apg?: boolean
+  spg?: boolean
+  blk?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "firstname" | "lastname" | "username" | "fcmToken" | "password" | "isActive" | "isDeleted" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "athleteFullName" | "dateOfBirth" | "email" | "password" | "imgUrl" | "parentName" | "city" | "state" | "gradYear" | "position" | "height" | "weight" | "school" | "gpa" | "agreedToTerms" | "fcmToken" | "isActive" | "isDeleted" | "role" | "ppg" | "rpg" | "apg" | "spg" | "blk", ExtArgs["result"]["user"]>
 
 export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "User"
   objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    firstname: string
-    lastname: string
-    username: string
-    fcmToken: string | null
-    password: string
-    isActive: boolean
-    isDeleted: boolean
     createdAt: Date
     updatedAt: Date
+    athleteFullName: string
+    dateOfBirth: Date
+    email: string
+    password: string
+    imgUrl: string | null
+    parentName: string | null
+    city: string | null
+    state: string | null
+    gradYear: number | null
+    position: string | null
+    height: number | null
+    weight: number | null
+    school: string | null
+    gpa: number | null
+    agreedToTerms: boolean
+    fcmToken: string | null
+    isActive: boolean
+    isDeleted: boolean
+    role: $Enums.userRole
+    ppg: number | null
+    rpg: number | null
+    apg: number | null
+    spg: number | null
+    blk: number | null
   }, ExtArgs["result"]["user"]>
   composites: {}
 }
@@ -925,15 +1484,32 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
  */
 export interface UserFieldRefs {
   readonly id: Prisma.FieldRef<"User", 'String'>
-  readonly firstname: Prisma.FieldRef<"User", 'String'>
-  readonly lastname: Prisma.FieldRef<"User", 'String'>
-  readonly username: Prisma.FieldRef<"User", 'String'>
-  readonly fcmToken: Prisma.FieldRef<"User", 'String'>
-  readonly password: Prisma.FieldRef<"User", 'String'>
-  readonly isActive: Prisma.FieldRef<"User", 'Boolean'>
-  readonly isDeleted: Prisma.FieldRef<"User", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly athleteFullName: Prisma.FieldRef<"User", 'String'>
+  readonly dateOfBirth: Prisma.FieldRef<"User", 'DateTime'>
+  readonly email: Prisma.FieldRef<"User", 'String'>
+  readonly password: Prisma.FieldRef<"User", 'String'>
+  readonly imgUrl: Prisma.FieldRef<"User", 'String'>
+  readonly parentName: Prisma.FieldRef<"User", 'String'>
+  readonly city: Prisma.FieldRef<"User", 'String'>
+  readonly state: Prisma.FieldRef<"User", 'String'>
+  readonly gradYear: Prisma.FieldRef<"User", 'Int'>
+  readonly position: Prisma.FieldRef<"User", 'String'>
+  readonly height: Prisma.FieldRef<"User", 'Float'>
+  readonly weight: Prisma.FieldRef<"User", 'Float'>
+  readonly school: Prisma.FieldRef<"User", 'String'>
+  readonly gpa: Prisma.FieldRef<"User", 'Float'>
+  readonly agreedToTerms: Prisma.FieldRef<"User", 'Boolean'>
+  readonly fcmToken: Prisma.FieldRef<"User", 'String'>
+  readonly isActive: Prisma.FieldRef<"User", 'Boolean'>
+  readonly isDeleted: Prisma.FieldRef<"User", 'Boolean'>
+  readonly role: Prisma.FieldRef<"User", 'userRole'>
+  readonly ppg: Prisma.FieldRef<"User", 'Float'>
+  readonly rpg: Prisma.FieldRef<"User", 'Float'>
+  readonly apg: Prisma.FieldRef<"User", 'Float'>
+  readonly spg: Prisma.FieldRef<"User", 'Float'>
+  readonly blk: Prisma.FieldRef<"User", 'Float'>
 }
     
 

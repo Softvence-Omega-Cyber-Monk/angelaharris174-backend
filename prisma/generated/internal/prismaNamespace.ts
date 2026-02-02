@@ -384,6 +384,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 
 export const ModelName = {
+  OtpCode: 'OtpCode',
   User: 'User'
 } as const
 
@@ -400,10 +401,84 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user"
+    modelProps: "otpCode" | "user"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
+    OtpCode: {
+      payload: Prisma.$OtpCodePayload<ExtArgs>
+      fields: Prisma.OtpCodeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.OtpCodeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OtpCodePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.OtpCodeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OtpCodePayload>
+        }
+        findFirst: {
+          args: Prisma.OtpCodeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OtpCodePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.OtpCodeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OtpCodePayload>
+        }
+        findMany: {
+          args: Prisma.OtpCodeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OtpCodePayload>[]
+        }
+        create: {
+          args: Prisma.OtpCodeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OtpCodePayload>
+        }
+        createMany: {
+          args: Prisma.OtpCodeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.OtpCodeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OtpCodePayload>[]
+        }
+        delete: {
+          args: Prisma.OtpCodeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OtpCodePayload>
+        }
+        update: {
+          args: Prisma.OtpCodeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OtpCodePayload>
+        }
+        deleteMany: {
+          args: Prisma.OtpCodeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.OtpCodeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.OtpCodeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OtpCodePayload>[]
+        }
+        upsert: {
+          args: Prisma.OtpCodeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OtpCodePayload>
+        }
+        aggregate: {
+          args: Prisma.OtpCodeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateOtpCode>
+        }
+        groupBy: {
+          args: Prisma.OtpCodeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OtpCodeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.OtpCodeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OtpCodeCountAggregateOutputType> | number
+        }
+      }
+    }
     User: {
       payload: Prisma.$UserPayload<ExtArgs>
       fields: Prisma.UserFieldRefs
@@ -517,17 +592,46 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
+export const OtpCodeScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  code: 'code',
+  expiresAt: 'expiresAt',
+  verified: 'verified',
+  createdAt: 'createdAt'
+} as const
+
+export type OtpCodeScalarFieldEnum = (typeof OtpCodeScalarFieldEnum)[keyof typeof OtpCodeScalarFieldEnum]
+
+
 export const UserScalarFieldEnum = {
   id: 'id',
-  firstname: 'firstname',
-  lastname: 'lastname',
-  username: 'username',
-  fcmToken: 'fcmToken',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  athleteFullName: 'athleteFullName',
+  dateOfBirth: 'dateOfBirth',
+  email: 'email',
   password: 'password',
+  imgUrl: 'imgUrl',
+  parentName: 'parentName',
+  city: 'city',
+  state: 'state',
+  gradYear: 'gradYear',
+  position: 'position',
+  height: 'height',
+  weight: 'weight',
+  school: 'school',
+  gpa: 'gpa',
+  agreedToTerms: 'agreedToTerms',
+  fcmToken: 'fcmToken',
   isActive: 'isActive',
   isDeleted: 'isDeleted',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  role: 'role',
+  ppg: 'ppg',
+  rpg: 'rpg',
+  apg: 'apg',
+  spg: 'spg',
+  blk: 'blk'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -578,13 +682,6 @@ export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaMod
 
 
 /**
- * Reference to a field of type 'Boolean'
- */
-export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
-    
-
-
-/**
  * Reference to a field of type 'DateTime'
  */
 export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -599,6 +696,13 @@ export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
 
 
 /**
+ * Reference to a field of type 'Boolean'
+ */
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+/**
  * Reference to a field of type 'Int'
  */
 export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -609,6 +713,34 @@ export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'In
  * Reference to a field of type 'Int[]'
  */
 export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Float'
+ */
+export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+/**
+ * Reference to a field of type 'Float[]'
+ */
+export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+/**
+ * Reference to a field of type 'userRole'
+ */
+export type EnumuserRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'userRole'>
+    
+
+
+/**
+ * Reference to a field of type 'userRole[]'
+ */
+export type ListEnumuserRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'userRole[]'>
     
 
 /**
@@ -706,6 +838,7 @@ export type PrismaClientOptions = ({
   comments?: runtime.SqlCommenterPlugin[]
 }
 export type GlobalOmitConfig = {
+  otpCode?: Prisma.OtpCodeOmit
   user?: Prisma.UserOmit
 }
 
