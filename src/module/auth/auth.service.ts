@@ -10,7 +10,12 @@ import * as bcrypt from 'bcrypt';
 // import { RegisterDto } from './dto/register.dto';
 import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from './dto/login.dto';
-import { generateOtpCode, getTokens, hashOtpCode, verifyOtp } from './auth.utils';
+import {
+  generateOtpCode,
+  getTokens,
+  hashOtpCode,
+  verifyOtp,
+} from './auth.utils';
 // import { SystemRole } from '@prisma';
 import { RegisterDto } from './dto/register.dto';
 // import { userRole } from '@prisma';
@@ -24,7 +29,7 @@ export class AuthService {
   constructor(
     private prisma: PrismaService,
     private jwtService: JwtService,
-  ) { }
+  ) {}
 
   async register(dto: RegisterDto) {
     const existingUser = await this.prisma.client.user.findUnique({
@@ -62,8 +67,6 @@ export class AuthService {
       },
     });
 
-
-
     const tokens = await getTokens(
       this.jwtService,
       newUser.id,
@@ -84,8 +87,6 @@ export class AuthService {
       throw new ForbiddenException('Invalid credentials');
     }
 
-
-
     if (user.isDeleted) {
       throw new BadRequestException('User is deleted!');
     }
@@ -94,7 +95,6 @@ export class AuthService {
     if (!isMatch) {
       throw new ForbiddenException('Invalid credentials');
     }
-
 
     const tokens = await getTokens(
       this.jwtService,
@@ -105,7 +105,6 @@ export class AuthService {
 
     return { user, ...tokens };
   }
-
 
   // // change password
   async changePassword(id: string, dto: ChangePasswordDto) {
@@ -146,12 +145,7 @@ export class AuthService {
       // if(!user.isDeleted){
       //  throw new BadRequestException('User is blocked!');
       // }
-      return getTokens(
-        this.jwtService,
-        user.id,
-        user.email,
-        user.role,
-      );
+      return getTokens(this.jwtService, user.id, user.email, user.role);
     } catch {
       throw new UnauthorizedException('Invalid refresh token');
     }
@@ -175,7 +169,8 @@ export class AuthService {
     const data: any = {};
 
     // Handle string fields
-    if (dto.athleteFullName !== undefined) data.athleteFullName = dto.athleteFullName;
+    if (dto.athleteFullName !== undefined)
+      data.athleteFullName = dto.athleteFullName;
     if (dto.email !== undefined) data.email = dto.email;
     if (dto.parentName !== undefined) data.parentName = dto.parentName;
     if (dto.city !== undefined) data.city = dto.city;
@@ -303,5 +298,4 @@ export class AuthService {
       },
     });
   }
-
 }

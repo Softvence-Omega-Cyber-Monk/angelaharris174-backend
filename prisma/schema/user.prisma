@@ -40,6 +40,9 @@ model User {
 
     // Indexes for performance (optional but recommended)
 
+    posts     Post[]
+    comments Comment[]
+
     @@index([email])
     @@index([athleteFullName])
 }

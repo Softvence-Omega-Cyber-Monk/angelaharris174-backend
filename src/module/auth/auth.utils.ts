@@ -12,20 +12,14 @@ export async function getTokens(
   role: userRole,
 ) {
   const [access_token, refresh_token] = await Promise.all([
-    jwtService.signAsync(
-      { id: userId, email, role  },
-      {
-        secret: process.env.ACCESS_TOKEN_SECRET,
-        expiresIn: process.env.ACCESS_TOKEN_EXPIREIN,
-      } as any,
-    ),
-    jwtService.signAsync(
-      { id: userId, email, role },
-      {
-        secret: process.env.REFRESH_TOKEN_SECRET,
-        expiresIn: process.env.REFRESH_TOKEN_EXPIREIN,
-      } as any,
-    ),
+    jwtService.signAsync({ id: userId, email, role }, {
+      secret: process.env.ACCESS_TOKEN_SECRET,
+      expiresIn: process.env.ACCESS_TOKEN_EXPIREIN,
+    } as any),
+    jwtService.signAsync({ id: userId, email, role }, {
+      secret: process.env.REFRESH_TOKEN_SECRET,
+      expiresIn: process.env.REFRESH_TOKEN_EXPIREIN,
+    } as any),
   ]);
 
   return { access_token, refresh_token };

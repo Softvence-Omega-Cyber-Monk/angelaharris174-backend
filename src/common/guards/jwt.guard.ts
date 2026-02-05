@@ -44,8 +44,6 @@ export class JwtGuard extends AuthGuard('jwt') implements CanActivate {
     if (!existingUser.isActive) {
       throw new ForbiddenException('Your account is not Active yet!');
     }
-  
-   
 
     return true;
   }
