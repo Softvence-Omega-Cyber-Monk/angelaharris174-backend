@@ -5,8 +5,9 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { Post, User } from '@prisma';
+import { Post } from '@prisma';
 import { CreatePostDto } from './dto/create-post.dto';
+import { UpdatePostDto } from './dto/update-post.dto';
 
 @Injectable()
 export class PostService {
@@ -76,6 +77,7 @@ export class PostService {
             role: true,
           },
         },
+        commentsList: {},
       },
       orderBy: {
         createdAt: 'desc',
@@ -86,10 +88,14 @@ export class PostService {
   }
 
   // Find All Posts by User ID
-  async findAllByUserId(userId: string): Promise<Post[]> {
+  async findAllByUserId(userId: string, user: any): Promise<Post[]> {
+    const { id } = user;
+    if (userId !== user.id) {
+      throw new NotFoundException('User is not valid');
+    }
     const posts = await this.prisma.client.post.findMany({
       where: {
-        userId: userId,
+        userId: id,
       },
       include: {
         user: {
@@ -99,6 +105,7 @@ export class PostService {
             email: true,
           },
         },
+        commentsList: {},
       },
       orderBy: {
         createdAt: 'desc',
@@ -108,8 +115,49 @@ export class PostService {
     return posts;
   }
 
+  // Update Post only user
+  async update(
+    postId: string,
+    userId: string,
+    updatePostDto: UpdatePostDto,
+  ): Promise<Post> {
+    const post = await this.prisma.client.post.findUnique({
+      where: { id: postId },
+    });
+
+    if (!post) {
+      throw new NotFoundException(`Post with ID ${postId} not found`);
+    }
+
+    if (post.userId !== userId) {
+      throw new ForbiddenException('You are not allowed to update this post');
+    }
+
+    try {
+      const updatedPost = await this.prisma.client.post.update({
+        where: { id: postId },
+        data: {
+          ...updatePostDto,
+        },
+        include: {
+          user: {
+            select: {
+              id: true,
+              athleteFullName: true,
+              email: true,
+            },
+          },
+        },
+      });
+
+      return updatedPost;
+    } catch (error) {
+      throw new InternalServerErrorException('Failed to update the post');
+    }
+  }
+
   // Detele Post
-  async remove(id: string, user: User): Promise<void> {
+  async remove(id: string, user: any) {
     const postToDelete = await this.prisma.client.post.findUnique({
       where: { id },
       include: { user: true },
@@ -130,5 +178,7 @@ export class PostService {
     await this.prisma.client.post.delete({
       where: { id },
     });
+
+    return { message: 'Post deleted successfully' };
   }
 }

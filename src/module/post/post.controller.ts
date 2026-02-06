@@ -7,13 +7,17 @@ import {
   HttpStatus,
   Param,
   ParseUUIDPipe,
+  Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { PostService } from './post.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { PostExistsPipe } from './pipes/post-exists.pipe';
 import { UserExistsPipe } from './pipes/user-exist.pipe';
 import { CurrentUser } from 'src/common/decorators/current-user.decorator';
+import { JwtGuard } from 'src/common/guards/jwt.guard';
+import { UpdatePostDto } from './dto/update-post.dto';
 
 @Controller('post')
 export class PostController {
@@ -30,10 +34,12 @@ export class PostController {
   }
 
   @Get('user/:userId')
+  @UseGuards(JwtGuard)
   async findPostsByUser(
     @Param('userId', ParseUUIDPipe, UserExistsPipe) userId: string,
+    @CurrentUser() user: any,
   ) {
-    return this.postService.findAllByUserId(userId);
+    return this.postService.findAllByUserId(userId, user);
   }
 
   @Post('create')
@@ -42,12 +48,23 @@ export class PostController {
     return this.postService.create(createPostDto);
   }
 
+  @Patch('update/:id')
+  @UseGuards(JwtGuard)
+  async update(
+    @Param('id', ParseUUIDPipe) id: string,
+    @CurrentUser() user: any,
+    @Body() updatePostDto: UpdatePostDto,
+  ) {
+    return this.postService.update(id, user.id, updatePostDto);
+  }
+
   @Delete('delete/:id')
-  @HttpCode(HttpStatus.NO_CONTENT)
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtGuard)
   async deletePost(
     @Param('id', ParseUUIDPipe, PostExistsPipe) id: string,
     @CurrentUser() user: any,
-  ): Promise<void> {
-    await this.postService.remove(id, user);
+  ) {
+    return await this.postService.remove(id, user);
   }
 }
