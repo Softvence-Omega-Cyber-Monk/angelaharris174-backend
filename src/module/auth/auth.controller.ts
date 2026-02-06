@@ -135,7 +135,7 @@ export class AuthController {
   }
 
   // change password
- 
+
   @Patch('change-password')
   @Roles(userRole.ADMIN, userRole.ATHLATE)
   async changePassword(
