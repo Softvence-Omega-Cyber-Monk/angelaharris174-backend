@@ -53,6 +53,11 @@ export type Like = Prisma.LikeModel
  */
 export type OtpCode = Prisma.OtpCodeModel
 /**
+ * Model PostView
+ * 
+ */
+export type PostView = Prisma.PostViewModel
+/**
  * Model Post
  * 
  */

@@ -387,6 +387,7 @@ export const ModelName = {
   Comment: 'Comment',
   Like: 'Like',
   OtpCode: 'OtpCode',
+  PostView: 'PostView',
   Post: 'Post',
   User: 'User'
 } as const
@@ -404,7 +405,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "comment" | "like" | "otpCode" | "post" | "user"
+    modelProps: "comment" | "like" | "otpCode" | "postView" | "post" | "user"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -630,6 +631,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    PostView: {
+      payload: Prisma.$PostViewPayload<ExtArgs>
+      fields: Prisma.PostViewFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PostViewFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostViewPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PostViewFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostViewPayload>
+        }
+        findFirst: {
+          args: Prisma.PostViewFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostViewPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PostViewFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostViewPayload>
+        }
+        findMany: {
+          args: Prisma.PostViewFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostViewPayload>[]
+        }
+        create: {
+          args: Prisma.PostViewCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostViewPayload>
+        }
+        createMany: {
+          args: Prisma.PostViewCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PostViewCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostViewPayload>[]
+        }
+        delete: {
+          args: Prisma.PostViewDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostViewPayload>
+        }
+        update: {
+          args: Prisma.PostViewUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostViewPayload>
+        }
+        deleteMany: {
+          args: Prisma.PostViewDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PostViewUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PostViewUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostViewPayload>[]
+        }
+        upsert: {
+          args: Prisma.PostViewUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostViewPayload>
+        }
+        aggregate: {
+          args: Prisma.PostViewAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePostView>
+        }
+        groupBy: {
+          args: Prisma.PostViewGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PostViewGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PostViewCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PostViewCountAggregateOutputType> | number
+        }
+      }
+    }
     Post: {
       payload: Prisma.$PostPayload<ExtArgs>
       fields: Prisma.PostFieldRefs
@@ -851,6 +926,16 @@ export const OtpCodeScalarFieldEnum = {
 export type OtpCodeScalarFieldEnum = (typeof OtpCodeScalarFieldEnum)[keyof typeof OtpCodeScalarFieldEnum]
 
 
+export const PostViewScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  postId: 'postId',
+  createdAt: 'createdAt'
+} as const
+
+export type PostViewScalarFieldEnum = (typeof PostViewScalarFieldEnum)[keyof typeof PostViewScalarFieldEnum]
+
+
 export const PostScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -858,7 +943,7 @@ export const PostScalarFieldEnum = {
   caption: 'caption',
   likes: 'likes',
   comments: 'comments',
-  views: 'views',
+  viewCount: 'viewCount',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -1103,6 +1188,7 @@ export type GlobalOmitConfig = {
   comment?: Prisma.CommentOmit
   like?: Prisma.LikeOmit
   otpCode?: Prisma.OtpCodeOmit
+  postView?: Prisma.PostViewOmit
   post?: Prisma.PostOmit
   user?: Prisma.UserOmit
 }

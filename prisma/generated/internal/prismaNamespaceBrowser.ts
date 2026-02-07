@@ -54,6 +54,7 @@ export const ModelName = {
   Comment: 'Comment',
   Like: 'Like',
   OtpCode: 'OtpCode',
+  PostView: 'PostView',
   Post: 'Post',
   User: 'User'
 } as const
@@ -108,6 +109,16 @@ export const OtpCodeScalarFieldEnum = {
 export type OtpCodeScalarFieldEnum = (typeof OtpCodeScalarFieldEnum)[keyof typeof OtpCodeScalarFieldEnum]
 
 
+export const PostViewScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  postId: 'postId',
+  createdAt: 'createdAt'
+} as const
+
+export type PostViewScalarFieldEnum = (typeof PostViewScalarFieldEnum)[keyof typeof PostViewScalarFieldEnum]
+
+
 export const PostScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -115,7 +126,7 @@ export const PostScalarFieldEnum = {
   caption: 'caption',
   likes: 'likes',
   comments: 'comments',
-  views: 'views',
+  viewCount: 'viewCount',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
