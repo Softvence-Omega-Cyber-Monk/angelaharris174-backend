@@ -384,6 +384,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 
 export const ModelName = {
+  highlights: 'highlights',
   OtpCode: 'OtpCode',
   User: 'User'
 } as const
@@ -401,10 +402,84 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "otpCode" | "user"
+    modelProps: "highlights" | "otpCode" | "user"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
+    highlights: {
+      payload: Prisma.$highlightsPayload<ExtArgs>
+      fields: Prisma.highlightsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.highlightsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$highlightsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.highlightsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$highlightsPayload>
+        }
+        findFirst: {
+          args: Prisma.highlightsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$highlightsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.highlightsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$highlightsPayload>
+        }
+        findMany: {
+          args: Prisma.highlightsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$highlightsPayload>[]
+        }
+        create: {
+          args: Prisma.highlightsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$highlightsPayload>
+        }
+        createMany: {
+          args: Prisma.highlightsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.highlightsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$highlightsPayload>[]
+        }
+        delete: {
+          args: Prisma.highlightsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$highlightsPayload>
+        }
+        update: {
+          args: Prisma.highlightsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$highlightsPayload>
+        }
+        deleteMany: {
+          args: Prisma.highlightsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.highlightsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.highlightsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$highlightsPayload>[]
+        }
+        upsert: {
+          args: Prisma.highlightsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$highlightsPayload>
+        }
+        aggregate: {
+          args: Prisma.HighlightsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateHighlights>
+        }
+        groupBy: {
+          args: Prisma.highlightsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.HighlightsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.highlightsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.HighlightsCountAggregateOutputType> | number
+        }
+      }
+    }
     OtpCode: {
       payload: Prisma.$OtpCodePayload<ExtArgs>
       fields: Prisma.OtpCodeFieldRefs
@@ -592,6 +667,20 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
+export const HighlightsScalarFieldEnum = {
+  id: 'id',
+  mergedVideoUrl: 'mergedVideoUrl',
+  caption: 'caption',
+  description: 'description',
+  userId: 'userId',
+  clips: 'clips',
+  isProcessing: 'isProcessing',
+  updatedAt: 'updatedAt'
+} as const
+
+export type HighlightsScalarFieldEnum = (typeof HighlightsScalarFieldEnum)[keyof typeof HighlightsScalarFieldEnum]
+
+
 export const OtpCodeScalarFieldEnum = {
   id: 'id',
   email: 'email',
@@ -645,12 +734,28 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
 export const QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
 export const NullsOrder = {
@@ -682,6 +787,27 @@ export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaMod
 
 
 /**
+ * Reference to a field of type 'Json'
+ */
+export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+/**
+ * Reference to a field of type 'QueryMode'
+ */
+export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+/**
+ * Reference to a field of type 'Boolean'
+ */
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+/**
  * Reference to a field of type 'DateTime'
  */
 export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -692,13 +818,6 @@ export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
  * Reference to a field of type 'DateTime[]'
  */
 export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
-    
-
-
-/**
- * Reference to a field of type 'Boolean'
- */
-export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -838,6 +957,7 @@ export type PrismaClientOptions = ({
   comments?: runtime.SqlCommenterPlugin[]
 }
 export type GlobalOmitConfig = {
+  highlights?: Prisma.highlightsOmit
   otpCode?: Prisma.OtpCodeOmit
   user?: Prisma.UserOmit
 }

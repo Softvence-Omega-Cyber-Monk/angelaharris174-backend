@@ -7,7 +7,7 @@ model User {
     id        String   @id @default(uuid())
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
-
+    highligts highlights[]
     // Required core identity fields
     athleteFullName String
     dateOfBirth     DateTime // stored as DATE in DB (PostgreSQL supports it)

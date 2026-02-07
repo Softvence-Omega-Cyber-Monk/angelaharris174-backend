@@ -327,18 +327,6 @@ export type OtpCodeMinOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
 }
 
-export type StringFieldUpdateOperationsInput = {
-  set?: string
-}
-
-export type DateTimeFieldUpdateOperationsInput = {
-  set?: Date | string
-}
-
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
-}
-
 
 
 export type OtpCodeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
