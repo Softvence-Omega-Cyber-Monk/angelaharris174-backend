@@ -57,6 +57,7 @@ export class AuthService {
         gpa: dto.gpa ?? undefined,
         fcmToken: dto.fcmToken ?? undefined,
         agreedToTerms: dto.agreedToTerms,
+        isActive: true,
         // role defaults to ATHLATE per your Prisma schema
         // isActive, isDeleted default to false
       },
