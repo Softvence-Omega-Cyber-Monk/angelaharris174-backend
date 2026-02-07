@@ -17,9 +17,4 @@ export class CreatePostDto {
   @IsOptional()
   @IsString({ message: 'Caption must be a string' })
   caption?: string;
-
-  @ApiProperty({ description: 'The UUID of the user who owns this post' })
-  @IsNotEmpty({ message: 'User ID is required' })
-  @IsUUID('4', { message: 'User ID must be a valid UUID' })
-  userId: string;
 }

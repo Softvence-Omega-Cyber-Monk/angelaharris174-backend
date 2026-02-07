@@ -23,29 +23,58 @@ import { UpdatePostDto } from './dto/update-post.dto';
 export class PostController {
   constructor(private readonly postService: PostService) {}
 
+  // Feed
+  @Get('feed')
+  @UseGuards(JwtGuard)
+  async getSmartFeed(@CurrentUser() user: any) {
+    const userId = user.id;
+    return await this.postService.getSmartFeedTwo(userId);
+  }
+
+  // Seen Posts
+  @Post(':id/seen')
+  @UseGuards(JwtGuard)
+  async markAsSeen(
+    @Param('id', ParseUUIDPipe) postId: string,
+    @CurrentUser() user: any,
+  ) {
+    const userId = user.id;
+    return await this.postService.markAsSeenTwo(postId, userId);
+  }
+
   @Get()
+  @UseGuards(JwtGuard)
   async findAllPost() {
     return this.postService.findAll();
   }
 
-  @Get(':id')
-  async finSinglePost(@Param('id', ParseUUIDPipe, PostExistsPipe) id: string) {
-    return this.postService.findOne(id);
+  @Get('user')
+  @UseGuards(JwtGuard)
+  async findCurrentUserAllPost(@CurrentUser() user: any) {
+    const { id } = user;
+    return this.postService.findCurrentUserAllPost(id);
   }
 
   @Get('user/:userId')
   @UseGuards(JwtGuard)
   async findPostsByUser(
     @Param('userId', ParseUUIDPipe, UserExistsPipe) userId: string,
-    @CurrentUser() user: any,
   ) {
-    return this.postService.findAllByUserId(userId, user);
+    return this.postService.findAllByUserId(userId);
   }
 
   @Post('create')
+  @UseGuards(JwtGuard)
   @HttpCode(HttpStatus.CREATED)
-  async create(@Body() createPostDto: CreatePostDto) {
-    return this.postService.create(createPostDto);
+  async create(@CurrentUser() user: any, @Body() createPostDto: CreatePostDto) {
+    const { id } = user;
+    return this.postService.create(createPostDto, id);
+  }
+
+  @Get(':id')
+  @UseGuards(JwtGuard)
+  async finSinglePost(@Param('id', ParseUUIDPipe, PostExistsPipe) id: string) {
+    return this.postService.findOne(id);
   }
 
   @Patch('update/:id')
