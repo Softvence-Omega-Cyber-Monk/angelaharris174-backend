@@ -23,9 +23,5 @@ export class ChangePasswordDto {
   @IsNotEmpty({ message: 'New password is required' })
   @IsString()
   @MinLength(6, { message: 'New password must be at least 6 characters long' })
-  @Matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{6,}$/, {
-    message:
-      'New password must contain at least one letter and one number',
-  })
   newPassword: string;
 }

@@ -28,7 +28,7 @@ model User {
     // Consent & metadata
     agreedToTerms Boolean  @default(false)
     fcmToken      String?
-    isActive      Boolean  @default(false)
+    isActive      Boolean  @default(true)
     isDeleted     Boolean  @default(false)
     role          userRole @default(ATHLATE)
 
