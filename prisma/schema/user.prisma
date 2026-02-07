@@ -38,12 +38,13 @@ model User {
     spg Float? // Steals Per Game
     blk Float? // Blocks Per Game
 
-    // Indexes for performance (optional but recommended)
 
     posts    Post[]
     likes    Like[]
     comments Comment[]
+    viewedPosts PostView[]
 
+    // Indexes for performance (optional but recommended)
     @@index([email])
     @@index([athleteFullName])
 }
