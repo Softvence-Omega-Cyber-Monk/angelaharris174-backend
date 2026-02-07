@@ -4,20 +4,30 @@ import {
   Logger,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { DeleteObjectCommand, S3Client, S3ClientConfig } from '@aws-sdk/client-s3';
+import { DeleteObjectCommand, GetObjectCommand, S3Client, S3ClientConfig } from '@aws-sdk/client-s3';
 import { Upload } from '@aws-sdk/lib-storage';
 import { v4 as uuidv4 } from 'uuid';
 import { join } from 'path';
 import { tmpdir } from 'os';
 import * as fs from 'fs/promises';
+import { createWriteStream } from 'fs';
 import Ffmpeg from 'fluent-ffmpeg';
 
-// Try to use ffmpeg-static if available, otherwise system ffmpeg
+// Try to use ffmpeg-static and ffprobe-static if available, otherwise system versions
 try {
   const ffmpegPath = require('ffmpeg-static');
   Ffmpeg.setFfmpegPath(ffmpegPath);
+  console.log('ffmpeg-static loaded:', ffmpegPath);
 } catch (e) {
-  // ffmpeg-static not installed, will use system ffmpeg
+  console.warn('ffmpeg-static not found, using system ffmpeg');
+}
+
+try {
+  const ffprobePath = require('ffprobe-static').path;
+  Ffmpeg.setFfprobePath(ffprobePath);
+  console.log('ffprobe-static loaded:', ffprobePath);
+} catch (e) {
+  console.warn('ffprobe-static not found, using system ffprobe');
 }
 
 @Injectable()
@@ -255,9 +265,10 @@ export class S3Service {
     // Optional: Prevent deleting from wrong folders (security)
     if (!key.startsWith('audios/') &&
       !key.startsWith('images/') &&
-      !key.startsWith('videos/')) {
+      !key.startsWith('videos/') &&
+      !key.startsWith('merged_videos/')) {
       this.logger.warn(`Attempted to delete non-managed file: ${key}`);
-      throw new InternalServerErrorException('Only audios/, images/, and videos/ files can be deleted');
+      throw new InternalServerErrorException('Only audios/, images/, videos/, and merged_videos/ files can be deleted');
     }
     this.logger.log(`Deleting file from S3: ${key} (bucket: ${bucket})`);
 
@@ -341,7 +352,7 @@ export class S3Service {
       throw new InternalServerErrorException('Failed to generate video thumbnail');
     } finally {
       // Clean up temp video file (thumbnail will be uploaded and then deleted separately)
-      await fs.unlink(tempVideoPath).catch(() => {});
+      await fs.unlink(tempVideoPath).catch(() => { });
     }
   }
 
@@ -373,7 +384,162 @@ export class S3Service {
       throw new InternalServerErrorException('Failed to upload thumbnail');
     } finally {
       // Clean up local thumbnail
-      await fs.unlink(thumbnailPath).catch(() => {});
+      await fs.unlink(thumbnailPath).catch(() => { });
+    }
+  }
+
+  async downloadFileFromS3(key: string, downloadPath: string): Promise<void> {
+    const bucket = this.configService.get<string>('AWS_S3_BUCKET');
+    try {
+      const command = new GetObjectCommand({
+        Bucket: bucket,
+        Key: key,
+      });
+
+      const response = await this.s3Client.send(command);
+      const body = response.Body as any;
+
+      if (!body) {
+        throw new Error(`Empty body for S3 object: ${key}`);
+      }
+
+      await new Promise<void>((resolve, reject) => {
+        const writer = createWriteStream(downloadPath);
+        body.pipe(writer);
+        writer.on('finish', resolve);
+        writer.on('error', reject);
+      });
+
+      this.logger.log(`Downloaded ${key} to ${downloadPath}`);
+    } catch (error) {
+      this.logger.error(`Failed to download ${key} from S3: ${error.message}`);
+      throw new InternalServerErrorException(`Failed to download clip from S3: ${key}`);
+    }
+  }
+
+  async mergeVideos(clips: Array<{ s3Key: string; order: number }>): Promise<string> {
+    if (!clips || clips.length < 2) {
+      throw new InternalServerErrorException('At least 2 clips are required to merge');
+    }
+
+    // Sort clips by order
+    const sortedClips = [...clips].sort((a, b) => a.order - b.order);
+
+    const tempDir = join(tmpdir(), `merge_${uuidv4()}`);
+    await fs.mkdir(tempDir, { recursive: true });
+
+    const localPaths: string[] = [];
+    const mergedVideoPath = join(tempDir, `merged_${uuidv4()}.mp4`);
+
+    try {
+      // Download and probe all clips
+      const clipsMetadata: Array<{ path: string; hasAudio: boolean; duration: number }> = [];
+      for (const clip of sortedClips) {
+        const localPath = join(tempDir, `clip_${clip.order}_${uuidv4()}.mp4`);
+        await this.downloadFileFromS3(clip.s3Key, localPath);
+
+        // Probe the file for audio stream
+        const metadata = await new Promise<any>((resolve, reject) => {
+          Ffmpeg.ffprobe(localPath, (err, metadata) => {
+            if (err) reject(err);
+            else resolve(metadata);
+          });
+        });
+
+        const hasAudio = metadata.streams.some((s: any) => s.codec_type === 'audio');
+        const duration = metadata.format.duration || 0;
+
+        clipsMetadata.push({ path: localPath, hasAudio, duration });
+        localPaths.push(localPath);
+      }
+
+      // Merge videos using FFmpeg with concat filter
+      await new Promise<void>((resolve, reject) => {
+        const ffmpegCommand = Ffmpeg();
+
+        clipsMetadata.forEach((meta) => {
+          ffmpegCommand.input(meta.path);
+        });
+
+        // Construct the concat complex filter with scaling/padding and silent audio handling
+        let filter = '';
+
+        // 1. Process video streams (standardize to 1280x720)
+        for (let i = 0; i < clipsMetadata.length; i++) {
+          filter += `[${i}:v]scale=1280:720:force_original_aspect_ratio=decrease,pad=1280:720:(ow-iw)/2:(oh-ih)/2,setsar=1[v${i}];`;
+        }
+
+        // 2. Process audio streams (provide silence if missing)
+        for (let i = 0; i < clipsMetadata.length; i++) {
+          if (clipsMetadata[i].hasAudio) {
+            // Use existing audio, but ensure it's resampled/standardized if possible
+            // For simplicity, we just reference it here
+            filter += `[${i}:a]aformat=sample_fmts=fltp:sample_rates=44100:channel_layouts=stereo[a${i}];`;
+          } else {
+            // Generate silent audio of the same duration as the video
+            filter += `anullsrc=channel_layout=stereo:sample_rate=44100:d=${clipsMetadata[i].duration}[a${i}];`;
+          }
+        }
+
+        // 3. Concat all standardized streams
+        for (let i = 0; i < clipsMetadata.length; i++) {
+          filter += `[v${i}][a${i}]`;
+        }
+        filter += `concat=n=${clipsMetadata.length}:v=1:a=1[outv][outa]`;
+
+        ffmpegCommand
+          .complexFilter(filter)
+          .map('[outv]')
+          .map('[outa]')
+          .videoCodec('libx264')
+          .audioCodec('aac')
+          .outputOptions([
+            '-vsync 2', // Handle variable frame rates
+            '-pix_fmt yuv420p', // Ensure compatibility with most players
+            '-movflags +faststart' // Progressive download support
+          ])
+          .on('stderr', (stderrLine) => {
+            this.logger.debug(`FFmpeg: ${stderrLine}`);
+          })
+          .on('error', (err, stdout, stderr) => {
+            this.logger.error(`FFmpeg merging error: ${err.message}`);
+            this.logger.debug(`FFmpeg stderr output: ${stderr}`);
+            reject(err);
+          })
+          .on('end', () => {
+            this.logger.log('FFmpeg merging completed');
+            resolve();
+          })
+          .save(mergedVideoPath);
+      });
+
+      // Upload merged video
+      const mergedVideoBuffer = await fs.readFile(mergedVideoPath);
+      const mergedKey = `merged_videos/${uuidv4()}.mp4`;
+      const bucket = this.configService.get<string>('AWS_S3_BUCKET');
+      const region = this.configService.get<string>('AWS_REGION');
+
+      const parallelUpload = new Upload({
+        client: this.s3Client,
+        params: {
+          Bucket: bucket!,
+          Key: mergedKey,
+          Body: mergedVideoBuffer,
+          ContentType: 'video/mp4',
+        },
+      });
+
+      await parallelUpload.done();
+
+      const url = `https://${bucket}.s3.${region}.amazonaws.com/${mergedKey}`;
+      this.logger.log(`Merged video uploaded successfully: ${url}`);
+      return url;
+    } catch (error) {
+      this.logger.error(`Video merging failed: ${error.message}`);
+      throw new InternalServerErrorException('Failed to merge videos');
+    } finally {
+      // Clean up temp directory
+      await fs.rm(tempDir, { recursive: true, force: true }).catch(() => { });
     }
   }
 }

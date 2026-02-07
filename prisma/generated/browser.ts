@@ -18,6 +18,11 @@ export { Prisma }
 export * as $Enums from './enums'
 export * from './enums';
 /**
+ * Model highlights
+ * 
+ */
+export type highlights = Prisma.highlightsModel
+/**
  * Model OtpCode
  * 
  */
