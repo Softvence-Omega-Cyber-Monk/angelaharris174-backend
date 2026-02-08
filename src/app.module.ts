@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { PrismaModule } from './module/prisma/prisma.module';
 import { AuthModule } from './module/auth/auth.module';
 import { HighlightsModule } from './module/highlights/highlights.module';
+import { StripeModule } from './module/stripe/stripe.module';
 
 @Module({
   imports: [ConfigModule.forRoot({
@@ -13,6 +14,7 @@ import { HighlightsModule } from './module/highlights/highlights.module';
     AuthModule,
     PrismaModule,
     HighlightsModule,
+    StripeModule,
 
   ],
   controllers: [AppController],

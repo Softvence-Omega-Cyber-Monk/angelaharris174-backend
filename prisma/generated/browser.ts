@@ -28,6 +28,16 @@ export type highlights = Prisma.highlightsModel
  */
 export type OtpCode = Prisma.OtpCodeModel
 /**
+ * Model Plan
+ * 
+ */
+export type Plan = Prisma.PlanModel
+/**
+ * Model Subscription
+ * 
+ */
+export type Subscription = Prisma.SubscriptionModel
+/**
  * Model User
  * 
  */

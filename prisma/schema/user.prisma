@@ -4,26 +4,28 @@ enum userRole {
 }
 
 model User {
-    id        String   @id @default(uuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    highligts highlights[]
+    id               String         @id @default(uuid())
+    createdAt        DateTime       @default(now())
+    updatedAt        DateTime       @updatedAt
+    highligts        highlights[]
+    subscriptions    Subscription[]
+    stripeCustomerId String?
     // Required core identity fields
     athleteFullName String
     dateOfBirth     DateTime // stored as DATE in DB (PostgreSQL supports it)
     email           String   @unique
     password        String // hashed (e.g., via bcrypt)
-    imgUrl         String?
+    imgUrl          String?
     // Optional personal/academic info
-    parentName String?
-    city       String?
-    state      String?
-    gradYear   Int? // e.g., 2026
-    position   String? // could be enum if fixed options
-    height     Float? // in cm or inches — clarify unit; using Float for flexibility
-    weight     Float? // same note as height
-    school     String?
-    gpa        Float?  @map("gpa") // optional, mapped to column 'gpa'
+    parentName      String?
+    city            String?
+    state           String?
+    gradYear        Int? // e.g., 2026
+    position        String? // could be enum if fixed options
+    height          Float? // in cm or inches — clarify unit; using Float for flexibility
+    weight          Float? // same note as height
+    school          String?
+    gpa             Float?   @map("gpa") // optional, mapped to column 'gpa'
 
     // Consent & metadata
     agreedToTerms Boolean  @default(false)
