@@ -1,4 +1,3 @@
-
 // src/stripe/stripe.controller.ts
 import { Controller, Post, Body, Req, Res, UseGuards, HttpException, HttpStatus, Get, Patch, Param } from '@nestjs/common';
 import type { Request, Response } from 'express';
@@ -7,11 +6,10 @@ import { AuthGuard } from '@nestjs/passport'; // assuming you have auth
 import { ApiBody, ApiResponse } from '@nestjs/swagger';
 import { CreateCheckoutSessionDto, CreateProductDto, UpdatePlanDto } from './dto/strpe.dto';
 import { Public } from 'src/common/decorators/public.decorators';
+
 @Controller('stripe')
 export class StripeController {
   constructor(private readonly stripeService: StripeService) { }
-
-
 
   @Public()
   @Post('product-and-price')
@@ -29,8 +27,6 @@ export class StripeController {
         isPopular = false,
       } = dto;
 
-      // Class-validator already ensures `name` and `amount` are valid
-      // But we keep a safety net
       if (!name || amount <= 0) {
         throw new HttpException(
           'Name and valid amount (in cents) are required',
@@ -91,6 +87,7 @@ export class StripeController {
       url: session.url, // Redirect frontend to this URL
     };
   }
+
   // GET /stripe/plans → returns all plans
   @Public()
   @Get('plans')
@@ -111,15 +108,10 @@ export class StripeController {
     }
   }
 
-
-
   // 🔒 Admin-only: get ALL subscriptions
   @Public()
   @Get('get-all-subscription')
   async getAllSubscriptions(@Req() req: Request) {
-    // Optional: restrict to admin role
-    // if (req.user.role !== 'ADMIN') throw new ForbiddenException();
-
     const subscriptions = await this.stripeService.findAllSubscriptions();
     return {
       statusCode: HttpStatus.OK,
@@ -127,7 +119,6 @@ export class StripeController {
       count: subscriptions.length,
     };
   }
-
 
   // PATCH /stripe/plans/:id
   @Public()
@@ -160,7 +151,6 @@ export class StripeController {
   async webhook(@Req() req: Request, @Res() res: Response) {
     const sig = req.headers['stripe-signature'] as string;
     const rawBody = req.body;
-    console.log(rawBody, 'fasdfasdfsdaf')
     try {
       await this.stripeService.handleWebhookEvent(sig, rawBody);
       res.status(200).json({ received: true });
@@ -169,7 +159,6 @@ export class StripeController {
       res.status(400).send(`Webhook Error: ${err.message}`);
     }
   }
-
 
   @Get('subscriptionDetails/:subscriptionId')
   async getUserSubscription(
@@ -200,5 +189,23 @@ export class StripeController {
     };
   }
 
+  @Get('transactions')
+  async getUserTransactions(@Req() req: Request) {
+    const userId = req.user!.id;
+    const transactions = await this.stripeService.findTransactionsByUserId(userId);
+    return {
+      statusCode: HttpStatus.OK,
+      data: transactions,
+    };
+  }
 
+  @Public() // In production, add @UseGuards(AdminGuard)
+  @Get('dashboard-stats')
+  async AdminSubscriptionStats() {
+    const stats = await this.stripeService.AdminSubscriptionStats();
+    return {
+      statusCode: HttpStatus.OK,
+      data: stats,
+    };
+  }
 }

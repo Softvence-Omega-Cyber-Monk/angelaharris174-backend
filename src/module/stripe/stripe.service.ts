@@ -181,6 +181,12 @@ export class StripeService {
       case 'checkout.session.completed':
         await this.handleCheckoutSessionCompleted(event.data.object as Stripe.Checkout.Session);
         break;
+      case 'invoice.payment_succeeded':
+        await this.handleInvoicePaymentSucceeded(event.data.object as any);
+        break;
+      case 'invoice.payment_failed':
+        await this.handleInvoicePaymentFailed(event.data.object as any);
+        break;
       case 'customer.subscription.created':
       case 'customer.subscription.updated':
       case 'customer.subscription.deleted':
@@ -197,6 +203,7 @@ export class StripeService {
     const userId = session.client_reference_id;
     const customerId = session.customer as string;
     const subscriptionId = session.subscription as string;
+    const transactionId = session.payment_intent as string;
 
     if (!userId) {
       console.warn('No client_reference_id in session:', session.id);
@@ -204,16 +211,6 @@ export class StripeService {
     }
 
     console.log(`✅ Checkout completed for user: ${userId}`);
-
-    // 1. Update User
-    await this.prisma.client.user.update({
-      where: { id: userId },
-      data: {
-        isActive: true,
-        stripeCustomerId: customerId,
-        // You may need to add `stripeCustomerId` field to User model
-      },
-    });
 
     // 🔥 Fetch the session with line_items expanded
     const fullSession = await this.stripeClient.checkout.sessions.retrieve(
@@ -238,10 +235,22 @@ export class StripeService {
       return;
     }
 
+    const subStatus = plan.interval === 'year' ? 'ELITE' : 'PRO';
+
+    // 1. Update User
+    await this.prisma.client.user.update({
+      where: { id: userId },
+      data: {
+        subscribeStatus: subStatus, // Set status based on plan interval
+        stripeCustomerId: customerId,
+      },
+    });
+
     // 3. Create Subscription record
     await this.prisma.client.subscription.create({
       data: {
         userId,
+        transactionId: transactionId,
         planId: plan.id,
         status: 'active',
         stripeSubscriptionId: subscriptionId,
@@ -250,11 +259,101 @@ export class StripeService {
     });
   }
 
+  private async handleInvoicePaymentSucceeded(invoice: any) {
+    const customerId = invoice.customer as string;
+    const subscriptionId = invoice.subscription as string;
+    const paymentIntentId = invoice.payment_intent as string;
+    const amountPaid = invoice.amount_paid;
+    const currency = invoice.currency;
+    const receiptUrl = invoice.hosted_invoice_url || invoice.receipt_url;
+
+    const user = await this.prisma.client.user.findFirst({
+      where: { stripeCustomerId: customerId },
+    });
+
+    if (!user) {
+      console.warn(`User not found for Stripe customer: ${customerId}`);
+      return;
+    }
+
+    // 2. Find subscription with plan details
+    const subscription = await this.prisma.client.subscription.findFirst({
+      where: { stripeSubscriptionId: subscriptionId },
+      include: { plan: true },
+    });
+
+    const subStatus = subscription?.plan?.interval === 'year' ? 'ELITE' : 'PRO';
+
+    // 1. Update user fields
+    await this.prisma.client.user.update({
+      where: { id: user.id },
+      data: {
+        subscribeStatus: subStatus,
+      },
+    });
+
+    // 3. Create or Update Transaction record
+    await this.prisma.client.transaction.upsert({
+      where: { transactionId: paymentIntentId },
+      update: {
+        status: 'succeeded',
+        receiptUrl,
+        amount: amountPaid,
+      },
+      create: {
+        userId: user.id,
+        subscriptionId: subscription?.id,
+        transactionId: paymentIntentId,
+        amount: amountPaid,
+        currency,
+        status: 'succeeded',
+        receiptUrl,
+        billingDate: new Date(),
+      },
+    });
+
+    console.log(`💰 Payment succeeded for user ${user.id}: ${amountPaid} ${currency}`);
+  }
+
+  private async handleInvoicePaymentFailed(invoice: any) {
+    const customerId = invoice.customer as string;
+    const paymentIntentId = invoice.payment_intent as string;
+
+    const user = await this.prisma.client.user.findFirst({
+      where: { stripeCustomerId: customerId },
+    });
+
+    if (!user) return;
+
+    // Record failed transaction attempt
+    if (paymentIntentId) {
+      await this.prisma.client.transaction.upsert({
+        where: { transactionId: paymentIntentId },
+        update: { status: 'failed' },
+        create: {
+          userId: user.id,
+          transactionId: paymentIntentId,
+          amount: invoice.amount_due,
+          currency: invoice.currency,
+          status: 'failed',
+          billingDate: new Date(),
+        },
+      });
+
+      // Update user status to FREE on payment failure
+      await this.prisma.client.user.update({
+        where: { id: user.id },
+        data: { subscribeStatus: 'FREE' },
+      });
+    }
+
+    console.log(`❌ Payment failed for user ${user.id}`);
+  }
+
   private async handleSubscriptionEvent(subscription: Stripe.Subscription) {
     const stripeSubscriptionId = subscription.id;
     const status = subscription.status; // 'active', 'canceled', 'past_due', etc.
     const priceId = subscription.items.data[0]?.price?.id;
-
     if (!priceId) {
       console.warn('No price ID in subscription:', stripeSubscriptionId);
       return;
@@ -297,11 +396,17 @@ export class StripeService {
         },
       });
 
-      // Optionally update user's active status
+      // Update user's subscription status based on current status
       if (mappedStatus === 'canceled') {
-        await this.prisma.client.user.updateMany({
+        await this.prisma.client.user.update({
           where: { id: dbSub.userId },
-          data: { isActive: false },
+          data: { subscribeStatus: 'FREE' },
+        });
+      } else if (mappedStatus === 'active') {
+        const subStatus = plan.interval === 'year' ? 'ELITE' : 'PRO';
+        await this.prisma.client.user.update({
+          where: { id: dbSub.userId },
+          data: { subscribeStatus: subStatus },
         });
       }
     } else {
@@ -309,12 +414,13 @@ export class StripeService {
       // Try to find user by customer ID
       const customerId = subscription.customer as string;
       const user = await this.prisma.client.user.findFirst({
-        where: { /* you'd need stripeCustomerId here */ },
+        where: { stripeCustomerId: customerId },
       });
 
       if (user) {
         await this.prisma.client.subscription.create({
           data: {
+            transactionId: "",
             userId: user.id,
             planId: plan.id,
             status: mappedStatus,
@@ -329,8 +435,6 @@ export class StripeService {
     console.log(`🔄 Subscription ${stripeSubscriptionId} updated to: ${mappedStatus}`);
   }
 
-
-
   async findAllSubscriptions() {
     return this.prisma.client.subscription.findMany({
       include: {
@@ -342,9 +446,6 @@ export class StripeService {
           },
         },
       },
-      // orderBy: {
-      //   createdAt: 'desc',
-      // },
     });
   }
 
@@ -353,7 +454,6 @@ export class StripeService {
     return this.prisma.client.subscription.findFirst({
       where: {
         id: subscriptionId,
-
       },
       include: {
         user: {
@@ -365,5 +465,66 @@ export class StripeService {
         },
       },
     });
+  }
+
+  async findTransactionsByUserId(userId: string) {
+    return this.prisma.client.transaction.findMany({
+      where: { userId },
+      include: {
+        subscription: {
+          include: {
+            plan: true,
+          },
+        },
+      },
+      orderBy: { billingDate: 'desc' },
+    });
+  }
+
+  async AdminSubscriptionStats() {
+    const [freeCount, proCount, eliteCount, compedCount] = await Promise.all([
+      this.prisma.client.user.count({ where: { subscribeStatus: 'FREE' } }),
+      this.prisma.client.user.count({ where: { subscribeStatus: 'PRO' } }),
+      this.prisma.client.user.count({ where: { subscribeStatus: 'ELITE' } }),
+      this.prisma.client.user.count({ where: { subscribeStatus: 'COMPED' } }),
+    ]);
+
+    const recentTransactions = await this.prisma.client.transaction.findMany({
+      take: 10,
+      orderBy: { billingDate: 'desc' },
+      include: {
+        user: {
+          select: {
+            athleteFullName: true,
+          },
+        },
+        subscription: {
+          include: {
+            plan: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return {
+      stats: {
+        free: freeCount,
+        pro: proCount,
+        elite: eliteCount,
+        comped: compedCount,
+      },
+      transactions: recentTransactions.map((tx) => ({
+        transactionId: tx.transactionId,
+        customer: tx.user?.athleteFullName || 'Unknown',
+        plan: tx.subscription?.plan?.name || 'N/A',
+        amount: tx.amount / 100, // Convert cents to dollars
+        status: tx.status === 'succeeded' ? 'Successfull' : tx.status,
+        billingDate: tx.billingDate,
+      })),
+    };
   }
 }

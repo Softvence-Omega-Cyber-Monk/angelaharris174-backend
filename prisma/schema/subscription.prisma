@@ -19,6 +19,7 @@ model Plan {
 model Subscription {
   id                   String    @id @default(cuid())
   userId               String
+  transactionId        String? // Initial Stripe PaymentIntent ID (legacy/mapping)
   user                 User      @relation(fields: [userId], references: [id])
   planId               String
   plan                 Plan      @relation(fields: [planId], references: [id])
@@ -26,4 +27,22 @@ model Subscription {
   stripeSubscriptionId String?
   startedAt            DateTime  @default(now())
   endedAt              DateTime?
+  transactions         Transaction[]
 }
+
+model Transaction {
+  id               String   @id @default(cuid())
+  userId           String
+  user             User     @relation(fields: [userId], references: [id])
+  subscriptionId   String?
+  subscription     Subscription? @relation(fields: [subscriptionId], references: [id])
+  transactionId    String   @unique // Stripe PaymentIntent ID (pi_...)
+  amount           Int      // in cents
+  currency         String   @default("usd")
+  status           String   // e.g., "succeeded", "failed"
+  receiptUrl       String?
+  billingDate      DateTime @default(now())
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+

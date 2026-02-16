@@ -1,6 +1,14 @@
 enum userRole {
     ADMIN
     ATHLATE
+    USER
+}
+
+enum subscribeStatus {
+    ELITE
+    PRO
+    FREE
+    COMPED
 }
 
 model User {
@@ -9,7 +17,9 @@ model User {
     updatedAt        DateTime       @updatedAt
     highligts        highlights[]
     subscriptions    Subscription[]
+    transactions     Transaction[]
     stripeCustomerId String?
+    subscribeStatus  subscribeStatus @default(FREE)
     // Required core identity fields
     athleteFullName String
     dateOfBirth     DateTime // stored as DATE in DB (PostgreSQL supports it)
@@ -32,7 +42,7 @@ model User {
     fcmToken      String?
     isActive      Boolean  @default(true)
     isDeleted     Boolean  @default(false)
-    role          userRole @default(ATHLATE)
+    role          userRole @default(USER)
 
     ppg Float? // Points Per Game
     rpg Float? // Rebounds Per Game

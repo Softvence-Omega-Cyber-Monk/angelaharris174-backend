@@ -226,6 +226,13 @@ export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedDateTimeNullableFilter<$PrismaModel>
 }
 
+export type EnumsubscribeStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.subscribeStatus | Prisma.EnumsubscribeStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.subscribeStatus[] | Prisma.ListEnumsubscribeStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.subscribeStatus[] | Prisma.ListEnumsubscribeStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumsubscribeStatusFilter<$PrismaModel> | $Enums.subscribeStatus
+}
+
 export type IntNullableFilter<$PrismaModel = never> = {
   equals?: number | Prisma.IntFieldRefInput<$PrismaModel> | null
   in?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel> | null
@@ -253,6 +260,16 @@ export type EnumuserRoleFilter<$PrismaModel = never> = {
   in?: $Enums.userRole[] | Prisma.ListEnumuserRoleFieldRefInput<$PrismaModel>
   notIn?: $Enums.userRole[] | Prisma.ListEnumuserRoleFieldRefInput<$PrismaModel>
   not?: Prisma.NestedEnumuserRoleFilter<$PrismaModel> | $Enums.userRole
+}
+
+export type EnumsubscribeStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.subscribeStatus | Prisma.EnumsubscribeStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.subscribeStatus[] | Prisma.ListEnumsubscribeStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.subscribeStatus[] | Prisma.ListEnumsubscribeStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumsubscribeStatusWithAggregatesFilter<$PrismaModel> | $Enums.subscribeStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumsubscribeStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumsubscribeStatusFilter<$PrismaModel>
 }
 
 export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -495,6 +512,13 @@ export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedDateTimeNullableFilter<$PrismaModel>
 }
 
+export type NestedEnumsubscribeStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.subscribeStatus | Prisma.EnumsubscribeStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.subscribeStatus[] | Prisma.ListEnumsubscribeStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.subscribeStatus[] | Prisma.ListEnumsubscribeStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumsubscribeStatusFilter<$PrismaModel> | $Enums.subscribeStatus
+}
+
 export type NestedFloatNullableFilter<$PrismaModel = never> = {
   equals?: number | Prisma.FloatFieldRefInput<$PrismaModel> | null
   in?: number[] | Prisma.ListFloatFieldRefInput<$PrismaModel> | null
@@ -511,6 +535,16 @@ export type NestedEnumuserRoleFilter<$PrismaModel = never> = {
   in?: $Enums.userRole[] | Prisma.ListEnumuserRoleFieldRefInput<$PrismaModel>
   notIn?: $Enums.userRole[] | Prisma.ListEnumuserRoleFieldRefInput<$PrismaModel>
   not?: Prisma.NestedEnumuserRoleFilter<$PrismaModel> | $Enums.userRole
+}
+
+export type NestedEnumsubscribeStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.subscribeStatus | Prisma.EnumsubscribeStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.subscribeStatus[] | Prisma.ListEnumsubscribeStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.subscribeStatus[] | Prisma.ListEnumsubscribeStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumsubscribeStatusWithAggregatesFilter<$PrismaModel> | $Enums.subscribeStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumsubscribeStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumsubscribeStatusFilter<$PrismaModel>
 }
 
 export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
