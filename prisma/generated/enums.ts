@@ -11,7 +11,18 @@
 
 export const userRole = {
   ADMIN: 'ADMIN',
-  ATHLATE: 'ATHLATE'
+  ATHLATE: 'ATHLATE',
+  USER: 'USER'
 } as const
 
 export type userRole = (typeof userRole)[keyof typeof userRole]
+
+
+export const subscribeStatus = {
+  ELITE: 'ELITE',
+  PRO: 'PRO',
+  FREE: 'FREE',
+  COMPED: 'COMPED'
+} as const
+
+export type subscribeStatus = (typeof subscribeStatus)[keyof typeof subscribeStatus]

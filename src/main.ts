@@ -1,9 +1,12 @@
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { setupSwagger } from './swagger/swagger.setup';
 import type { NestExpressApplication } from '@nestjs/platform-express';
+import { PrismaService } from './module/prisma/prisma.service';
+import { JwtGuard } from './common/guards/jwt.guard';
+import { RolesGuard } from './common/guards/roles.guard';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -22,6 +25,14 @@ async function bootstrap() {
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
+  const reflector = app.get(Reflector);
+  const prisma = app.get(PrismaService);
+
+  app.useGlobalGuards(
+    new JwtGuard(reflector, prisma),
+    new RolesGuard(reflector),
+  );
+
   app.setGlobalPrefix('api/v1');
 
   app.useGlobalPipes(

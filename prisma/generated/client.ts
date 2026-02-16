@@ -27,8 +27,8 @@ export * from "./enums"
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more OtpCodes
- * const otpCodes = await prisma.otpCode.findMany()
+ * // Fetch zero or more Highlights
+ * const highlights = await prisma.highlights.findMany()
  * ```
  * 
  * Read more in our [docs](https://pris.ly/d/client).
@@ -38,10 +38,30 @@ export type PrismaClient<LogOpts extends Prisma.LogLevel = never, OmitOpts exten
 export { Prisma }
 
 /**
+ * Model highlights
+ * 
+ */
+export type highlights = Prisma.highlightsModel
+/**
  * Model OtpCode
  * 
  */
 export type OtpCode = Prisma.OtpCodeModel
+/**
+ * Model Plan
+ * 
+ */
+export type Plan = Prisma.PlanModel
+/**
+ * Model Subscription
+ * 
+ */
+export type Subscription = Prisma.SubscriptionModel
+/**
+ * Model Transaction
+ * 
+ */
+export type Transaction = Prisma.TransactionModel
 /**
  * Model User
  * 

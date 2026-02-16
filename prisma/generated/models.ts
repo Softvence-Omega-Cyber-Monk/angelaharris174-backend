@@ -8,6 +8,10 @@
  *
  * 🟢 You can import this file directly.
  */
+export type * from './models/highlights'
 export type * from './models/OtpCode'
+export type * from './models/Plan'
+export type * from './models/Subscription'
+export type * from './models/Transaction'
 export type * from './models/User'
 export type * from './commonInputTypes'
