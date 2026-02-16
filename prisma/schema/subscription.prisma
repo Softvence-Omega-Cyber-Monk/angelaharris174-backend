@@ -1,0 +1,48 @@
+model Plan {
+  id              String   @id @default(cuid())
+  name            String // e.g., "Monthly", "Yearly"
+  description     String? // optional short description
+  priceCents      Int // e.g., 1999 = $19.99
+  currency        String   @default("usd")
+  interval        String   @default("month") // "month" or "year"
+  features        Json // array of feature strings
+  isPopular       Boolean  @default(false) // for "Most Popular" badge
+  stripeProductId String? // from Stripe
+  stripePriceId   String? // from Stripe
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Optional: link to subscriptions if needed later
+  subscriptions Subscription[]
+}
+
+model Subscription {
+  id                   String    @id @default(cuid())
+  userId               String
+  transactionId        String? // Initial Stripe PaymentIntent ID (legacy/mapping)
+  user                 User      @relation(fields: [userId], references: [id])
+  planId               String
+  plan                 Plan      @relation(fields: [planId], references: [id])
+  status               String    @default("active") // "active", "canceled", "past_due"
+  stripeSubscriptionId String?
+  startedAt            DateTime  @default(now())
+  endedAt              DateTime?
+  transactions         Transaction[]
+}
+
+model Transaction {
+  id               String   @id @default(cuid())
+  userId           String
+  user             User     @relation(fields: [userId], references: [id])
+  subscriptionId   String?
+  subscription     Subscription? @relation(fields: [subscriptionId], references: [id])
+  transactionId    String   @unique // Stripe PaymentIntent ID (pi_...)
+  amount           Int      // in cents
+  currency         String   @default("usd")
+  status           String   // e.g., "succeeded", "failed"
+  receiptUrl       String?
+  billingDate      DateTime @default(now())
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
