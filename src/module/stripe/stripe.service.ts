@@ -177,6 +177,8 @@ export class StripeService {
       throw new Error(`Webhook signature verification failed: ${err.message}`);
     }
 
+    console.log(`🔔 Received Stripe event: ${event.type}`);
+
     switch (event.type) {
       case 'checkout.session.completed':
         await this.handleCheckoutSessionCompleted(event.data.object as Stripe.Checkout.Session);
@@ -260,6 +262,7 @@ export class StripeService {
   }
 
   private async handleInvoicePaymentSucceeded(invoice: any) {
+    console.log(`Processing invoice.payment_succeeded for customer: ${invoice.customer}`);
     const customerId = invoice.customer as string;
     const subscriptionId = invoice.subscription as string;
     const paymentIntentId = invoice.payment_intent as string;
