@@ -3,16 +3,18 @@ import { Controller, Post, Body, Req, Res, UseGuards, HttpException, HttpStatus,
 import type { Request, Response } from 'express';
 import { StripeService } from './stripe.service';
 import { AuthGuard } from '@nestjs/passport'; // assuming you have auth
-import { ApiBody, ApiResponse } from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateCheckoutSessionDto, CreateProductDto, UpdatePlanDto } from './dto/strpe.dto';
 import { Public } from 'src/common/decorators/public.decorators';
 
+@ApiTags('Stripe')
 @Controller('stripe')
 export class StripeController {
   constructor(private readonly stripeService: StripeService) { }
 
   @Public()
   @Post('product-and-price')
+  @ApiOperation({ summary: 'Create a new subscription plan/product sync with Stripe' })
   @ApiResponse({ status: 201, description: 'Plan created and synced with Stripe' })
   @ApiBody({ type: CreateProductDto })
   async createProductAndPrice(@Body() dto: CreateProductDto) {
@@ -63,6 +65,9 @@ export class StripeController {
   }
 
   @Post('create-checkout-session')
+  @ApiOperation({ summary: 'Create a Stripe checkout session for a subscription' })
+  @ApiResponse({ status: 200, description: 'Checkout session URL generated' })
+  @ApiBody({ type: CreateCheckoutSessionDto })
   async createCheckoutSession(
     @Req() req: Request,
     @Body() dto: CreateCheckoutSessionDto
@@ -91,6 +96,7 @@ export class StripeController {
   // GET /stripe/plans → returns all plans
   @Public()
   @Get('plans')
+  @ApiOperation({ summary: 'Get all subscription plans' })
   @ApiResponse({ status: 200, description: 'List of all subscription plans' })
   async findAllPlans() {
     try {
@@ -111,6 +117,8 @@ export class StripeController {
   // 🔒 Admin-only: get ALL subscriptions
   @Public()
   @Get('get-all-subscription')
+  @ApiOperation({ summary: 'Get all subscriptions (Admin)' })
+  @ApiResponse({ status: 200, description: 'List of all subscriptions' })
   async getAllSubscriptions(@Req() req: Request) {
     const subscriptions = await this.stripeService.findAllSubscriptions();
     return {
@@ -123,6 +131,7 @@ export class StripeController {
   // PATCH /stripe/plans/:id
   @Public()
   @Patch('plans/:id')
+  @ApiOperation({ summary: 'Update a subscription plan' })
   @ApiResponse({ status: 200, description: 'Plan updated successfully' })
   @ApiBody({ type: UpdatePlanDto })
   async updatePlan(
@@ -148,6 +157,8 @@ export class StripeController {
 
   @Public()
   @Post('webhook')
+  @ApiOperation({ summary: 'Stripe webhook endpoint' })
+  @ApiResponse({ status: 200, description: 'Webhook received' })
   async webhook(@Req() req: Request, @Res() res: Response) {
     const sig = req.headers['stripe-signature'] as string;
     const rawBody = req.body;
@@ -161,6 +172,8 @@ export class StripeController {
   }
 
   @Get('subscriptionDetails/:subscriptionId')
+  @ApiOperation({ summary: 'Get subscription details by ID' })
+  @ApiResponse({ status: 200, description: 'Subscription details' })
   async getUserSubscription(
     @Req() req: Request,
     @Param('subscriptionId') subscriptionId: string,
@@ -190,6 +203,8 @@ export class StripeController {
   }
 
   @Get('transactions')
+  @ApiOperation({ summary: 'Get user transactions' })
+  @ApiResponse({ status: 200, description: 'List of user transactions' })
   async getUserTransactions(@Req() req: Request) {
     const userId = req.user!.id;
     const transactions = await this.stripeService.findTransactionsByUserId(userId);
@@ -201,6 +216,8 @@ export class StripeController {
 
   @Public() // In production, add @UseGuards(AdminGuard)
   @Get('dashboard-stats')
+  @ApiOperation({ summary: 'Get dashboard statistics for subscriptions' })
+  @ApiResponse({ status: 200, description: 'Dashboard statistics' })
   async AdminSubscriptionStats() {
     const stats = await this.stripeService.AdminSubscriptionStats();
     return {
