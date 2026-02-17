@@ -10,15 +10,15 @@ import { RolesGuard } from './common/guards/roles.guard';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
-    rawBody: true,
-    bodyParser: true,
+    rawBody: true
   });
 
   const configService = app.get(ConfigService);
 
   // Configure larger payload limits for video uploads (100MB)
-  app.use(require('express').json({ limit: '100mb' }));
-  app.use(require('express').urlencoded({ limit: '100mb', extended: true }));
+  // useBodyParser ensures NestJS's rawBody support is preserved
+  app.useBodyParser('json', { limit: '100mb' });
+  app.useBodyParser('urlencoded', { limit: '100mb', extended: true });
 
   app.enableCors({
     origin: [
