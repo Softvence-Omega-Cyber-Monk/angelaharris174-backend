@@ -11,6 +11,7 @@ import { RolesGuard } from './common/guards/roles.guard';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     rawBody: true,
+    bodyParser: true,
   });
 
   const configService = app.get(ConfigService);

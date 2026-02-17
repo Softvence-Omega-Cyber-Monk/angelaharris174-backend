@@ -1,5 +1,5 @@
 // src/stripe/stripe.controller.ts
-import { Controller, Post, Body, Req, Res, UseGuards, HttpException, HttpStatus, Get, Patch, Param, RawBody } from '@nestjs/common';
+import { Controller, Post, Body, Req, Res, UseGuards, HttpException, HttpStatus, Get, Patch, Param } from '@nestjs/common';
 import type { Request, Response } from 'express';
 import { StripeService } from './stripe.service';
 import { AuthGuard } from '@nestjs/passport'; // assuming you have auth
@@ -159,12 +159,9 @@ export class StripeController {
   @Post('webhook')
   @ApiOperation({ summary: 'Stripe webhook endpoint' })
   @ApiResponse({ status: 200, description: 'Webhook received' })
-  async webhook(
-    @Req() req: Request,
-    @Res() res: Response,
-    @RawBody() rawBody: Buffer,
-  ) {
+  async webhook(@Req() req: Request, @Res() res: Response) {
     const sig = req.headers['stripe-signature'] as string;
+    const rawBody = req.body;
     try {
       await this.stripeService.handleWebhookEvent(sig, rawBody);
       res.status(200).json({ received: true });
