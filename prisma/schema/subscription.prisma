@@ -37,7 +37,7 @@ model Transaction {
   subscriptionId   String?
   subscription     Subscription? @relation(fields: [subscriptionId], references: [id])
   transactionId    String   @unique // Stripe PaymentIntent ID (pi_...)
-  amount           Int      // in cents
+  amount           Float      // in cents
   currency         String   @default("usd")
   status           String   // e.g., "succeeded", "failed"
   receiptUrl       String?

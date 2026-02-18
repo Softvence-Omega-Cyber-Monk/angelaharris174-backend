@@ -257,7 +257,7 @@ export type TransactionWhereInput = {
   userId?: Prisma.StringFilter<"Transaction"> | string
   subscriptionId?: Prisma.StringNullableFilter<"Transaction"> | string | null
   transactionId?: Prisma.StringFilter<"Transaction"> | string
-  amount?: Prisma.IntFilter<"Transaction"> | number
+  amount?: Prisma.FloatFilter<"Transaction"> | number
   currency?: Prisma.StringFilter<"Transaction"> | string
   status?: Prisma.StringFilter<"Transaction"> | string
   receiptUrl?: Prisma.StringNullableFilter<"Transaction"> | string | null
@@ -292,7 +292,7 @@ export type TransactionWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.TransactionWhereInput | Prisma.TransactionWhereInput[]
   userId?: Prisma.StringFilter<"Transaction"> | string
   subscriptionId?: Prisma.StringNullableFilter<"Transaction"> | string | null
-  amount?: Prisma.IntFilter<"Transaction"> | number
+  amount?: Prisma.FloatFilter<"Transaction"> | number
   currency?: Prisma.StringFilter<"Transaction"> | string
   status?: Prisma.StringFilter<"Transaction"> | string
   receiptUrl?: Prisma.StringNullableFilter<"Transaction"> | string | null
@@ -330,7 +330,7 @@ export type TransactionScalarWhereWithAggregatesInput = {
   userId?: Prisma.StringWithAggregatesFilter<"Transaction"> | string
   subscriptionId?: Prisma.StringNullableWithAggregatesFilter<"Transaction"> | string | null
   transactionId?: Prisma.StringWithAggregatesFilter<"Transaction"> | string
-  amount?: Prisma.IntWithAggregatesFilter<"Transaction"> | number
+  amount?: Prisma.FloatWithAggregatesFilter<"Transaction"> | number
   currency?: Prisma.StringWithAggregatesFilter<"Transaction"> | string
   status?: Prisma.StringWithAggregatesFilter<"Transaction"> | string
   receiptUrl?: Prisma.StringNullableWithAggregatesFilter<"Transaction"> | string | null
@@ -370,7 +370,7 @@ export type TransactionUncheckedCreateInput = {
 export type TransactionUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   transactionId?: Prisma.StringFieldUpdateOperationsInput | string
-  amount?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.FloatFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   receiptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -386,7 +386,7 @@ export type TransactionUncheckedUpdateInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   subscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transactionId?: Prisma.StringFieldUpdateOperationsInput | string
-  amount?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.FloatFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   receiptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -412,7 +412,7 @@ export type TransactionCreateManyInput = {
 export type TransactionUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   transactionId?: Prisma.StringFieldUpdateOperationsInput | string
-  amount?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.FloatFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   receiptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -426,7 +426,7 @@ export type TransactionUncheckedUpdateManyInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   subscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transactionId?: Prisma.StringFieldUpdateOperationsInput | string
-  amount?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.FloatFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   receiptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -537,14 +537,6 @@ export type TransactionUncheckedUpdateManyWithoutSubscriptionNestedInput = {
   deleteMany?: Prisma.TransactionScalarWhereInput | Prisma.TransactionScalarWhereInput[]
 }
 
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type TransactionCreateNestedManyWithoutUserInput = {
   create?: Prisma.XOR<Prisma.TransactionCreateWithoutUserInput, Prisma.TransactionUncheckedCreateWithoutUserInput> | Prisma.TransactionCreateWithoutUserInput[] | Prisma.TransactionUncheckedCreateWithoutUserInput[]
   connectOrCreate?: Prisma.TransactionCreateOrConnectWithoutUserInput | Prisma.TransactionCreateOrConnectWithoutUserInput[]
@@ -647,7 +639,7 @@ export type TransactionScalarWhereInput = {
   userId?: Prisma.StringFilter<"Transaction"> | string
   subscriptionId?: Prisma.StringNullableFilter<"Transaction"> | string | null
   transactionId?: Prisma.StringFilter<"Transaction"> | string
-  amount?: Prisma.IntFilter<"Transaction"> | number
+  amount?: Prisma.FloatFilter<"Transaction"> | number
   currency?: Prisma.StringFilter<"Transaction"> | string
   status?: Prisma.StringFilter<"Transaction"> | string
   receiptUrl?: Prisma.StringNullableFilter<"Transaction"> | string | null
@@ -724,7 +716,7 @@ export type TransactionCreateManySubscriptionInput = {
 export type TransactionUpdateWithoutSubscriptionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   transactionId?: Prisma.StringFieldUpdateOperationsInput | string
-  amount?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.FloatFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   receiptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -738,7 +730,7 @@ export type TransactionUncheckedUpdateWithoutSubscriptionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   transactionId?: Prisma.StringFieldUpdateOperationsInput | string
-  amount?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.FloatFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   receiptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -751,7 +743,7 @@ export type TransactionUncheckedUpdateManyWithoutSubscriptionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   transactionId?: Prisma.StringFieldUpdateOperationsInput | string
-  amount?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.FloatFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   receiptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -776,7 +768,7 @@ export type TransactionCreateManyUserInput = {
 export type TransactionUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   transactionId?: Prisma.StringFieldUpdateOperationsInput | string
-  amount?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.FloatFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   receiptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -790,7 +782,7 @@ export type TransactionUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   subscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transactionId?: Prisma.StringFieldUpdateOperationsInput | string
-  amount?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.FloatFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   receiptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -803,7 +795,7 @@ export type TransactionUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   subscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transactionId?: Prisma.StringFieldUpdateOperationsInput | string
-  amount?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.FloatFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   receiptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1337,7 +1329,7 @@ export interface TransactionFieldRefs {
   readonly userId: Prisma.FieldRef<"Transaction", 'String'>
   readonly subscriptionId: Prisma.FieldRef<"Transaction", 'String'>
   readonly transactionId: Prisma.FieldRef<"Transaction", 'String'>
-  readonly amount: Prisma.FieldRef<"Transaction", 'Int'>
+  readonly amount: Prisma.FieldRef<"Transaction", 'Float'>
   readonly currency: Prisma.FieldRef<"Transaction", 'String'>
   readonly status: Prisma.FieldRef<"Transaction", 'String'>
   readonly receiptUrl: Prisma.FieldRef<"Transaction", 'String'>

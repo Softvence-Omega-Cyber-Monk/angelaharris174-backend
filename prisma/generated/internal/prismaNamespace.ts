@@ -1112,20 +1112,6 @@ export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaMode
 
 
 /**
- * Reference to a field of type 'Int'
- */
-export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
-    
-
-
-/**
- * Reference to a field of type 'Int[]'
- */
-export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
-    
-
-
-/**
  * Reference to a field of type 'subscribeStatus'
  */
 export type EnumsubscribeStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'subscribeStatus'>
@@ -1136,6 +1122,20 @@ export type EnumsubscribeStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$
  * Reference to a field of type 'subscribeStatus[]'
  */
 export type ListEnumsubscribeStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'subscribeStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Int'
+ */
+export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+/**
+ * Reference to a field of type 'Int[]'
+ */
+export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
     
 
 

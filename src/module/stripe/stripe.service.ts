@@ -286,21 +286,36 @@ export class StripeService {
       },
     });
 
-    // 4. Create Subscription record
+    // 4. Create or Update Subscription record
     try {
-      await this.prisma.client.subscription.create({
-        data: {
-          userId,
-          transactionId: transactionId || session.id, // Fallback to session ID if PI is missing
-          planId: plan.id,
-          status: 'active',
-          stripeSubscriptionId: subscriptionId,
-          startedAt: new Date(),
-        },
+      const existingSub = await this.prisma.client.subscription.findFirst({
+        where: { stripeSubscriptionId: subscriptionId },
       });
-      console.log(`📝 Subscription created for user ${userId} with plan ${plan.name}`);
+
+      if (existingSub) {
+        await this.prisma.client.subscription.update({
+          where: { id: existingSub.id },
+          data: {
+            transactionId: transactionId || session.id,
+            status: 'active',
+          },
+        });
+        console.log(`📝 Subscription ${subscriptionId} updated during checkout (found existing)`);
+      } else {
+        await this.prisma.client.subscription.create({
+          data: {
+            userId,
+            transactionId: transactionId || session.id, // Fallback to session ID if PI is missing
+            planId: plan.id,
+            status: 'active',
+            stripeSubscriptionId: subscriptionId,
+            startedAt: new Date(),
+          },
+        });
+        console.log(`📝 Subscription created for user ${userId} with plan ${plan.name}`);
+      }
     } catch (err) {
-      console.error(`Failed to create subscription record for user ${userId}:`, err.message);
+      console.error(`Error saving subscription for user ${userId}:`, err.message);
     }
   }
 
@@ -359,7 +374,7 @@ export class StripeService {
         userId: user.id,
         subscriptionId: subscription?.id,
         transactionId: transactionId,
-        amount: amountPaid/100,
+        amount: amountPaid / 100,
         currency,
         status: 'succeeded',
         receiptUrl,
@@ -467,24 +482,43 @@ export class StripeService {
       }
     } else {
       // Rare: subscription created outside checkout (e.g., via dashboard)
-      // Try to find user by customer ID
+      // OR: subscription record doesn't exist yet because the checkout event is slower
+
+      // Double check if it exists now (to avoid race conditions within this method if called twice)
       const customerId = subscription.customer as string;
       const user = await this.prisma.client.user.findFirst({
         where: { stripeCustomerId: customerId },
       });
 
       if (user) {
-        await this.prisma.client.subscription.create({
-          data: {
-            transactionId: "",
-            userId: user.id,
-            planId: plan.id,
-            status: mappedStatus,
-            stripeSubscriptionId,
-            startedAt: new Date(subscription.start_date * 1000),
-            endedAt: status === 'canceled' ? new Date() : null,
-          },
+        // One final check to see if handleCheckoutSessionCompleted finished just now
+        const reCheck = await this.prisma.client.subscription.findFirst({
+          where: { stripeSubscriptionId },
         });
+
+        if (!reCheck) {
+          await this.prisma.client.subscription.create({
+            data: {
+              transactionId: "",
+              userId: user.id,
+              planId: plan.id,
+              status: mappedStatus,
+              stripeSubscriptionId,
+              startedAt: new Date(subscription.start_date * 1000),
+              endedAt: status === 'canceled' ? new Date() : null,
+            },
+          });
+          console.log(`📝 New subscription created from event: ${stripeSubscriptionId}`);
+        } else {
+          // It was created by someone else in the last few ms, so just update it
+          await this.prisma.client.subscription.update({
+            where: { id: reCheck.id },
+            data: {
+              status: mappedStatus,
+              endedAt: status === 'canceled' ? new Date() : null,
+            },
+          });
+        }
       }
     }
 
@@ -556,11 +590,10 @@ export class StripeService {
         username: tx.user?.athleteFullName || tx.user?.email || 'Unknown',
         transactionId: tx.transactionId,
         interval: tx.subscription?.plan?.interval || 'N/A',
-        amount: tx.amount / 100,
+        amount: tx.amount,
         status: tx.status === 'succeeded' ? 'Successfull' : tx.status,
         billingDate: tx.billingDate,
         receiptUrl: tx.receiptUrl,
-        amountJust : tx.amount,
       })),
       meta: {
         total,
