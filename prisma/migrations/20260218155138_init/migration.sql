@@ -68,7 +68,7 @@ CREATE TABLE "Transaction" (
     "userId" TEXT NOT NULL,
     "subscriptionId" TEXT,
     "transactionId" TEXT NOT NULL,
-    "amount" INTEGER NOT NULL,
+    "amount" DOUBLE PRECISION NOT NULL,
     "currency" TEXT NOT NULL DEFAULT 'usd',
     "status" TEXT NOT NULL,
     "receiptUrl" TEXT,
