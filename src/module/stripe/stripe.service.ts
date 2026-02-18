@@ -75,6 +75,19 @@ export class StripeService {
   }
 
   async createCheckoutSession(userId: string, priceId: string, successUrl: string, cancelUrl: string) {
+    // 1. Validate that the price exists in our database first
+    const plan = await this.prisma.client.plan.findFirst({
+      where: { stripePriceId: priceId },
+    });
+
+    if (!plan) {
+      console.error(`Attempted checkout with invalid/unknown priceId: ${priceId}`);
+      throw new HttpException(
+        'The selected subscription plan is invalid or no longer available.',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
     const session = await this.stripeClient.checkout.sessions.create({
       mode: 'subscription',
       line_items: [
@@ -87,6 +100,11 @@ export class StripeService {
       success_url: successUrl,
       cancel_url: cancelUrl,
       allow_promotion_codes: true,
+      // Metadata can be useful for debugging
+      metadata: {
+        userId,
+        planId: plan.id,
+      },
     });
 
     return session;
@@ -212,9 +230,25 @@ export class StripeService {
       return;
     }
 
-    console.log(`✅ Checkout completed for user: ${userId}`);
+    console.log(`✅ Checkout completed for user: ${userId}, Stripe Customer: ${customerId}`);
 
-    // 🔥 Fetch the session with line_items expanded
+    // 🔥 1. CRITICAL: Link user to Stripe Customer ID immediately
+    // This ensures future webhooks (like invoice.payment_succeeded) can find this user
+    // even if the rest of this handler fails.
+    try {
+      await this.prisma.client.user.update({
+        where: { id: userId },
+        data: {
+          stripeCustomerId: customerId,
+        },
+      });
+      console.log(`🔗 User ${userId} linked to Stripe customer ${customerId}`);
+    } catch (err) {
+      console.error(`Failed to link user ${userId} to customer ${customerId}:`, err.message);
+      // We continue anyway to try and process the subscription
+    }
+
+    // 2. Fetch the session with line_items expanded
     const fullSession = await this.stripeClient.checkout.sessions.retrieve(
       session.id,
       {
@@ -224,41 +258,46 @@ export class StripeService {
 
     const priceId = fullSession.line_items?.data[0]?.price?.id;
     if (!priceId) {
-      throw new Error(`Price ID not found in session ${session.id}`);
+      console.error(`Price ID not found in session ${session.id}`);
+      return;
     }
 
-    console.log(`✅ Checkout completed for user: ${userId}, priceId: ${priceId}`);
+    console.log(`✅ Processing checkout for user: ${userId}, priceId: ${priceId}`);
     const plan = await this.prisma.client.plan.findFirst({
       where: { stripePriceId: priceId },
     });
 
     if (!plan) {
-      console.error('Plan not found for price ID:', priceId);
+      console.error(`❌ Plan not found in database for Stripe Price ID: ${priceId}. Please ensure your database plans match Stripe.`);
       return;
     }
 
     const subStatus = plan.interval === 'year' ? 'ELITE' : 'PRO';
 
-    // 1. Update User
+    // 3. Update User Status
     await this.prisma.client.user.update({
       where: { id: userId },
       data: {
-        subscribeStatus: subStatus, // Set status based on plan interval
-        stripeCustomerId: customerId,
+        subscribeStatus: subStatus,
       },
     });
 
-    // 3. Create Subscription record
-    await this.prisma.client.subscription.create({
-      data: {
-        userId,
-        transactionId: transactionId || session.id, // Fallback to session ID if PI is missing
-        planId: plan.id,
-        status: 'active',
-        stripeSubscriptionId: subscriptionId,
-        startedAt: new Date(),
-      },
-    });
+    // 4. Create Subscription record
+    try {
+      await this.prisma.client.subscription.create({
+        data: {
+          userId,
+          transactionId: transactionId || session.id, // Fallback to session ID if PI is missing
+          planId: plan.id,
+          status: 'active',
+          stripeSubscriptionId: subscriptionId,
+          startedAt: new Date(),
+        },
+      });
+      console.log(`📝 Subscription created for user ${userId} with plan ${plan.name}`);
+    } catch (err) {
+      console.error(`Failed to create subscription record for user ${userId}:`, err.message);
+    }
   }
 
   private async handleInvoicePaymentSucceeded(invoice: any) {
