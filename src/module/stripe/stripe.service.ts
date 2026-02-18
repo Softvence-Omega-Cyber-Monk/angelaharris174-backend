@@ -252,7 +252,7 @@ export class StripeService {
     await this.prisma.client.subscription.create({
       data: {
         userId,
-        transactionId: transactionId,
+        transactionId: transactionId || session.id, // Fallback to session ID if PI is missing
         planId: plan.id,
         status: 'active',
         stripeSubscriptionId: subscriptionId,
@@ -269,6 +269,14 @@ export class StripeService {
     const amountPaid = invoice.amount_paid;
     const currency = invoice.currency;
     const receiptUrl = invoice.hosted_invoice_url || invoice.receipt_url;
+
+    // Use PaymentIntent ID if available, otherwise fallback to Invoice ID to ensure a unique transaction record
+    const transactionId = paymentIntentId || invoice.id;
+
+    if (!transactionId) {
+      console.error('No valid transaction identifier (PaymentIntent or Invoice ID) found for invoice:', invoice.id);
+      return;
+    }
 
     const user = await this.prisma.client.user.findFirst({
       where: { stripeCustomerId: customerId },
@@ -297,16 +305,17 @@ export class StripeService {
 
     // 3. Create or Update Transaction record
     await this.prisma.client.transaction.upsert({
-      where: { transactionId: paymentIntentId },
+      where: { transactionId: transactionId },
       update: {
         status: 'succeeded',
         receiptUrl,
         amount: amountPaid,
+        updatedAt: new Date(),
       },
       create: {
         userId: user.id,
         subscriptionId: subscription?.id,
-        transactionId: paymentIntentId,
+        transactionId: transactionId,
         amount: amountPaid,
         currency,
         status: 'succeeded',
@@ -315,12 +324,15 @@ export class StripeService {
       },
     });
 
-    console.log(`💰 Payment succeeded for user ${user.id}: ${amountPaid} ${currency}`);
+    console.log(`💰 Payment succeeded for user ${user.id}: ${amountPaid} ${currency} (Tx: ${transactionId})`);
   }
 
   private async handleInvoicePaymentFailed(invoice: any) {
     const customerId = invoice.customer as string;
     const paymentIntentId = invoice.payment_intent as string;
+    const transactionId = paymentIntentId || invoice.id;
+
+    if (!transactionId) return;
 
     const user = await this.prisma.client.user.findFirst({
       where: { stripeCustomerId: customerId },
@@ -329,28 +341,26 @@ export class StripeService {
     if (!user) return;
 
     // Record failed transaction attempt
-    if (paymentIntentId) {
-      await this.prisma.client.transaction.upsert({
-        where: { transactionId: paymentIntentId },
-        update: { status: 'failed' },
-        create: {
-          userId: user.id,
-          transactionId: paymentIntentId,
-          amount: invoice.amount_due,
-          currency: invoice.currency,
-          status: 'failed',
-          billingDate: new Date(),
-        },
-      });
+    await this.prisma.client.transaction.upsert({
+      where: { transactionId: transactionId },
+      update: { status: 'failed' },
+      create: {
+        userId: user.id,
+        transactionId: transactionId,
+        amount: invoice.amount_due,
+        currency: invoice.currency,
+        status: 'failed',
+        billingDate: new Date(),
+      },
+    });
 
-      // Update user status to FREE on payment failure
-      await this.prisma.client.user.update({
-        where: { id: user.id },
-        data: { subscribeStatus: 'FREE' },
-      });
-    }
+    // Update user status to FREE on payment failure
+    await this.prisma.client.user.update({
+      where: { id: user.id },
+      data: { subscribeStatus: 'FREE' },
+    });
 
-    console.log(`❌ Payment failed for user ${user.id}`);
+    console.log(`❌ Payment failed for user ${user.id} (Tx: ${transactionId})`);
   }
 
   private async handleSubscriptionEvent(subscription: Stripe.Subscription) {
