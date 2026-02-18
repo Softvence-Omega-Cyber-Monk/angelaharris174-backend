@@ -105,7 +105,7 @@ export const PlanScalarFieldEnum = {
   id: 'id',
   name: 'name',
   description: 'description',
-  priceCents: 'priceCents',
+  price: 'price',
   currency: 'currency',
   interval: 'interval',
   features: 'features',

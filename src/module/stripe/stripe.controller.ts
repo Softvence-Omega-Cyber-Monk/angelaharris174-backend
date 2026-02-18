@@ -1,9 +1,9 @@
 // src/stripe/stripe.controller.ts
-import { Controller, Post, Body, Req, Res, UseGuards, HttpException, HttpStatus, Get, Patch, Param, RawBody } from '@nestjs/common';
+import { Controller, Post, Body, Req, Res, UseGuards, HttpException, HttpStatus, Get, Patch, Param, RawBody, Query } from '@nestjs/common';
 import type { Request, Response } from 'express';
 import { StripeService } from './stripe.service';
 import { AuthGuard } from '@nestjs/passport'; // assuming you have auth
-import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateCheckoutSessionDto, CreateProductDto, UpdatePlanDto } from './dto/strpe.dto';
 import { Public } from 'src/common/decorators/public.decorators';
 
@@ -212,15 +212,68 @@ export class StripeController {
     };
   }
 
-  @Get('transactions')
-  @ApiOperation({ summary: 'Get user transactions' })
-  @ApiResponse({ status: 200, description: 'List of user transactions' })
-  async getUserTransactions(@Req() req: Request) {
+  @Get('me/transactions')
+  @ApiOperation({ summary: 'Get current user transactions with pagination' })
+  @ApiQuery({ name: 'page', required: false, type: Number, example: 1 })
+  @ApiQuery({ name: 'limit', required: false, type: Number, example: 10 })
+  @ApiResponse({ status: 200, description: 'List of user transactions with pagination metadata' })
+  async getUserTransactions(
+    @Req() req: Request,
+    @Query('page') page: string = '1',
+    @Query('limit') limit: string = '10'
+  ) {
     const userId = req.user!.id;
-    const transactions = await this.stripeService.findTransactionsByUserId(userId);
+    const result = await this.stripeService.findTransactionsByUserId(
+      userId,
+      parseInt(page, 10),
+      parseInt(limit, 10)
+    );
     return {
       statusCode: HttpStatus.OK,
-      data: transactions,
+      data: result.data,
+      meta: result.meta,
+    };
+  }
+
+  @Get('me/current-plan')
+  @ApiOperation({ summary: 'Get current active plan for the logged-in user' })
+  @ApiResponse({ status: 200, description: 'User current plan details' })
+  async getCurrentPlan(@Req() req: Request) {
+    const userId = req.user!.id;
+    const plan = await this.stripeService.getUserCurrentPlan(userId);
+
+    if (!plan) {
+      return {
+        statusCode: HttpStatus.OK,
+        message: 'No active subscription found',
+        data: null,
+      };
+    }
+
+    return {
+      statusCode: HttpStatus.OK,
+      data: plan,
+    };
+  }
+
+  @Public() // In production, add @UseGuards(AdminGuard)
+  @Get('admin/transactions')
+  @ApiOperation({ summary: 'Get all transactions with pagination (Admin)' })
+  @ApiQuery({ name: 'page', required: false, type: Number, example: 1 })
+  @ApiQuery({ name: 'limit', required: false, type: Number, example: 10 })
+  @ApiResponse({ status: 200, description: 'List of all transactions with pagination metadata' })
+  async getAdminTransactions(
+    @Query('page') page: string = '1',
+    @Query('limit') limit: string = '10'
+  ) {
+    const result = await this.stripeService.findAllTransactionsPaginated(
+      parseInt(page, 10),
+      parseInt(limit, 10)
+    );
+    return {
+      statusCode: HttpStatus.OK,
+      data: result.data,
+      meta: result.meta,
     };
   }
 

@@ -2,7 +2,7 @@ model Plan {
   id              String   @id @default(cuid())
   name            String // e.g., "Monthly", "Yearly"
   description     String? // optional short description
-  priceCents      Int // e.g., 1999 = $19.99
+  price           Float // e.g., 9.99
   currency        String   @default("usd")
   interval        String   @default("month") // "month" or "year"
   features        Json // array of feature strings

@@ -1,6 +1,9 @@
 -- CreateEnum
 CREATE TYPE "userRole" AS ENUM ('ADMIN', 'ATHLATE', 'USER');
 
+-- CreateEnum
+CREATE TYPE "subscribeStatus" AS ENUM ('ELITE', 'PRO', 'FREE', 'COMPED');
+
 -- CreateTable
 CREATE TABLE "highlights" (
     "id" TEXT NOT NULL,
@@ -32,7 +35,7 @@ CREATE TABLE "Plan" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "description" TEXT,
-    "priceCents" INTEGER NOT NULL,
+    "price" DOUBLE PRECISION NOT NULL,
     "currency" TEXT NOT NULL DEFAULT 'usd',
     "interval" TEXT NOT NULL DEFAULT 'month',
     "features" JSONB NOT NULL,
@@ -49,7 +52,7 @@ CREATE TABLE "Plan" (
 CREATE TABLE "Subscription" (
     "id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
-    "trnsactionId" TEXT NOT NULL,
+    "transactionId" TEXT,
     "planId" TEXT NOT NULL,
     "status" TEXT NOT NULL DEFAULT 'active',
     "stripeSubscriptionId" TEXT,
@@ -60,12 +63,29 @@ CREATE TABLE "Subscription" (
 );
 
 -- CreateTable
+CREATE TABLE "Transaction" (
+    "id" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "subscriptionId" TEXT,
+    "transactionId" TEXT NOT NULL,
+    "amount" INTEGER NOT NULL,
+    "currency" TEXT NOT NULL DEFAULT 'usd',
+    "status" TEXT NOT NULL,
+    "receiptUrl" TEXT,
+    "billingDate" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Transaction_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "stripeCustomerId" TEXT,
-    "iSSubscrived" BOOLEAN NOT NULL DEFAULT false,
+    "subscribeStatus" "subscribeStatus" NOT NULL DEFAULT 'FREE',
     "athleteFullName" TEXT NOT NULL,
     "dateOfBirth" TIMESTAMP(3) NOT NULL,
     "email" TEXT NOT NULL,
@@ -95,6 +115,9 @@ CREATE TABLE "User" (
 );
 
 -- CreateIndex
+CREATE UNIQUE INDEX "Transaction_transactionId_key" ON "Transaction"("transactionId");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
@@ -111,3 +134,9 @@ ALTER TABLE "Subscription" ADD CONSTRAINT "Subscription_userId_fkey" FOREIGN KEY
 
 -- AddForeignKey
 ALTER TABLE "Subscription" ADD CONSTRAINT "Subscription_planId_fkey" FOREIGN KEY ("planId") REFERENCES "Plan"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Transaction" ADD CONSTRAINT "Transaction_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Transaction" ADD CONSTRAINT "Transaction_subscriptionId_fkey" FOREIGN KEY ("subscriptionId") REFERENCES "Subscription"("id") ON DELETE SET NULL ON UPDATE CASCADE;

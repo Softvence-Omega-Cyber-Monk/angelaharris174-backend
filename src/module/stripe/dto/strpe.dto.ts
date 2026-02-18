@@ -87,13 +87,13 @@ export class UpdatePlanDto {
 
   @ApiProperty({
     required: false,
-    example: 1999,
-    description: 'New price in cents (e.g., 1999 = $19.99)',
+    example: 19.99,
+    description: 'New price in dollars (e.g., 19.99)',
   })
   @IsNumber()
-  @Min(1)
+  @Min(0)
   @IsOptional()
-  priceCents?: number;
+  price?: number;
 
   @ApiProperty({
     required: false,

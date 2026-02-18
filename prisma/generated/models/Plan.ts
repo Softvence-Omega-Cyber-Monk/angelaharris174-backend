@@ -27,18 +27,18 @@ export type AggregatePlan = {
 }
 
 export type PlanAvgAggregateOutputType = {
-  priceCents: number | null
+  price: number | null
 }
 
 export type PlanSumAggregateOutputType = {
-  priceCents: number | null
+  price: number | null
 }
 
 export type PlanMinAggregateOutputType = {
   id: string | null
   name: string | null
   description: string | null
-  priceCents: number | null
+  price: number | null
   currency: string | null
   interval: string | null
   isPopular: boolean | null
@@ -52,7 +52,7 @@ export type PlanMaxAggregateOutputType = {
   id: string | null
   name: string | null
   description: string | null
-  priceCents: number | null
+  price: number | null
   currency: string | null
   interval: string | null
   isPopular: boolean | null
@@ -66,7 +66,7 @@ export type PlanCountAggregateOutputType = {
   id: number
   name: number
   description: number
-  priceCents: number
+  price: number
   currency: number
   interval: number
   features: number
@@ -80,18 +80,18 @@ export type PlanCountAggregateOutputType = {
 
 
 export type PlanAvgAggregateInputType = {
-  priceCents?: true
+  price?: true
 }
 
 export type PlanSumAggregateInputType = {
-  priceCents?: true
+  price?: true
 }
 
 export type PlanMinAggregateInputType = {
   id?: true
   name?: true
   description?: true
-  priceCents?: true
+  price?: true
   currency?: true
   interval?: true
   isPopular?: true
@@ -105,7 +105,7 @@ export type PlanMaxAggregateInputType = {
   id?: true
   name?: true
   description?: true
-  priceCents?: true
+  price?: true
   currency?: true
   interval?: true
   isPopular?: true
@@ -119,7 +119,7 @@ export type PlanCountAggregateInputType = {
   id?: true
   name?: true
   description?: true
-  priceCents?: true
+  price?: true
   currency?: true
   interval?: true
   features?: true
@@ -221,7 +221,7 @@ export type PlanGroupByOutputType = {
   id: string
   name: string
   description: string | null
-  priceCents: number
+  price: number
   currency: string
   interval: string
   features: runtime.JsonValue
@@ -259,7 +259,7 @@ export type PlanWhereInput = {
   id?: Prisma.StringFilter<"Plan"> | string
   name?: Prisma.StringFilter<"Plan"> | string
   description?: Prisma.StringNullableFilter<"Plan"> | string | null
-  priceCents?: Prisma.IntFilter<"Plan"> | number
+  price?: Prisma.FloatFilter<"Plan"> | number
   currency?: Prisma.StringFilter<"Plan"> | string
   interval?: Prisma.StringFilter<"Plan"> | string
   features?: Prisma.JsonFilter<"Plan">
@@ -275,7 +275,7 @@ export type PlanOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
-  priceCents?: Prisma.SortOrder
+  price?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   interval?: Prisma.SortOrder
   features?: Prisma.SortOrder
@@ -294,7 +294,7 @@ export type PlanWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.PlanWhereInput | Prisma.PlanWhereInput[]
   name?: Prisma.StringFilter<"Plan"> | string
   description?: Prisma.StringNullableFilter<"Plan"> | string | null
-  priceCents?: Prisma.IntFilter<"Plan"> | number
+  price?: Prisma.FloatFilter<"Plan"> | number
   currency?: Prisma.StringFilter<"Plan"> | string
   interval?: Prisma.StringFilter<"Plan"> | string
   features?: Prisma.JsonFilter<"Plan">
@@ -310,7 +310,7 @@ export type PlanOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
-  priceCents?: Prisma.SortOrder
+  price?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   interval?: Prisma.SortOrder
   features?: Prisma.SortOrder
@@ -333,7 +333,7 @@ export type PlanScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Plan"> | string
   name?: Prisma.StringWithAggregatesFilter<"Plan"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"Plan"> | string | null
-  priceCents?: Prisma.IntWithAggregatesFilter<"Plan"> | number
+  price?: Prisma.FloatWithAggregatesFilter<"Plan"> | number
   currency?: Prisma.StringWithAggregatesFilter<"Plan"> | string
   interval?: Prisma.StringWithAggregatesFilter<"Plan"> | string
   features?: Prisma.JsonWithAggregatesFilter<"Plan">
@@ -348,7 +348,7 @@ export type PlanCreateInput = {
   id?: string
   name: string
   description?: string | null
-  priceCents: number
+  price: number
   currency?: string
   interval?: string
   features: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -364,7 +364,7 @@ export type PlanUncheckedCreateInput = {
   id?: string
   name: string
   description?: string | null
-  priceCents: number
+  price: number
   currency?: string
   interval?: string
   features: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -380,7 +380,7 @@ export type PlanUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  priceCents?: Prisma.IntFieldUpdateOperationsInput | number
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   interval?: Prisma.StringFieldUpdateOperationsInput | string
   features?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -396,7 +396,7 @@ export type PlanUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  priceCents?: Prisma.IntFieldUpdateOperationsInput | number
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   interval?: Prisma.StringFieldUpdateOperationsInput | string
   features?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -412,7 +412,7 @@ export type PlanCreateManyInput = {
   id?: string
   name: string
   description?: string | null
-  priceCents: number
+  price: number
   currency?: string
   interval?: string
   features: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -427,7 +427,7 @@ export type PlanUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  priceCents?: Prisma.IntFieldUpdateOperationsInput | number
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   interval?: Prisma.StringFieldUpdateOperationsInput | string
   features?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -442,7 +442,7 @@ export type PlanUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  priceCents?: Prisma.IntFieldUpdateOperationsInput | number
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   interval?: Prisma.StringFieldUpdateOperationsInput | string
   features?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -457,7 +457,7 @@ export type PlanCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  priceCents?: Prisma.SortOrder
+  price?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   interval?: Prisma.SortOrder
   features?: Prisma.SortOrder
@@ -469,14 +469,14 @@ export type PlanCountOrderByAggregateInput = {
 }
 
 export type PlanAvgOrderByAggregateInput = {
-  priceCents?: Prisma.SortOrder
+  price?: Prisma.SortOrder
 }
 
 export type PlanMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  priceCents?: Prisma.SortOrder
+  price?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   interval?: Prisma.SortOrder
   isPopular?: Prisma.SortOrder
@@ -490,7 +490,7 @@ export type PlanMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  priceCents?: Prisma.SortOrder
+  price?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   interval?: Prisma.SortOrder
   isPopular?: Prisma.SortOrder
@@ -501,7 +501,7 @@ export type PlanMinOrderByAggregateInput = {
 }
 
 export type PlanSumOrderByAggregateInput = {
-  priceCents?: Prisma.SortOrder
+  price?: Prisma.SortOrder
 }
 
 export type PlanScalarRelationFilter = {
@@ -509,7 +509,7 @@ export type PlanScalarRelationFilter = {
   isNot?: Prisma.PlanWhereInput
 }
 
-export type IntFieldUpdateOperationsInput = {
+export type FloatFieldUpdateOperationsInput = {
   set?: number
   increment?: number
   decrement?: number
@@ -535,7 +535,7 @@ export type PlanCreateWithoutSubscriptionsInput = {
   id?: string
   name: string
   description?: string | null
-  priceCents: number
+  price: number
   currency?: string
   interval?: string
   features: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -550,7 +550,7 @@ export type PlanUncheckedCreateWithoutSubscriptionsInput = {
   id?: string
   name: string
   description?: string | null
-  priceCents: number
+  price: number
   currency?: string
   interval?: string
   features: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -581,7 +581,7 @@ export type PlanUpdateWithoutSubscriptionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  priceCents?: Prisma.IntFieldUpdateOperationsInput | number
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   interval?: Prisma.StringFieldUpdateOperationsInput | string
   features?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -596,7 +596,7 @@ export type PlanUncheckedUpdateWithoutSubscriptionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  priceCents?: Prisma.IntFieldUpdateOperationsInput | number
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   interval?: Prisma.StringFieldUpdateOperationsInput | string
   features?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -642,7 +642,7 @@ export type PlanSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   id?: boolean
   name?: boolean
   description?: boolean
-  priceCents?: boolean
+  price?: boolean
   currency?: boolean
   interval?: boolean
   features?: boolean
@@ -659,7 +659,7 @@ export type PlanSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   id?: boolean
   name?: boolean
   description?: boolean
-  priceCents?: boolean
+  price?: boolean
   currency?: boolean
   interval?: boolean
   features?: boolean
@@ -674,7 +674,7 @@ export type PlanSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   id?: boolean
   name?: boolean
   description?: boolean
-  priceCents?: boolean
+  price?: boolean
   currency?: boolean
   interval?: boolean
   features?: boolean
@@ -689,7 +689,7 @@ export type PlanSelectScalar = {
   id?: boolean
   name?: boolean
   description?: boolean
-  priceCents?: boolean
+  price?: boolean
   currency?: boolean
   interval?: boolean
   features?: boolean
@@ -700,7 +700,7 @@ export type PlanSelectScalar = {
   updatedAt?: boolean
 }
 
-export type PlanOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "priceCents" | "currency" | "interval" | "features" | "isPopular" | "stripeProductId" | "stripePriceId" | "createdAt" | "updatedAt", ExtArgs["result"]["plan"]>
+export type PlanOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "price" | "currency" | "interval" | "features" | "isPopular" | "stripeProductId" | "stripePriceId" | "createdAt" | "updatedAt", ExtArgs["result"]["plan"]>
 export type PlanInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   subscriptions?: boolean | Prisma.Plan$subscriptionsArgs<ExtArgs>
   _count?: boolean | Prisma.PlanCountOutputTypeDefaultArgs<ExtArgs>
@@ -717,7 +717,7 @@ export type $PlanPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     id: string
     name: string
     description: string | null
-    priceCents: number
+    price: number
     currency: string
     interval: string
     features: runtime.JsonValue
@@ -1153,7 +1153,7 @@ export interface PlanFieldRefs {
   readonly id: Prisma.FieldRef<"Plan", 'String'>
   readonly name: Prisma.FieldRef<"Plan", 'String'>
   readonly description: Prisma.FieldRef<"Plan", 'String'>
-  readonly priceCents: Prisma.FieldRef<"Plan", 'Int'>
+  readonly price: Prisma.FieldRef<"Plan", 'Float'>
   readonly currency: Prisma.FieldRef<"Plan", 'String'>
   readonly interval: Prisma.FieldRef<"Plan", 'String'>
   readonly features: Prisma.FieldRef<"Plan", 'Json'>

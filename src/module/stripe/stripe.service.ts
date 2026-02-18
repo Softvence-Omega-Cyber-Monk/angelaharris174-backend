@@ -40,9 +40,11 @@ export class StripeService {
       });
 
       // 2. Create Price in Stripe
+      const unitAmount = Math.round(amount * 100);
+
       const price = await this.stripeClient.prices.create({
         product: product.id,
-        unit_amount: amount * 100,
+        unit_amount: unitAmount,
         currency,
         recurring: { interval },
       });
@@ -52,7 +54,7 @@ export class StripeService {
         data: {
           name: productName,
           description: description || '',
-          priceCents: amount,
+          price: amount,
           currency,
           interval,
           features: features as any, // Prisma Json type accepts array/object
@@ -129,7 +131,7 @@ export class StripeService {
 
     // 2. Check if price or currency changed
     const priceChanged =
-      (updateData.priceCents !== undefined && updateData.priceCents !== existingPlan.priceCents) ||
+      (updateData.price !== undefined && updateData.price !== existingPlan.price) ||
       (updateData.currency !== undefined && updateData.currency !== existingPlan.currency);
 
     let newStripePriceId = existingPlan.stripePriceId;
@@ -140,9 +142,11 @@ export class StripeService {
         throw new Error('Cannot update price: missing stripeProductId');
       }
 
+      const unitAmount = Math.round((updateData.price ?? existingPlan.price) * 100);
+
       const newPrice = await this.stripeClient.prices.create({
         product: existingPlan.stripeProductId,
-        unit_amount: updateData.priceCents ?? existingPlan.priceCents,
+        unit_amount: unitAmount,
         currency: updateData.currency ?? existingPlan.currency,
         recurring: {
           interval: existingPlan.interval as 'month' | 'year',
@@ -165,7 +169,7 @@ export class StripeService {
       data: {
         name: updateData.name,
         description: updateData.description,
-        priceCents: updateData.priceCents,
+        price: updateData.price,
         currency: updateData.currency,
         features: updateData.features as any, // Prisma Json
         isPopular: updateData.isPopular,
@@ -519,18 +523,52 @@ export class StripeService {
     });
   }
 
-  async findTransactionsByUserId(userId: string) {
-    return this.prisma.client.transaction.findMany({
-      where: { userId },
-      include: {
-        subscription: {
-          include: {
-            plan: true,
+  async findTransactionsByUserId(userId: string, page: number = 1, limit: number = 10) {
+    const skip = (page - 1) * limit;
+
+    const [transactions, total] = await Promise.all([
+      this.prisma.client.transaction.findMany({
+        where: { userId },
+        include: {
+          user: {
+            select: {
+              athleteFullName: true,
+              email: true,
+            },
+          },
+          subscription: {
+            include: {
+              plan: true,
+            },
           },
         },
+        orderBy: { billingDate: 'desc' },
+        skip,
+        take: limit,
+      }),
+      this.prisma.client.transaction.count({
+        where: { userId },
+      }),
+    ]);
+
+    return {
+      data: transactions.map((tx) => ({
+        username: tx.user?.athleteFullName || tx.user?.email || 'Unknown',
+        transactionId: tx.transactionId,
+        interval: tx.subscription?.plan?.interval || 'N/A',
+        amount: tx.amount / 100,
+        status: tx.status === 'succeeded' ? 'Successfull' : tx.status,
+        billingDate: tx.billingDate,
+        receiptUrl: tx.receiptUrl,
+        amountJust : tx.amount,
+      })),
+      meta: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
       },
-      orderBy: { billingDate: 'desc' },
-    });
+    };
   }
 
   async AdminSubscriptionStats() {
@@ -577,6 +615,82 @@ export class StripeService {
         status: tx.status === 'succeeded' ? 'Successfull' : tx.status,
         billingDate: tx.billingDate,
       })),
+    };
+  }
+  async findAllTransactionsPaginated(page: number = 1, limit: number = 10) {
+    const skip = (page - 1) * limit;
+
+    const [transactions, total] = await Promise.all([
+      this.prisma.client.transaction.findMany({
+        include: {
+          user: {
+            select: {
+              athleteFullName: true,
+              email: true,
+            },
+          },
+          subscription: {
+            include: {
+              plan: {
+                select: {
+                  name: true,
+                },
+              },
+            },
+          },
+        },
+        orderBy: { billingDate: 'desc' },
+        skip,
+        take: limit,
+      }),
+      this.prisma.client.transaction.count(),
+    ]);
+
+    return {
+      data: transactions.map((tx) => ({
+        id: tx.id,
+        transactionId: tx.transactionId,
+        user: tx.user?.athleteFullName || tx.user?.email || 'Unknown',
+        plan: tx.subscription?.plan?.name || 'N/A',
+        amount: tx.amount / 100,
+        currency: tx.currency,
+        status: tx.status === 'succeeded' ? 'Successfull' : tx.status,
+        billingDate: tx.billingDate,
+        receiptUrl: tx.receiptUrl,
+      })),
+      meta: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+      },
+    };
+  }
+  async getUserCurrentPlan(userId: string) {
+    const subscription = await this.prisma.client.subscription.findFirst({
+      where: {
+        userId,
+        status: 'active',
+      },
+      include: {
+        plan: true,
+      },
+      orderBy: {
+        startedAt: 'desc',
+      },
+    });
+
+    if (!subscription) {
+      return null;
+    }
+
+    return {
+      subscriptionId: subscription.id,
+      stripeSubscriptionId: subscription.stripeSubscriptionId,
+      status: subscription.status,
+      startedAt: subscription.startedAt,
+      endedAt: subscription.endedAt,
+      plan: subscription.plan,
     };
   }
 }
