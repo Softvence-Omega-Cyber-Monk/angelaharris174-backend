@@ -352,14 +352,14 @@ export class StripeService {
       update: {
         status: 'succeeded',
         receiptUrl,
-        amount: amountPaid,
+        amount: amountPaid / 100,
         updatedAt: new Date(),
       },
       create: {
         userId: user.id,
         subscriptionId: subscription?.id,
         transactionId: transactionId,
-        amount: amountPaid,
+        amount: amountPaid/100,
         currency,
         status: 'succeeded',
         receiptUrl,
