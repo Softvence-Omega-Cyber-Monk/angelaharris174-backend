@@ -233,7 +233,7 @@ export class StripeService {
     const customerId = session.customer as string;
     const subscriptionId = session.subscription as string;
     const transactionId = session.payment_intent as string;
-    
+
     console.log('sessin', session)
     if (!userId) {
       console.warn('No client_reference_id in session:', session.id);
@@ -292,35 +292,30 @@ export class StripeService {
       },
     });
 
-    // 4. Create or Update Subscription record
+    // 4. Create or Update Subscription record (Idempotent)
     try {
-      const existingSub = await this.prisma.client.subscription.findFirst({
-        where: { stripeSubscriptionId: subscriptionId },
-      });
-
-      if (existingSub) {
-        await this.prisma.client.subscription.update({
-          where: { id: existingSub.id },
-          data: {
-            transactionId: transactionId || session.id,
-            status: 'active',
-            planId: plan.id, // 🌟 Ensure plan is updated if switching
-          },
-        });
-        console.log(`📝 Subscription ${subscriptionId} updated during checkout (synced plan: ${plan.name})`);
-      } else {
-        await this.prisma.client.subscription.create({
-          data: {
-            userId,
-            transactionId: transactionId || session.id, // Fallback to session ID if PI is missing
-            planId: plan.id,
-            status: 'active',
-            stripeSubscriptionId: subscriptionId,
-            startedAt: new Date(),
-          },
-        });
-        console.log(`📝 Subscription created for user ${userId} with plan ${plan.name}`);
+      if (!subscriptionId) {
+        console.error(`Subscription ID missing in session ${session.id}`);
+        return;
       }
+
+      await this.prisma.client.subscription.upsert({
+        where: { stripeSubscriptionId: subscriptionId },
+        update: {
+          status: 'active',
+          planId: plan.id,
+          transactionId: transactionId || session.id,
+        },
+        create: {
+          userId,
+          transactionId: transactionId || session.id,
+          planId: plan.id,
+          status: 'active',
+          stripeSubscriptionId: subscriptionId,
+          startedAt: new Date(),
+        },
+      });
+      console.log(`📝 Subscription ${subscriptionId} synced during checkout for user ${userId} (Plan: ${plan.name})`);
     } catch (err) {
       console.error(`Error saving subscription for user ${userId}:`, err.message);
     }
@@ -334,7 +329,7 @@ export class StripeService {
     const amountPaid = invoice.amount_paid;
     const currency = invoice.currency;
     const receiptUrl = invoice.hosted_invoice_url || invoice.receipt_url;
-    console.log('invoice' , invoice)
+    console.log('invoice', invoice)
     // Use PaymentIntent ID if available, otherwise fallback to Invoice ID to ensure a unique transaction record
     const transactionId = paymentIntentId || invoice.id;
 
@@ -374,11 +369,23 @@ export class StripeService {
       return;
     }
 
-    // 2. Find subscription with plan details
-    const subscription = await this.prisma.client.subscription.findFirst({
-      where: { stripeSubscriptionId: subscriptionId },
-      include: { plan: true },
-    });
+    // 2. Find subscription with plan details (Search by Subscription ID first)
+    let subscription: any = null;
+    if (subscriptionId) {
+      subscription = await this.prisma.client.subscription.findUnique({
+        where: { stripeSubscriptionId: subscriptionId },
+        include: { plan: true },
+      });
+    }
+
+    // Fallback: search by customer if subscription ID retrieval is weird (rare)
+    if (!subscription && user) {
+      subscription = await this.prisma.client.subscription.findFirst({
+        where: { userId: user.id },
+        include: { plan: true },
+        orderBy: { startedAt: 'desc' }
+      });
+    }
 
     const subStatus = subscription?.plan?.interval === 'year' ? 'ELITE' : 'PRO';
 
@@ -528,8 +535,14 @@ export class StripeService {
         });
 
         if (!reCheck) {
-          await this.prisma.client.subscription.create({
-            data: {
+          await this.prisma.client.subscription.upsert({
+            where: { stripeSubscriptionId: stripeSubscriptionId },
+            update: {
+              status: mappedStatus,
+              planId: plan.id,
+              endedAt: status === 'canceled' ? new Date() : null,
+            },
+            create: {
               transactionId: "",
               userId: user.id,
               planId: plan.id,
@@ -539,7 +552,7 @@ export class StripeService {
               endedAt: status === 'canceled' ? new Date() : null,
             },
           });
-          console.log(`📝 New subscription created from event: ${stripeSubscriptionId}`);
+          console.log(`📝 Subscription ${stripeSubscriptionId} synced from event: ${status}`);
         } else {
           // It was created by someone else in the last few ms, so just update it
           await this.prisma.client.subscription.update({
@@ -559,6 +572,8 @@ export class StripeService {
   async findAllSubscriptions() {
     return this.prisma.client.subscription.findMany({
       include: {
+        plan: true,
+        transactions: true,
         user: {
           select: {
             id: true,
@@ -577,6 +592,7 @@ export class StripeService {
         id: subscriptionId,
       },
       include: {
+        plan: true,
         user: {
           select: {
             id: true,
@@ -620,11 +636,11 @@ export class StripeService {
     return {
       data: transactions.map((tx) => {
         // Use plan directly from transaction if available, otherwise fallback to subscription's plan
-        const plan = tx.plan || tx.subscription?.plan;
+        const plan = tx.subscription?.plan;
         return {
           username: tx.user?.athleteFullName || tx.user?.email || 'Unknown',
           transactionId: tx.transactionId,
-          interval: plan?.interval || 'N/A', // 🌟 Much more accurate now!
+          interval: plan || 'N/A', // 🌟 Much more accurate now!
           amount: tx.amount,
           status: tx.status === 'succeeded' ? 'Successfull' : tx.status,
           billingDate: tx.billingDate,
@@ -660,11 +676,7 @@ export class StripeService {
         plan: true, // 🌟 Direct link
         subscription: {
           include: {
-            plan: {
-              select: {
-                name: true,
-              },
-            },
+            plan: true
           },
         },
       },

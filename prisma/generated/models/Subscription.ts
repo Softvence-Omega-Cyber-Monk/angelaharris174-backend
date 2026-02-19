@@ -227,6 +227,7 @@ export type SubscriptionOrderByWithRelationInput = {
 
 export type SubscriptionWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  stripeSubscriptionId?: string
   AND?: Prisma.SubscriptionWhereInput | Prisma.SubscriptionWhereInput[]
   OR?: Prisma.SubscriptionWhereInput[]
   NOT?: Prisma.SubscriptionWhereInput | Prisma.SubscriptionWhereInput[]
@@ -234,13 +235,12 @@ export type SubscriptionWhereUniqueInput = Prisma.AtLeast<{
   transactionId?: Prisma.StringNullableFilter<"Subscription"> | string | null
   planId?: Prisma.StringFilter<"Subscription"> | string
   status?: Prisma.StringFilter<"Subscription"> | string
-  stripeSubscriptionId?: Prisma.StringNullableFilter<"Subscription"> | string | null
   startedAt?: Prisma.DateTimeFilter<"Subscription"> | Date | string
   endedAt?: Prisma.DateTimeNullableFilter<"Subscription"> | Date | string | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   plan?: Prisma.XOR<Prisma.PlanScalarRelationFilter, Prisma.PlanWhereInput>
   transactions?: Prisma.TransactionListRelationFilter
-}, "id">
+}, "id" | "stripeSubscriptionId">
 
 export type SubscriptionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder

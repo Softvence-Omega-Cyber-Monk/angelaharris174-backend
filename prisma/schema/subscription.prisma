@@ -25,7 +25,7 @@ model Subscription {
   planId               String
   plan                 Plan      @relation(fields: [planId], references: [id])
   status               String    @default("active") // "active", "canceled", "past_due"
-  stripeSubscriptionId String?
+  stripeSubscriptionId String?   @unique
   startedAt            DateTime  @default(now())
   endedAt              DateTime?
   transactions         Transaction[]
