@@ -99,6 +99,11 @@ export class StripeService {
         },
       ],
       client_reference_id: userId, // Pass user ID to link session to user
+      subscription_data: {
+        metadata: {
+          userId, // Also pass in subscription metadata to be safer
+        },
+      },
       success_url: successUrl,
       cancel_url: cancelUrl,
       allow_promotion_codes: true,
@@ -336,12 +341,34 @@ export class StripeService {
       return;
     }
 
-    const user = await this.prisma.client.user.findFirst({
+    let user = await this.prisma.client.user.findFirst({
       where: { stripeCustomerId: customerId },
     });
 
     if (!user) {
-      console.warn(`User not found for Stripe customer: ${customerId}`);
+      console.warn(`User not found for Stripe customer: ${customerId}. Checking via subscription lookup...`);
+      // FALLBACK: Lookup by stripeSubscriptionId if customer lookup fails (race condition)
+      const sub = await this.prisma.client.subscription.findFirst({
+        where: { stripeSubscriptionId: subscriptionId },
+        include: { user: true }
+      });
+
+      if (sub?.user) {
+        user = sub.user;
+        console.log(`🔗 Recovery: Found user ${user.id} via subscription ${subscriptionId}`);
+
+        // Link them now for future invoices
+        if (!user.stripeCustomerId) {
+          await this.prisma.client.user.update({
+            where: { id: user.id },
+            data: { stripeCustomerId: customerId }
+          });
+        }
+      }
+    }
+
+    if (!user) {
+      console.error(`❌ CRITICAL: User not found for Stripe customer ${customerId} or subscription ${subscriptionId}. Cannot create transaction.`);
       return;
     }
 
