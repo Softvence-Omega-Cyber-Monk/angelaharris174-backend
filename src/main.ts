@@ -7,6 +7,7 @@ import type { NestExpressApplication } from '@nestjs/platform-express';
 import { PrismaService } from './module/prisma/prisma.service';
 import { JwtGuard } from './common/guards/jwt.guard';
 import { RolesGuard } from './common/guards/roles.guard';
+import { SubscriptionGuard } from './common/guards/subscription.guard';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
@@ -34,6 +35,7 @@ async function bootstrap() {
   app.useGlobalGuards(
     new JwtGuard(reflector, prisma),
     new RolesGuard(reflector),
+    new SubscriptionGuard(reflector),
   );
 
   app.setGlobalPrefix('api/v1');

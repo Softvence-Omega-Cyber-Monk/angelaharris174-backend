@@ -356,12 +356,12 @@ export class StripeService {
         console.log(`🔗 Recovery: Found user ${user.id} via subscription ${subscriptionId}`);
 
         // Link them now for future invoices
-        if (!user.stripeCustomerId) {
-          await this.prisma.client.user.update({
-            where: { id: user.id },
-            data: { stripeCustomerId: customerId }
-          });
-        }
+        // if (!user.stripeCustomerId) {
+        //   await this.prisma.client.user.update({
+        //     where: { id: user.id },
+        //     data: { stripeCustomerId: customerId }
+        //   });
+        // }
       }
     }
 
