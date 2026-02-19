@@ -329,6 +329,7 @@ export class StripeService {
     const amountPaid = invoice.amount_paid;
     const currency = invoice.currency;
     const receiptUrl = invoice.hosted_invoice_url || invoice.receipt_url;
+    const exprieAt = invoice.period_end; //1771490924
     console.log('invoice', invoice)
     // Use PaymentIntent ID if available, otherwise fallback to Invoice ID to ensure a unique transaction record
     const transactionId = paymentIntentId || invoice.id;
@@ -407,6 +408,7 @@ export class StripeService {
         updatedAt: new Date(),
       },
       create: {
+
         userId: user.id,
         subscriptionId: subscription?.id,
         planId: subscription?.planId, // 🌟 Capture the current plan for this transaction specifically
@@ -418,6 +420,14 @@ export class StripeService {
         billingDate: new Date(),
       },
     });
+    if (subscription?.id) {
+      await this.prisma.client.subscription.update({
+        where: { id: subscription.id },
+        data: {
+          endedAt: new Date(exprieAt * 1000),
+        },
+      });
+    }
 
     console.log(`💰 Payment succeeded for user ${user.id}: ${amountPaid} ${currency} (Tx: ${transactionId})`);
   }
