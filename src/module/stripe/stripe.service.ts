@@ -233,7 +233,8 @@ export class StripeService {
     const customerId = session.customer as string;
     const subscriptionId = session.subscription as string;
     const transactionId = session.payment_intent as string;
-
+    
+    console.log('sessin', session)
     if (!userId) {
       console.warn('No client_reference_id in session:', session.id);
       return;
@@ -333,7 +334,7 @@ export class StripeService {
     const amountPaid = invoice.amount_paid;
     const currency = invoice.currency;
     const receiptUrl = invoice.hosted_invoice_url || invoice.receipt_url;
-
+    console.log('invoice' , invoice)
     // Use PaymentIntent ID if available, otherwise fallback to Invoice ID to ensure a unique transaction record
     const transactionId = paymentIntentId || invoice.id;
 
