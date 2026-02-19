@@ -303,9 +303,10 @@ export class StripeService {
           data: {
             transactionId: transactionId || session.id,
             status: 'active',
+            planId: plan.id, // 🌟 Ensure plan is updated if switching
           },
         });
-        console.log(`📝 Subscription ${subscriptionId} updated during checkout (found existing)`);
+        console.log(`📝 Subscription ${subscriptionId} updated during checkout (synced plan: ${plan.name})`);
       } else {
         await this.prisma.client.subscription.create({
           data: {
@@ -400,6 +401,7 @@ export class StripeService {
       create: {
         userId: user.id,
         subscriptionId: subscription?.id,
+        planId: subscription?.planId, // 🌟 Capture the current plan for this transaction specifically
         transactionId: transactionId,
         amount: amountPaid / 100,
         currency,
@@ -490,6 +492,7 @@ export class StripeService {
         where: { id: dbSub.id },
         data: {
           status: mappedStatus,
+          planId: plan.id, // 🌟 Update plan pointer just in case it was changed via Dashboard
           endedAt: status === 'canceled' ? new Date() : null,
         },
       });
@@ -597,6 +600,7 @@ export class StripeService {
               email: true,
             },
           },
+          plan: true, // 🌟 Direct link
           subscription: {
             include: {
               plan: true,
@@ -613,15 +617,19 @@ export class StripeService {
     ]);
 
     return {
-      data: transactions.map((tx) => ({
-        username: tx.user?.athleteFullName || tx.user?.email || 'Unknown',
-        transactionId: tx.transactionId,
-        interval: tx.subscription?.plan?.interval || 'N/A',
-        amount: tx.amount,
-        status: tx.status === 'succeeded' ? 'Successfull' : tx.status,
-        billingDate: tx.billingDate,
-        receiptUrl: tx.receiptUrl,
-      })),
+      data: transactions.map((tx) => {
+        // Use plan directly from transaction if available, otherwise fallback to subscription's plan
+        const plan = tx.plan || tx.subscription?.plan;
+        return {
+          username: tx.user?.athleteFullName || tx.user?.email || 'Unknown',
+          transactionId: tx.transactionId,
+          interval: plan?.interval || 'N/A', // 🌟 Much more accurate now!
+          amount: tx.amount,
+          status: tx.status === 'succeeded' ? 'Successfull' : tx.status,
+          billingDate: tx.billingDate,
+          receiptUrl: tx.receiptUrl,
+        };
+      }),
       meta: {
         total,
         page,
@@ -648,6 +656,7 @@ export class StripeService {
             athleteFullName: true,
           },
         },
+        plan: true, // 🌟 Direct link
         subscription: {
           include: {
             plan: {
@@ -667,14 +676,17 @@ export class StripeService {
         elite: eliteCount,
         comped: compedCount,
       },
-      transactions: recentTransactions.map((tx) => ({
-        transactionId: tx.transactionId,
-        customer: tx.user?.athleteFullName || 'Unknown',
-        plan: tx.subscription?.plan?.name || 'N/A',
-        amount: tx.amount / 100, // Convert cents to dollars
-        status: tx.status === 'succeeded' ? 'Successfull' : tx.status,
-        billingDate: tx.billingDate,
-      })),
+      transactions: recentTransactions.map((tx) => {
+        const plan = tx.plan || tx.subscription?.plan;
+        return {
+          transactionId: tx.transactionId,
+          customer: tx.user?.athleteFullName || 'Unknown',
+          plan: plan?.name || 'N/A', // 🌟 Accurate plan name
+          amount: tx.amount / 100, // Convert cents to dollars
+          status: tx.status === 'succeeded' ? 'Successfull' : tx.status,
+          billingDate: tx.billingDate,
+        };
+      }),
     };
   }
   async findAllTransactionsPaginated(page: number = 1, limit: number = 10) {
@@ -689,6 +701,7 @@ export class StripeService {
               email: true,
             },
           },
+          plan: true, // 🌟 Direct link to the plan paid for
           subscription: {
             include: {
               plan: {
@@ -707,17 +720,20 @@ export class StripeService {
     ]);
 
     return {
-      data: transactions.map((tx) => ({
-        id: tx.id,
-        transactionId: tx.transactionId,
-        user: tx.user?.athleteFullName || tx.user?.email || 'Unknown',
-        plan: tx.subscription?.plan?.name || 'N/A',
-        amount: tx.amount / 100,
-        currency: tx.currency,
-        status: tx.status === 'succeeded' ? 'Successfull' : tx.status,
-        billingDate: tx.billingDate,
-        receiptUrl: tx.receiptUrl,
-      })),
+      data: transactions.map((tx) => {
+        const plan = tx.plan || tx.subscription?.plan;
+        return {
+          id: tx.id,
+          transactionId: tx.transactionId,
+          user: tx.user?.athleteFullName || tx.user?.email || 'Unknown',
+          plan: plan?.name || 'N/A', // 🌟 Accurate plan name
+          amount: tx.amount / 100,
+          currency: tx.currency,
+          status: tx.status === 'succeeded' ? 'Successfull' : tx.status,
+          billingDate: tx.billingDate,
+          receiptUrl: tx.receiptUrl,
+        };
+      }),
       meta: {
         total,
         page,

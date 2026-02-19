@@ -14,6 +14,7 @@ model Plan {
 
   // Optional: link to subscriptions if needed later
   subscriptions Subscription[]
+  transactions  Transaction[]
 }
 
 model Subscription {
@@ -36,6 +37,8 @@ model Transaction {
   user             User     @relation(fields: [userId], references: [id])
   subscriptionId   String?
   subscription     Subscription? @relation(fields: [subscriptionId], references: [id])
+  planId           String?   // New: Track which plan was paid for
+  plan             Plan?      @relation(fields: [planId], references: [id])
   transactionId    String   @unique // Stripe PaymentIntent ID (pi_...)
   amount           Float      // in cents
   currency         String   @default("usd")
