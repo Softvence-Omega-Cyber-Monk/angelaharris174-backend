@@ -1,7 +1,7 @@
 // src/admin/admin.service.ts
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { userRole } from '@prisma/client';
+import { userRole } from '@prisma';
 import { GetUsersQueryDto } from './dto/admin.dto';
 
 @Injectable()
