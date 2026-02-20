@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   HttpStatus,
+  NotFoundException,
   Param,
   Patch,
   Post,
@@ -17,7 +18,7 @@ import { AuthService } from './auth.service';
 import { S3Service } from '../s3/s3.service';
 import { LoginDto } from './dto/login.dto';
 import { Public } from 'src/common/decorators/public.decorators';
-import type { Request, Response } from 'express';
+import { type Request, type Response } from 'express';
 import {
   ApiBody,
   ApiConsumes,
@@ -112,8 +113,8 @@ export class AuthController {
   // login
   @Public()
   @Post('login')
-  async login(@Body() dto: LoginDto, @Res() res: Response) {
-    const result = await this.authService.login(dto);
+  async login(@Body() dto: LoginDto, @Req() req: Request, @Res() res: Response) {
+    const result = await this.authService.login(dto, req);
     res.cookie('accessToken', result.access_token, {
       httpOnly: false, // Prevents client-side access to the cookie
       secure: false, // Only true for HTTPS
@@ -273,6 +274,42 @@ export class AuthController {
       statusCode: HttpStatus.OK,
       success: true,
       message: 'User profile retrieved',
+      data: result,
+    });
+  }
+
+  @Patch('profile-view/:id')
+  async trackProfileView(@Param('id') targetId: string, @Req() req: Request) {
+    // Ensure your JWT strategy attaches the user object to req.user
+    const currentUserId = req.user!.id;
+    return this.authService.recordProfileView(targetId, currentUserId);
+  }
+
+  @Get('me/stats')
+  async getMyStats(@Req() req: Request) {
+    const userId = req.user?.id; 
+
+    if (!userId) {
+      throw new NotFoundException('User ID not found in token');
+    }
+
+    return this.authService.getUserStats(userId);
+  }
+
+  @Get('login-sessions')
+  async getUserLoginSessions(@Req() req: Request, @Res() res: Response) {
+    const userId = req.user!.id;
+
+    if (!userId) {
+      throw new NotFoundException('User ID not found in token');
+    }
+
+    const result = await this.authService.getUserLoginSessions(userId);
+
+    return sendResponse(res, {
+      statusCode: HttpStatus.OK,
+      success: true,
+      message: 'User login sessions retrieved successfully',
       data: result,
     });
   }

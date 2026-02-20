@@ -51,6 +51,7 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
+  LoginSession: 'LoginSession',
   LikeHighlights: 'LikeHighlights',
   highlights: 'highlights',
   OtpCode: 'OtpCode',
@@ -74,6 +75,24 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 } as const)
 
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
+
+
+export const LoginSessionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  device: 'device',
+  os: 'os',
+  browser: 'browser',
+  ipAddress: 'ipAddress',
+  city: 'city',
+  region: 'region',
+  country: 'country',
+  isActive: 'isActive',
+  lastActive: 'lastActive',
+  createdAt: 'createdAt'
+} as const
+
+export type LoginSessionScalarFieldEnum = (typeof LoginSessionScalarFieldEnum)[keyof typeof LoginSessionScalarFieldEnum]
 
 
 export const LikeHighlightsScalarFieldEnum = {
@@ -196,7 +215,9 @@ export const UserScalarFieldEnum = {
   apg: 'apg',
   spg: 'spg',
   blk: 'blk',
-  adminTilte: 'adminTilte'
+  adminTilte: 'adminTilte',
+  profileViews: 'profileViews',
+  lastViewed: 'lastViewed'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -225,6 +246,14 @@ export const QueryMode = {
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
 
 
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
 export const JsonNullValueFilter = {
   DbNull: DbNull,
   JsonNull: JsonNull,
@@ -232,12 +261,4 @@ export const JsonNullValueFilter = {
 } as const
 
 export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
-
-
-export const NullsOrder = {
-  first: 'first',
-  last: 'last'
-} as const
-
-export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 

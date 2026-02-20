@@ -541,14 +541,6 @@ export type highlightsUpdateOneRequiredWithoutLikedByNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.highlightsUpdateToOneWithWhereWithoutLikedByInput, Prisma.highlightsUpdateWithoutLikedByInput>, Prisma.highlightsUncheckedUpdateWithoutLikedByInput>
 }
 
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
-}
-
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
-}
-
 export type IntFieldUpdateOperationsInput = {
   set?: number
   increment?: number

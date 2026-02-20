@@ -8,6 +8,7 @@
  *
  * 🟢 You can import this file directly.
  */
+export type * from './models/LoginSession'
 export type * from './models/LikeHighlights'
 export type * from './models/highlights'
 export type * from './models/OtpCode'

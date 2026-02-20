@@ -19,6 +19,7 @@ import { UpdateUserDto } from './dto/update-account.dto';
 import { S3Service } from '../s3/s3.service';
 import { RequestResetCodeDto } from './dto/forgetPasswordDto';
 import { VerifyResetCodeDto } from './dto/forgetPasswordDto';
+import type { Request } from 'express';
 
 @Injectable()
 export class AuthService {
@@ -78,7 +79,7 @@ export class AuthService {
   }
 
   // login
-  async login(dto: LoginDto) {
+  async login(dto: LoginDto, req: Request) { // <-- Added req: Request
     const user = await this.prisma.client.user.findUnique({
       where: { email: dto.email },
     });
@@ -86,8 +87,6 @@ export class AuthService {
     if (!user || !dto.password) {
       throw new ForbiddenException('Invalid credentials');
     }
-
-
 
     if (user.isDeleted) {
       throw new BadRequestException('User is deleted!');
@@ -98,7 +97,6 @@ export class AuthService {
       throw new ForbiddenException('Invalid credentials');
     }
 
-
     const tokens = await getTokens(
       this.jwtService,
       user.id,
@@ -106,7 +104,82 @@ export class AuthService {
       user.role,
     );
 
+    // --- START: Login History Logic ---
+    
+    // 1. Parse User-Agent
+    const userAgent = req.get('user-agent') ?? 'Unknown';
+
+    const os = this.detectOs(userAgent);
+    const browser = this.detectBrowser(userAgent);
+
+    // Format: "iPhone 15 Pro - Safari" or "Windows - Chrome"
+    const deviceName = `${os} - ${browser}`;
+
+    // 2. Get IP Address (Handle Cloudflare/Render/Proxy)
+    const ip = 
+      req.headers['x-forwarded-for']?.toString().split(',')[0].trim() || 
+      req.headers['cf-connecting-ip']?.toString() || // Specific to Cloudflare
+      req.socket.remoteAddress || 
+      'unknown';
+
+    // 3. (Optional) Fetch Location from IP using an external API
+    // For production, use a paid service or cache this. 
+    // Here is a free example using ipapi.co (be careful with rate limits)
+    let city = null;
+    let region = null;
+    let country = null;
+
+    if (ip !== 'unknown' && !ip.includes('127.0.0.1')) {
+      try {
+        const geoRes = await fetch(`http://ipapi.co/${ip}/json/`);
+        if (geoRes.ok) {
+          const geoData = await geoRes.json();
+          city = geoData.city;
+          region = geoData.region;
+          country = geoData.country_name;
+        }
+      } catch (error) {
+        console.error('GeoIP lookup failed:', error);
+        // Fallback gracefully if API fails
+      }
+    }
+
+    // 4. Save to Database
+    await this.prisma.client.loginSession.create({
+      data: {
+        userId: user.id,
+        device: deviceName,
+        os,
+        browser,
+        ipAddress: ip,
+        city,
+        region,
+        country,
+        isActive: true,
+        lastActive: new Date(),
+      },
+    });
+    // --- END: Login History Logic ---
+
     return { user, ...tokens };
+  }
+
+  private detectOs(userAgent: string): string {
+    if (userAgent.includes('Windows')) return 'Windows';
+    if (userAgent.includes('Mac OS') || userAgent.includes('Macintosh')) return 'macOS';
+    if (userAgent.includes('Android')) return 'Android';
+    if (userAgent.includes('iPhone') || userAgent.includes('iPad') || userAgent.includes('iOS')) return 'iOS';
+    if (userAgent.includes('Linux')) return 'Linux';
+    return 'Unknown Device';
+  }
+
+  private detectBrowser(userAgent: string): string {
+    if (userAgent.includes('Edg/')) return 'Edge';
+    if (userAgent.includes('OPR/') || userAgent.includes('Opera')) return 'Opera';
+    if (userAgent.includes('Chrome/') && !userAgent.includes('Edg/')) return 'Chrome';
+    if (userAgent.includes('Safari/') && !userAgent.includes('Chrome/')) return 'Safari';
+    if (userAgent.includes('Firefox/')) return 'Firefox';
+    return 'Browser';
   }
 
 
@@ -325,5 +398,100 @@ export class AuthService {
       },
     });
   }
+
+    async recordProfileView(targetUserId: string, currentUserId: string) {
+    // 1. Verify the target user exists and is active
+    const targetUser = await this.prisma.client.user.findUnique({
+      where: { id: targetUserId },
+      select: { id: true, isActive: true, isDeleted: true },
+    });
+
+    if (!targetUser || targetUser.isDeleted || !targetUser.isActive) {
+      throw new NotFoundException('User not found or inactive');
+    }
+
+    // 2. Logic: If the viewer is the owner, do not update stats
+    if (currentUserId === targetUserId) {
+      // Return the user data without modifying the DB
+      return {message : 'welcome to yoor profile'}
+    }
+
+    // Increment profileViews by 1 and set lastViewed to now
+    const updatedUser = await this.prisma.client.user.update({
+      where: { id: targetUserId },
+      data: {
+        profileViews: { increment: 1 },
+        lastViewed: new Date(),
+      },
+      omit: { password: true },
+    });
+
+    return updatedUser;
+  }
+
+
+
+  async getUserStats(userId: string) {
+    const user = await this.prisma.client.user.findUnique({
+      where: { id: userId },
+      select: {
+        profileViews: true,
+        lastViewed: true,
+      },
+    });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    const highlightsStats = await this.prisma.client.highlights.aggregate({
+      where: { userId },
+      _count: { id: true },
+      _sum: {
+        views: true,
+        likes: true,
+      },
+    });
+
+    return {
+      profileViews: user.profileViews,
+      lastViewed: user.lastViewed,
+      highlights: {
+        totalCount: highlightsStats._count.id ?? 0,
+        totalViews: highlightsStats._sum.views ?? 0,
+        totalLikes: highlightsStats._sum.likes ?? 0,
+      },
+    };
+  }
+
+  async getUserLoginSessions(userId: string) {
+    const user = await this.prisma.client.user.findUnique({
+      where: { id: userId },
+      select: { id: true },
+    });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    return this.prisma.client.loginSession.findMany({
+      where: { userId },
+      orderBy: { lastActive: 'desc' },
+      select: {
+        id: true,
+        device: true,
+        os: true,
+        browser: true,
+        ipAddress: true,
+        city: true,
+        region: true,
+        country: true,
+        isActive: true,
+        lastActive: true,
+        createdAt: true,
+      },
+    });
+  }
+
 
 }

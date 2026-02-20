@@ -303,14 +303,6 @@ export type LikeHighlightsOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type StringFieldUpdateOperationsInput = {
-  set?: string
-}
-
-export type DateTimeFieldUpdateOperationsInput = {
-  set?: Date | string
-}
-
 export type LikeHighlightsCreateNestedManyWithoutHighlightInput = {
   create?: Prisma.XOR<Prisma.LikeHighlightsCreateWithoutHighlightInput, Prisma.LikeHighlightsUncheckedCreateWithoutHighlightInput> | Prisma.LikeHighlightsCreateWithoutHighlightInput[] | Prisma.LikeHighlightsUncheckedCreateWithoutHighlightInput[]
   connectOrCreate?: Prisma.LikeHighlightsCreateOrConnectWithoutHighlightInput | Prisma.LikeHighlightsCreateOrConnectWithoutHighlightInput[]

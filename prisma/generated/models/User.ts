@@ -36,6 +36,7 @@ export type UserAvgAggregateOutputType = {
   apg: number | null
   spg: number | null
   blk: number | null
+  profileViews: number | null
 }
 
 export type UserSumAggregateOutputType = {
@@ -48,6 +49,7 @@ export type UserSumAggregateOutputType = {
   apg: number | null
   spg: number | null
   blk: number | null
+  profileViews: number | null
 }
 
 export type UserMinAggregateOutputType = {
@@ -81,6 +83,8 @@ export type UserMinAggregateOutputType = {
   spg: number | null
   blk: number | null
   adminTilte: string | null
+  profileViews: number | null
+  lastViewed: Date | null
 }
 
 export type UserMaxAggregateOutputType = {
@@ -114,6 +118,8 @@ export type UserMaxAggregateOutputType = {
   spg: number | null
   blk: number | null
   adminTilte: string | null
+  profileViews: number | null
+  lastViewed: Date | null
 }
 
 export type UserCountAggregateOutputType = {
@@ -147,6 +153,8 @@ export type UserCountAggregateOutputType = {
   spg: number
   blk: number
   adminTilte: number
+  profileViews: number
+  lastViewed: number
   _all: number
 }
 
@@ -161,6 +169,7 @@ export type UserAvgAggregateInputType = {
   apg?: true
   spg?: true
   blk?: true
+  profileViews?: true
 }
 
 export type UserSumAggregateInputType = {
@@ -173,6 +182,7 @@ export type UserSumAggregateInputType = {
   apg?: true
   spg?: true
   blk?: true
+  profileViews?: true
 }
 
 export type UserMinAggregateInputType = {
@@ -206,6 +216,8 @@ export type UserMinAggregateInputType = {
   spg?: true
   blk?: true
   adminTilte?: true
+  profileViews?: true
+  lastViewed?: true
 }
 
 export type UserMaxAggregateInputType = {
@@ -239,6 +251,8 @@ export type UserMaxAggregateInputType = {
   spg?: true
   blk?: true
   adminTilte?: true
+  profileViews?: true
+  lastViewed?: true
 }
 
 export type UserCountAggregateInputType = {
@@ -272,6 +286,8 @@ export type UserCountAggregateInputType = {
   spg?: true
   blk?: true
   adminTilte?: true
+  profileViews?: true
+  lastViewed?: true
   _all?: true
 }
 
@@ -392,6 +408,8 @@ export type UserGroupByOutputType = {
   spg: number | null
   blk: number | null
   adminTilte: string | null
+  profileViews: number
+  lastViewed: Date | null
   _count: UserCountAggregateOutputType | null
   _avg: UserAvgAggregateOutputType | null
   _sum: UserSumAggregateOutputType | null
@@ -448,10 +466,13 @@ export type UserWhereInput = {
   spg?: Prisma.FloatNullableFilter<"User"> | number | null
   blk?: Prisma.FloatNullableFilter<"User"> | number | null
   adminTilte?: Prisma.StringNullableFilter<"User"> | string | null
+  profileViews?: Prisma.IntFilter<"User"> | number
+  lastViewed?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   highligts?: Prisma.HighlightsListRelationFilter
   subscriptions?: Prisma.SubscriptionListRelationFilter
   transactions?: Prisma.TransactionListRelationFilter
   likes?: Prisma.LikeHighlightsListRelationFilter
+  loginSessions?: Prisma.LoginSessionListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -485,10 +506,13 @@ export type UserOrderByWithRelationInput = {
   spg?: Prisma.SortOrderInput | Prisma.SortOrder
   blk?: Prisma.SortOrderInput | Prisma.SortOrder
   adminTilte?: Prisma.SortOrderInput | Prisma.SortOrder
+  profileViews?: Prisma.SortOrder
+  lastViewed?: Prisma.SortOrderInput | Prisma.SortOrder
   highligts?: Prisma.highlightsOrderByRelationAggregateInput
   subscriptions?: Prisma.SubscriptionOrderByRelationAggregateInput
   transactions?: Prisma.TransactionOrderByRelationAggregateInput
   likes?: Prisma.LikeHighlightsOrderByRelationAggregateInput
+  loginSessions?: Prisma.LoginSessionOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -525,10 +549,13 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   spg?: Prisma.FloatNullableFilter<"User"> | number | null
   blk?: Prisma.FloatNullableFilter<"User"> | number | null
   adminTilte?: Prisma.StringNullableFilter<"User"> | string | null
+  profileViews?: Prisma.IntFilter<"User"> | number
+  lastViewed?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   highligts?: Prisma.HighlightsListRelationFilter
   subscriptions?: Prisma.SubscriptionListRelationFilter
   transactions?: Prisma.TransactionListRelationFilter
   likes?: Prisma.LikeHighlightsListRelationFilter
+  loginSessions?: Prisma.LoginSessionListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -562,6 +589,8 @@ export type UserOrderByWithAggregationInput = {
   spg?: Prisma.SortOrderInput | Prisma.SortOrder
   blk?: Prisma.SortOrderInput | Prisma.SortOrder
   adminTilte?: Prisma.SortOrderInput | Prisma.SortOrder
+  profileViews?: Prisma.SortOrder
+  lastViewed?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
   _avg?: Prisma.UserAvgOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
@@ -603,6 +632,8 @@ export type UserScalarWhereWithAggregatesInput = {
   spg?: Prisma.FloatNullableWithAggregatesFilter<"User"> | number | null
   blk?: Prisma.FloatNullableWithAggregatesFilter<"User"> | number | null
   adminTilte?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  profileViews?: Prisma.IntWithAggregatesFilter<"User"> | number
+  lastViewed?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
 }
 
 export type UserCreateInput = {
@@ -636,10 +667,13 @@ export type UserCreateInput = {
   spg?: number | null
   blk?: number | null
   adminTilte?: string | null
+  profileViews?: number
+  lastViewed?: Date | string | null
   highligts?: Prisma.highlightsCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
   likes?: Prisma.LikeHighlightsCreateNestedManyWithoutUserInput
+  loginSessions?: Prisma.LoginSessionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -673,10 +707,13 @@ export type UserUncheckedCreateInput = {
   spg?: number | null
   blk?: number | null
   adminTilte?: string | null
+  profileViews?: number
+  lastViewed?: Date | string | null
   highligts?: Prisma.highlightsUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
   likes?: Prisma.LikeHighlightsUncheckedCreateNestedManyWithoutUserInput
+  loginSessions?: Prisma.LoginSessionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -710,10 +747,13 @@ export type UserUpdateInput = {
   spg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   blk?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileViews?: Prisma.IntFieldUpdateOperationsInput | number
+  lastViewed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   highligts?: Prisma.highlightsUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
   likes?: Prisma.LikeHighlightsUpdateManyWithoutUserNestedInput
+  loginSessions?: Prisma.LoginSessionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -747,10 +787,13 @@ export type UserUncheckedUpdateInput = {
   spg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   blk?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileViews?: Prisma.IntFieldUpdateOperationsInput | number
+  lastViewed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   highligts?: Prisma.highlightsUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
   likes?: Prisma.LikeHighlightsUncheckedUpdateManyWithoutUserNestedInput
+  loginSessions?: Prisma.LoginSessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -784,6 +827,8 @@ export type UserCreateManyInput = {
   spg?: number | null
   blk?: number | null
   adminTilte?: string | null
+  profileViews?: number
+  lastViewed?: Date | string | null
 }
 
 export type UserUpdateManyMutationInput = {
@@ -817,6 +862,8 @@ export type UserUpdateManyMutationInput = {
   spg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   blk?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileViews?: Prisma.IntFieldUpdateOperationsInput | number
+  lastViewed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type UserUncheckedUpdateManyInput = {
@@ -850,6 +897,8 @@ export type UserUncheckedUpdateManyInput = {
   spg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   blk?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileViews?: Prisma.IntFieldUpdateOperationsInput | number
+  lastViewed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type UserScalarRelationFilter = {
@@ -888,6 +937,8 @@ export type UserCountOrderByAggregateInput = {
   spg?: Prisma.SortOrder
   blk?: Prisma.SortOrder
   adminTilte?: Prisma.SortOrder
+  profileViews?: Prisma.SortOrder
+  lastViewed?: Prisma.SortOrder
 }
 
 export type UserAvgOrderByAggregateInput = {
@@ -900,6 +951,7 @@ export type UserAvgOrderByAggregateInput = {
   apg?: Prisma.SortOrder
   spg?: Prisma.SortOrder
   blk?: Prisma.SortOrder
+  profileViews?: Prisma.SortOrder
 }
 
 export type UserMaxOrderByAggregateInput = {
@@ -933,6 +985,8 @@ export type UserMaxOrderByAggregateInput = {
   spg?: Prisma.SortOrder
   blk?: Prisma.SortOrder
   adminTilte?: Prisma.SortOrder
+  profileViews?: Prisma.SortOrder
+  lastViewed?: Prisma.SortOrder
 }
 
 export type UserMinOrderByAggregateInput = {
@@ -966,6 +1020,8 @@ export type UserMinOrderByAggregateInput = {
   spg?: Prisma.SortOrder
   blk?: Prisma.SortOrder
   adminTilte?: Prisma.SortOrder
+  profileViews?: Prisma.SortOrder
+  lastViewed?: Prisma.SortOrder
 }
 
 export type UserSumOrderByAggregateInput = {
@@ -978,6 +1034,21 @@ export type UserSumOrderByAggregateInput = {
   apg?: Prisma.SortOrder
   spg?: Prisma.SortOrder
   blk?: Prisma.SortOrder
+  profileViews?: Prisma.SortOrder
+}
+
+export type UserCreateNestedOneWithoutLoginSessionsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutLoginSessionsInput, Prisma.UserUncheckedCreateWithoutLoginSessionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutLoginSessionsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutLoginSessionsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutLoginSessionsInput, Prisma.UserUncheckedCreateWithoutLoginSessionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutLoginSessionsInput
+  upsert?: Prisma.UserUpsertWithoutLoginSessionsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutLoginSessionsInput, Prisma.UserUpdateWithoutLoginSessionsInput>, Prisma.UserUncheckedUpdateWithoutLoginSessionsInput>
 }
 
 export type UserCreateNestedOneWithoutLikesInput = {
@@ -1060,6 +1131,178 @@ export type EnumuserRoleFieldUpdateOperationsInput = {
   set?: $Enums.userRole
 }
 
+export type UserCreateWithoutLoginSessionsInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  stripeCustomerId?: string | null
+  subscribeStatus?: $Enums.subscribeStatus
+  athleteFullName: string
+  dateOfBirth: Date | string
+  email: string
+  password: string
+  imgUrl?: string | null
+  parentName?: string | null
+  city?: string | null
+  state?: string | null
+  gradYear?: number | null
+  position?: string | null
+  height?: number | null
+  weight?: number | null
+  school?: string | null
+  gpa?: number | null
+  agreedToTerms?: boolean
+  fcmToken?: string | null
+  isActive?: boolean
+  isDeleted?: boolean
+  role?: $Enums.userRole
+  ppg?: number | null
+  rpg?: number | null
+  apg?: number | null
+  spg?: number | null
+  blk?: number | null
+  adminTilte?: string | null
+  profileViews?: number
+  lastViewed?: Date | string | null
+  highligts?: Prisma.highlightsCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
+  likes?: Prisma.LikeHighlightsCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutLoginSessionsInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  stripeCustomerId?: string | null
+  subscribeStatus?: $Enums.subscribeStatus
+  athleteFullName: string
+  dateOfBirth: Date | string
+  email: string
+  password: string
+  imgUrl?: string | null
+  parentName?: string | null
+  city?: string | null
+  state?: string | null
+  gradYear?: number | null
+  position?: string | null
+  height?: number | null
+  weight?: number | null
+  school?: string | null
+  gpa?: number | null
+  agreedToTerms?: boolean
+  fcmToken?: string | null
+  isActive?: boolean
+  isDeleted?: boolean
+  role?: $Enums.userRole
+  ppg?: number | null
+  rpg?: number | null
+  apg?: number | null
+  spg?: number | null
+  blk?: number | null
+  adminTilte?: string | null
+  profileViews?: number
+  lastViewed?: Date | string | null
+  highligts?: Prisma.highlightsUncheckedCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
+  likes?: Prisma.LikeHighlightsUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutLoginSessionsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutLoginSessionsInput, Prisma.UserUncheckedCreateWithoutLoginSessionsInput>
+}
+
+export type UserUpsertWithoutLoginSessionsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutLoginSessionsInput, Prisma.UserUncheckedUpdateWithoutLoginSessionsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutLoginSessionsInput, Prisma.UserUncheckedCreateWithoutLoginSessionsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutLoginSessionsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutLoginSessionsInput, Prisma.UserUncheckedUpdateWithoutLoginSessionsInput>
+}
+
+export type UserUpdateWithoutLoginSessionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
+  athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
+  dateOfBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  imgUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  parentName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gradYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  position?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  height?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  weight?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  school?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gpa?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  agreedToTerms?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  fcmToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  role?: Prisma.EnumuserRoleFieldUpdateOperationsInput | $Enums.userRole
+  ppg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  rpg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  apg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  spg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  blk?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileViews?: Prisma.IntFieldUpdateOperationsInput | number
+  lastViewed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  highligts?: Prisma.highlightsUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
+  likes?: Prisma.LikeHighlightsUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutLoginSessionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
+  athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
+  dateOfBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  imgUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  parentName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gradYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  position?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  height?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  weight?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  school?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gpa?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  agreedToTerms?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  fcmToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  role?: Prisma.EnumuserRoleFieldUpdateOperationsInput | $Enums.userRole
+  ppg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  rpg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  apg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  spg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  blk?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileViews?: Prisma.IntFieldUpdateOperationsInput | number
+  lastViewed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  highligts?: Prisma.highlightsUncheckedUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
+  likes?: Prisma.LikeHighlightsUncheckedUpdateManyWithoutUserNestedInput
+}
+
 export type UserCreateWithoutLikesInput = {
   id?: string
   createdAt?: Date | string
@@ -1091,9 +1334,12 @@ export type UserCreateWithoutLikesInput = {
   spg?: number | null
   blk?: number | null
   adminTilte?: string | null
+  profileViews?: number
+  lastViewed?: Date | string | null
   highligts?: Prisma.highlightsCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
+  loginSessions?: Prisma.LoginSessionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutLikesInput = {
@@ -1127,9 +1373,12 @@ export type UserUncheckedCreateWithoutLikesInput = {
   spg?: number | null
   blk?: number | null
   adminTilte?: string | null
+  profileViews?: number
+  lastViewed?: Date | string | null
   highligts?: Prisma.highlightsUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
+  loginSessions?: Prisma.LoginSessionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutLikesInput = {
@@ -1179,9 +1428,12 @@ export type UserUpdateWithoutLikesInput = {
   spg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   blk?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileViews?: Prisma.IntFieldUpdateOperationsInput | number
+  lastViewed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   highligts?: Prisma.highlightsUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
+  loginSessions?: Prisma.LoginSessionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutLikesInput = {
@@ -1215,9 +1467,12 @@ export type UserUncheckedUpdateWithoutLikesInput = {
   spg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   blk?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileViews?: Prisma.IntFieldUpdateOperationsInput | number
+  lastViewed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   highligts?: Prisma.highlightsUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
+  loginSessions?: Prisma.LoginSessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutHighligtsInput = {
@@ -1251,9 +1506,12 @@ export type UserCreateWithoutHighligtsInput = {
   spg?: number | null
   blk?: number | null
   adminTilte?: string | null
+  profileViews?: number
+  lastViewed?: Date | string | null
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
   likes?: Prisma.LikeHighlightsCreateNestedManyWithoutUserInput
+  loginSessions?: Prisma.LoginSessionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutHighligtsInput = {
@@ -1287,9 +1545,12 @@ export type UserUncheckedCreateWithoutHighligtsInput = {
   spg?: number | null
   blk?: number | null
   adminTilte?: string | null
+  profileViews?: number
+  lastViewed?: Date | string | null
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
   likes?: Prisma.LikeHighlightsUncheckedCreateNestedManyWithoutUserInput
+  loginSessions?: Prisma.LoginSessionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutHighligtsInput = {
@@ -1339,9 +1600,12 @@ export type UserUpdateWithoutHighligtsInput = {
   spg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   blk?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileViews?: Prisma.IntFieldUpdateOperationsInput | number
+  lastViewed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
   likes?: Prisma.LikeHighlightsUpdateManyWithoutUserNestedInput
+  loginSessions?: Prisma.LoginSessionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutHighligtsInput = {
@@ -1375,9 +1639,12 @@ export type UserUncheckedUpdateWithoutHighligtsInput = {
   spg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   blk?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileViews?: Prisma.IntFieldUpdateOperationsInput | number
+  lastViewed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
   likes?: Prisma.LikeHighlightsUncheckedUpdateManyWithoutUserNestedInput
+  loginSessions?: Prisma.LoginSessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSubscriptionsInput = {
@@ -1411,9 +1678,12 @@ export type UserCreateWithoutSubscriptionsInput = {
   spg?: number | null
   blk?: number | null
   adminTilte?: string | null
+  profileViews?: number
+  lastViewed?: Date | string | null
   highligts?: Prisma.highlightsCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
   likes?: Prisma.LikeHighlightsCreateNestedManyWithoutUserInput
+  loginSessions?: Prisma.LoginSessionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSubscriptionsInput = {
@@ -1447,9 +1717,12 @@ export type UserUncheckedCreateWithoutSubscriptionsInput = {
   spg?: number | null
   blk?: number | null
   adminTilte?: string | null
+  profileViews?: number
+  lastViewed?: Date | string | null
   highligts?: Prisma.highlightsUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
   likes?: Prisma.LikeHighlightsUncheckedCreateNestedManyWithoutUserInput
+  loginSessions?: Prisma.LoginSessionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSubscriptionsInput = {
@@ -1499,9 +1772,12 @@ export type UserUpdateWithoutSubscriptionsInput = {
   spg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   blk?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileViews?: Prisma.IntFieldUpdateOperationsInput | number
+  lastViewed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   highligts?: Prisma.highlightsUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
   likes?: Prisma.LikeHighlightsUpdateManyWithoutUserNestedInput
+  loginSessions?: Prisma.LoginSessionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSubscriptionsInput = {
@@ -1535,9 +1811,12 @@ export type UserUncheckedUpdateWithoutSubscriptionsInput = {
   spg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   blk?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileViews?: Prisma.IntFieldUpdateOperationsInput | number
+  lastViewed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   highligts?: Prisma.highlightsUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
   likes?: Prisma.LikeHighlightsUncheckedUpdateManyWithoutUserNestedInput
+  loginSessions?: Prisma.LoginSessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutTransactionsInput = {
@@ -1571,9 +1850,12 @@ export type UserCreateWithoutTransactionsInput = {
   spg?: number | null
   blk?: number | null
   adminTilte?: string | null
+  profileViews?: number
+  lastViewed?: Date | string | null
   highligts?: Prisma.highlightsCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   likes?: Prisma.LikeHighlightsCreateNestedManyWithoutUserInput
+  loginSessions?: Prisma.LoginSessionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTransactionsInput = {
@@ -1607,9 +1889,12 @@ export type UserUncheckedCreateWithoutTransactionsInput = {
   spg?: number | null
   blk?: number | null
   adminTilte?: string | null
+  profileViews?: number
+  lastViewed?: Date | string | null
   highligts?: Prisma.highlightsUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   likes?: Prisma.LikeHighlightsUncheckedCreateNestedManyWithoutUserInput
+  loginSessions?: Prisma.LoginSessionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTransactionsInput = {
@@ -1659,9 +1944,12 @@ export type UserUpdateWithoutTransactionsInput = {
   spg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   blk?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileViews?: Prisma.IntFieldUpdateOperationsInput | number
+  lastViewed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   highligts?: Prisma.highlightsUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   likes?: Prisma.LikeHighlightsUpdateManyWithoutUserNestedInput
+  loginSessions?: Prisma.LoginSessionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTransactionsInput = {
@@ -1695,9 +1983,12 @@ export type UserUncheckedUpdateWithoutTransactionsInput = {
   spg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   blk?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileViews?: Prisma.IntFieldUpdateOperationsInput | number
+  lastViewed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   highligts?: Prisma.highlightsUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   likes?: Prisma.LikeHighlightsUncheckedUpdateManyWithoutUserNestedInput
+  loginSessions?: Prisma.LoginSessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -1710,6 +2001,7 @@ export type UserCountOutputType = {
   subscriptions: number
   transactions: number
   likes: number
+  loginSessions: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1717,6 +2009,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   subscriptions?: boolean | UserCountOutputTypeCountSubscriptionsArgs
   transactions?: boolean | UserCountOutputTypeCountTransactionsArgs
   likes?: boolean | UserCountOutputTypeCountLikesArgs
+  loginSessions?: boolean | UserCountOutputTypeCountLoginSessionsArgs
 }
 
 /**
@@ -1757,6 +2050,13 @@ export type UserCountOutputTypeCountLikesArgs<ExtArgs extends runtime.Types.Exte
   where?: Prisma.LikeHighlightsWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountLoginSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.LoginSessionWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1789,10 +2089,13 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   spg?: boolean
   blk?: boolean
   adminTilte?: boolean
+  profileViews?: boolean
+  lastViewed?: boolean
   highligts?: boolean | Prisma.User$highligtsArgs<ExtArgs>
   subscriptions?: boolean | Prisma.User$subscriptionsArgs<ExtArgs>
   transactions?: boolean | Prisma.User$transactionsArgs<ExtArgs>
   likes?: boolean | Prisma.User$likesArgs<ExtArgs>
+  loginSessions?: boolean | Prisma.User$loginSessionsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -1827,6 +2130,8 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   spg?: boolean
   blk?: boolean
   adminTilte?: boolean
+  profileViews?: boolean
+  lastViewed?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1860,6 +2165,8 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   spg?: boolean
   blk?: boolean
   adminTilte?: boolean
+  profileViews?: boolean
+  lastViewed?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectScalar = {
@@ -1893,14 +2200,17 @@ export type UserSelectScalar = {
   spg?: boolean
   blk?: boolean
   adminTilte?: boolean
+  profileViews?: boolean
+  lastViewed?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "stripeCustomerId" | "subscribeStatus" | "athleteFullName" | "dateOfBirth" | "email" | "password" | "imgUrl" | "parentName" | "city" | "state" | "gradYear" | "position" | "height" | "weight" | "school" | "gpa" | "agreedToTerms" | "fcmToken" | "isActive" | "isDeleted" | "role" | "ppg" | "rpg" | "apg" | "spg" | "blk" | "adminTilte", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "stripeCustomerId" | "subscribeStatus" | "athleteFullName" | "dateOfBirth" | "email" | "password" | "imgUrl" | "parentName" | "city" | "state" | "gradYear" | "position" | "height" | "weight" | "school" | "gpa" | "agreedToTerms" | "fcmToken" | "isActive" | "isDeleted" | "role" | "ppg" | "rpg" | "apg" | "spg" | "blk" | "adminTilte" | "profileViews" | "lastViewed", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   highligts?: boolean | Prisma.User$highligtsArgs<ExtArgs>
   subscriptions?: boolean | Prisma.User$subscriptionsArgs<ExtArgs>
   transactions?: boolean | Prisma.User$transactionsArgs<ExtArgs>
   likes?: boolean | Prisma.User$likesArgs<ExtArgs>
+  loginSessions?: boolean | Prisma.User$loginSessionsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1913,6 +2223,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     subscriptions: Prisma.$SubscriptionPayload<ExtArgs>[]
     transactions: Prisma.$TransactionPayload<ExtArgs>[]
     likes: Prisma.$LikeHighlightsPayload<ExtArgs>[]
+    loginSessions: Prisma.$LoginSessionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1945,6 +2256,8 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     spg: number | null
     blk: number | null
     adminTilte: string | null
+    profileViews: number
+    lastViewed: Date | null
   }, ExtArgs["result"]["user"]>
   composites: {}
 }
@@ -2343,6 +2656,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   subscriptions<T extends Prisma.User$subscriptionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$subscriptionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   transactions<T extends Prisma.User$transactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$transactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   likes<T extends Prisma.User$likesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$likesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LikeHighlightsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  loginSessions<T extends Prisma.User$loginSessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$loginSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LoginSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2402,6 +2716,8 @@ export interface UserFieldRefs {
   readonly spg: Prisma.FieldRef<"User", 'Float'>
   readonly blk: Prisma.FieldRef<"User", 'Float'>
   readonly adminTilte: Prisma.FieldRef<"User", 'String'>
+  readonly profileViews: Prisma.FieldRef<"User", 'Int'>
+  readonly lastViewed: Prisma.FieldRef<"User", 'DateTime'>
 }
     
 
@@ -2883,6 +3199,30 @@ export type User$likesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
   take?: number
   skip?: number
   distinct?: Prisma.LikeHighlightsScalarFieldEnum | Prisma.LikeHighlightsScalarFieldEnum[]
+}
+
+/**
+ * User.loginSessions
+ */
+export type User$loginSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the LoginSession
+   */
+  select?: Prisma.LoginSessionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the LoginSession
+   */
+  omit?: Prisma.LoginSessionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LoginSessionInclude<ExtArgs> | null
+  where?: Prisma.LoginSessionWhereInput
+  orderBy?: Prisma.LoginSessionOrderByWithRelationInput | Prisma.LoginSessionOrderByWithRelationInput[]
+  cursor?: Prisma.LoginSessionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.LoginSessionScalarFieldEnum | Prisma.LoginSessionScalarFieldEnum[]
 }
 
 /**
