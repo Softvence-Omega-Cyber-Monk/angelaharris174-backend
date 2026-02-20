@@ -17,13 +17,6 @@ export class HighlightsDto {
     description: string;
 
     @ApiProperty({
-        example: 'cmlc3mqvf0000rcwa6ajj9w24',
-        description: 'ID of the user who owns this highlight',
-    })
-    @IsString()
-    userId: string;
-
-    @ApiProperty({
         type: 'array',
         items: {
             type: 'string',

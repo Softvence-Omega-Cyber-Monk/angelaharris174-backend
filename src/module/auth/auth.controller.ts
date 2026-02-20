@@ -14,6 +14,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
+import { S3Service } from '../s3/s3.service';
 import { LoginDto } from './dto/login.dto';
 import { Public } from 'src/common/decorators/public.decorators';
 import type { Request, Response } from 'express';
@@ -39,7 +40,7 @@ import { RequestResetCodeDto, VerifyResetCodeDto } from './dto/forgetPasswordDto
 export class AuthController {
   constructor(
     private authService: AuthService,
-    // private s3Service: S3Service, // ✅ Inject S3
+    private s3Service: S3Service,
   ) { }
 
   // refresh token
@@ -136,7 +137,6 @@ export class AuthController {
 
   // change password
   @Patch('change-password')
-  @Roles(userRole.ADMIN, userRole.ATHLATE)
   async changePassword(
     @Body() dto: ChangePasswordDto,
     @Req() req: Request,
@@ -191,10 +191,9 @@ export class AuthController {
 
     if (file) {
       try {
-        // imageUrl = await this.s3Service.uploadFile(file, 'profile-images');
+        imageUrl = await this.s3Service.uploadFile(file, 'profile-images');
       } catch (error) {
         console.error(error, 'File Upload Error');
-        // S3Service already wraps errors, but you can log or customize here
         return sendResponse(res, {
           statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
           success: false,
@@ -218,7 +217,7 @@ export class AuthController {
     });
   }
 
-  
+
 
   @Public()
   @Post('forgot-password')
@@ -268,7 +267,6 @@ export class AuthController {
   }
 
   @Get('allUsers')
-  @Roles(userRole.ADMIN)
   async getUsers(@Res() res: Response) {
     const result = await this.authService.getUsers();
     return sendResponse(res, {

@@ -20,8 +20,20 @@ export type highlightsModel = runtime.Types.Result.DefaultSelection<Prisma.$high
 
 export type AggregateHighlights = {
   _count: HighlightsCountAggregateOutputType | null
+  _avg: HighlightsAvgAggregateOutputType | null
+  _sum: HighlightsSumAggregateOutputType | null
   _min: HighlightsMinAggregateOutputType | null
   _max: HighlightsMaxAggregateOutputType | null
+}
+
+export type HighlightsAvgAggregateOutputType = {
+  likes: number | null
+  views: number | null
+}
+
+export type HighlightsSumAggregateOutputType = {
+  likes: number | null
+  views: number | null
 }
 
 export type HighlightsMinAggregateOutputType = {
@@ -32,6 +44,10 @@ export type HighlightsMinAggregateOutputType = {
   userId: string | null
   isProcessing: boolean | null
   updatedAt: Date | null
+  likes: number | null
+  views: number | null
+  createdAt: Date | null
+  highLightsLink: string | null
 }
 
 export type HighlightsMaxAggregateOutputType = {
@@ -42,6 +58,10 @@ export type HighlightsMaxAggregateOutputType = {
   userId: string | null
   isProcessing: boolean | null
   updatedAt: Date | null
+  likes: number | null
+  views: number | null
+  createdAt: Date | null
+  highLightsLink: string | null
 }
 
 export type HighlightsCountAggregateOutputType = {
@@ -53,9 +73,23 @@ export type HighlightsCountAggregateOutputType = {
   clips: number
   isProcessing: number
   updatedAt: number
+  likes: number
+  views: number
+  createdAt: number
+  highLightsLink: number
   _all: number
 }
 
+
+export type HighlightsAvgAggregateInputType = {
+  likes?: true
+  views?: true
+}
+
+export type HighlightsSumAggregateInputType = {
+  likes?: true
+  views?: true
+}
 
 export type HighlightsMinAggregateInputType = {
   id?: true
@@ -65,6 +99,10 @@ export type HighlightsMinAggregateInputType = {
   userId?: true
   isProcessing?: true
   updatedAt?: true
+  likes?: true
+  views?: true
+  createdAt?: true
+  highLightsLink?: true
 }
 
 export type HighlightsMaxAggregateInputType = {
@@ -75,6 +113,10 @@ export type HighlightsMaxAggregateInputType = {
   userId?: true
   isProcessing?: true
   updatedAt?: true
+  likes?: true
+  views?: true
+  createdAt?: true
+  highLightsLink?: true
 }
 
 export type HighlightsCountAggregateInputType = {
@@ -86,6 +128,10 @@ export type HighlightsCountAggregateInputType = {
   clips?: true
   isProcessing?: true
   updatedAt?: true
+  likes?: true
+  views?: true
+  createdAt?: true
+  highLightsLink?: true
   _all?: true
 }
 
@@ -127,6 +173,18 @@ export type HighlightsAggregateArgs<ExtArgs extends runtime.Types.Extensions.Int
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: HighlightsAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: HighlightsSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: HighlightsMinAggregateInputType
@@ -157,6 +215,8 @@ export type highlightsGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   _count?: HighlightsCountAggregateInputType | true
+  _avg?: HighlightsAvgAggregateInputType
+  _sum?: HighlightsSumAggregateInputType
   _min?: HighlightsMinAggregateInputType
   _max?: HighlightsMaxAggregateInputType
 }
@@ -170,7 +230,13 @@ export type HighlightsGroupByOutputType = {
   clips: runtime.JsonValue
   isProcessing: boolean
   updatedAt: Date
+  likes: number
+  views: number
+  createdAt: Date
+  highLightsLink: string | null
   _count: HighlightsCountAggregateOutputType | null
+  _avg: HighlightsAvgAggregateOutputType | null
+  _sum: HighlightsSumAggregateOutputType | null
   _min: HighlightsMinAggregateOutputType | null
   _max: HighlightsMaxAggregateOutputType | null
 }
@@ -202,7 +268,12 @@ export type highlightsWhereInput = {
   clips?: Prisma.JsonFilter<"highlights">
   isProcessing?: Prisma.BoolFilter<"highlights"> | boolean
   updatedAt?: Prisma.DateTimeFilter<"highlights"> | Date | string
+  likes?: Prisma.IntFilter<"highlights"> | number
+  views?: Prisma.IntFilter<"highlights"> | number
+  createdAt?: Prisma.DateTimeFilter<"highlights"> | Date | string
+  highLightsLink?: Prisma.StringNullableFilter<"highlights"> | string | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  likedBy?: Prisma.LikeHighlightsListRelationFilter
 }
 
 export type highlightsOrderByWithRelationInput = {
@@ -214,7 +285,12 @@ export type highlightsOrderByWithRelationInput = {
   clips?: Prisma.SortOrder
   isProcessing?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  likes?: Prisma.SortOrder
+  views?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  highLightsLink?: Prisma.SortOrderInput | Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
+  likedBy?: Prisma.LikeHighlightsOrderByRelationAggregateInput
 }
 
 export type highlightsWhereUniqueInput = Prisma.AtLeast<{
@@ -229,7 +305,12 @@ export type highlightsWhereUniqueInput = Prisma.AtLeast<{
   clips?: Prisma.JsonFilter<"highlights">
   isProcessing?: Prisma.BoolFilter<"highlights"> | boolean
   updatedAt?: Prisma.DateTimeFilter<"highlights"> | Date | string
+  likes?: Prisma.IntFilter<"highlights"> | number
+  views?: Prisma.IntFilter<"highlights"> | number
+  createdAt?: Prisma.DateTimeFilter<"highlights"> | Date | string
+  highLightsLink?: Prisma.StringNullableFilter<"highlights"> | string | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  likedBy?: Prisma.LikeHighlightsListRelationFilter
 }, "id">
 
 export type highlightsOrderByWithAggregationInput = {
@@ -241,9 +322,15 @@ export type highlightsOrderByWithAggregationInput = {
   clips?: Prisma.SortOrder
   isProcessing?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  likes?: Prisma.SortOrder
+  views?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  highLightsLink?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.highlightsCountOrderByAggregateInput
+  _avg?: Prisma.highlightsAvgOrderByAggregateInput
   _max?: Prisma.highlightsMaxOrderByAggregateInput
   _min?: Prisma.highlightsMinOrderByAggregateInput
+  _sum?: Prisma.highlightsSumOrderByAggregateInput
 }
 
 export type highlightsScalarWhereWithAggregatesInput = {
@@ -258,6 +345,10 @@ export type highlightsScalarWhereWithAggregatesInput = {
   clips?: Prisma.JsonWithAggregatesFilter<"highlights">
   isProcessing?: Prisma.BoolWithAggregatesFilter<"highlights"> | boolean
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"highlights"> | Date | string
+  likes?: Prisma.IntWithAggregatesFilter<"highlights"> | number
+  views?: Prisma.IntWithAggregatesFilter<"highlights"> | number
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"highlights"> | Date | string
+  highLightsLink?: Prisma.StringNullableWithAggregatesFilter<"highlights"> | string | null
 }
 
 export type highlightsCreateInput = {
@@ -268,7 +359,12 @@ export type highlightsCreateInput = {
   clips: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isProcessing?: boolean
   updatedAt?: Date | string
+  likes?: number
+  views?: number
+  createdAt?: Date | string
+  highLightsLink?: string | null
   user: Prisma.UserCreateNestedOneWithoutHighligtsInput
+  likedBy?: Prisma.LikeHighlightsCreateNestedManyWithoutHighlightInput
 }
 
 export type highlightsUncheckedCreateInput = {
@@ -280,6 +376,11 @@ export type highlightsUncheckedCreateInput = {
   clips: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isProcessing?: boolean
   updatedAt?: Date | string
+  likes?: number
+  views?: number
+  createdAt?: Date | string
+  highLightsLink?: string | null
+  likedBy?: Prisma.LikeHighlightsUncheckedCreateNestedManyWithoutHighlightInput
 }
 
 export type highlightsUpdateInput = {
@@ -290,7 +391,12 @@ export type highlightsUpdateInput = {
   clips?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isProcessing?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  likes?: Prisma.IntFieldUpdateOperationsInput | number
+  views?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  highLightsLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   user?: Prisma.UserUpdateOneRequiredWithoutHighligtsNestedInput
+  likedBy?: Prisma.LikeHighlightsUpdateManyWithoutHighlightNestedInput
 }
 
 export type highlightsUncheckedUpdateInput = {
@@ -302,6 +408,11 @@ export type highlightsUncheckedUpdateInput = {
   clips?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isProcessing?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  likes?: Prisma.IntFieldUpdateOperationsInput | number
+  views?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  highLightsLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  likedBy?: Prisma.LikeHighlightsUncheckedUpdateManyWithoutHighlightNestedInput
 }
 
 export type highlightsCreateManyInput = {
@@ -313,6 +424,10 @@ export type highlightsCreateManyInput = {
   clips: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isProcessing?: boolean
   updatedAt?: Date | string
+  likes?: number
+  views?: number
+  createdAt?: Date | string
+  highLightsLink?: string | null
 }
 
 export type highlightsUpdateManyMutationInput = {
@@ -323,6 +438,10 @@ export type highlightsUpdateManyMutationInput = {
   clips?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isProcessing?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  likes?: Prisma.IntFieldUpdateOperationsInput | number
+  views?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  highLightsLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type highlightsUncheckedUpdateManyInput = {
@@ -334,6 +453,15 @@ export type highlightsUncheckedUpdateManyInput = {
   clips?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isProcessing?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  likes?: Prisma.IntFieldUpdateOperationsInput | number
+  views?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  highLightsLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type HighlightsScalarRelationFilter = {
+  is?: Prisma.highlightsWhereInput
+  isNot?: Prisma.highlightsWhereInput
 }
 
 export type highlightsCountOrderByAggregateInput = {
@@ -345,6 +473,15 @@ export type highlightsCountOrderByAggregateInput = {
   clips?: Prisma.SortOrder
   isProcessing?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  likes?: Prisma.SortOrder
+  views?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  highLightsLink?: Prisma.SortOrder
+}
+
+export type highlightsAvgOrderByAggregateInput = {
+  likes?: Prisma.SortOrder
+  views?: Prisma.SortOrder
 }
 
 export type highlightsMaxOrderByAggregateInput = {
@@ -355,6 +492,10 @@ export type highlightsMaxOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   isProcessing?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  likes?: Prisma.SortOrder
+  views?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  highLightsLink?: Prisma.SortOrder
 }
 
 export type highlightsMinOrderByAggregateInput = {
@@ -365,6 +506,15 @@ export type highlightsMinOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   isProcessing?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  likes?: Prisma.SortOrder
+  views?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  highLightsLink?: Prisma.SortOrder
+}
+
+export type highlightsSumOrderByAggregateInput = {
+  likes?: Prisma.SortOrder
+  views?: Prisma.SortOrder
 }
 
 export type HighlightsListRelationFilter = {
@@ -377,8 +527,18 @@ export type highlightsOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type StringFieldUpdateOperationsInput = {
-  set?: string
+export type highlightsCreateNestedOneWithoutLikedByInput = {
+  create?: Prisma.XOR<Prisma.highlightsCreateWithoutLikedByInput, Prisma.highlightsUncheckedCreateWithoutLikedByInput>
+  connectOrCreate?: Prisma.highlightsCreateOrConnectWithoutLikedByInput
+  connect?: Prisma.highlightsWhereUniqueInput
+}
+
+export type highlightsUpdateOneRequiredWithoutLikedByNestedInput = {
+  create?: Prisma.XOR<Prisma.highlightsCreateWithoutLikedByInput, Prisma.highlightsUncheckedCreateWithoutLikedByInput>
+  connectOrCreate?: Prisma.highlightsCreateOrConnectWithoutLikedByInput
+  upsert?: Prisma.highlightsUpsertWithoutLikedByInput
+  connect?: Prisma.highlightsWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.highlightsUpdateToOneWithWhereWithoutLikedByInput, Prisma.highlightsUpdateWithoutLikedByInput>, Prisma.highlightsUncheckedUpdateWithoutLikedByInput>
 }
 
 export type NullableStringFieldUpdateOperationsInput = {
@@ -389,8 +549,12 @@ export type BoolFieldUpdateOperationsInput = {
   set?: boolean
 }
 
-export type DateTimeFieldUpdateOperationsInput = {
-  set?: Date | string
+export type IntFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
 }
 
 export type highlightsCreateNestedManyWithoutUserInput = {
@@ -435,6 +599,82 @@ export type highlightsUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.highlightsScalarWhereInput | Prisma.highlightsScalarWhereInput[]
 }
 
+export type highlightsCreateWithoutLikedByInput = {
+  id?: string
+  mergedVideoUrl?: string | null
+  caption: string
+  description: string
+  clips: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  isProcessing?: boolean
+  updatedAt?: Date | string
+  likes?: number
+  views?: number
+  createdAt?: Date | string
+  highLightsLink?: string | null
+  user: Prisma.UserCreateNestedOneWithoutHighligtsInput
+}
+
+export type highlightsUncheckedCreateWithoutLikedByInput = {
+  id?: string
+  mergedVideoUrl?: string | null
+  caption: string
+  description: string
+  userId: string
+  clips: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  isProcessing?: boolean
+  updatedAt?: Date | string
+  likes?: number
+  views?: number
+  createdAt?: Date | string
+  highLightsLink?: string | null
+}
+
+export type highlightsCreateOrConnectWithoutLikedByInput = {
+  where: Prisma.highlightsWhereUniqueInput
+  create: Prisma.XOR<Prisma.highlightsCreateWithoutLikedByInput, Prisma.highlightsUncheckedCreateWithoutLikedByInput>
+}
+
+export type highlightsUpsertWithoutLikedByInput = {
+  update: Prisma.XOR<Prisma.highlightsUpdateWithoutLikedByInput, Prisma.highlightsUncheckedUpdateWithoutLikedByInput>
+  create: Prisma.XOR<Prisma.highlightsCreateWithoutLikedByInput, Prisma.highlightsUncheckedCreateWithoutLikedByInput>
+  where?: Prisma.highlightsWhereInput
+}
+
+export type highlightsUpdateToOneWithWhereWithoutLikedByInput = {
+  where?: Prisma.highlightsWhereInput
+  data: Prisma.XOR<Prisma.highlightsUpdateWithoutLikedByInput, Prisma.highlightsUncheckedUpdateWithoutLikedByInput>
+}
+
+export type highlightsUpdateWithoutLikedByInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  mergedVideoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  caption?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  clips?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  isProcessing?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  likes?: Prisma.IntFieldUpdateOperationsInput | number
+  views?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  highLightsLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  user?: Prisma.UserUpdateOneRequiredWithoutHighligtsNestedInput
+}
+
+export type highlightsUncheckedUpdateWithoutLikedByInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  mergedVideoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  caption?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  clips?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  isProcessing?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  likes?: Prisma.IntFieldUpdateOperationsInput | number
+  views?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  highLightsLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
 export type highlightsCreateWithoutUserInput = {
   id?: string
   mergedVideoUrl?: string | null
@@ -443,6 +683,11 @@ export type highlightsCreateWithoutUserInput = {
   clips: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isProcessing?: boolean
   updatedAt?: Date | string
+  likes?: number
+  views?: number
+  createdAt?: Date | string
+  highLightsLink?: string | null
+  likedBy?: Prisma.LikeHighlightsCreateNestedManyWithoutHighlightInput
 }
 
 export type highlightsUncheckedCreateWithoutUserInput = {
@@ -453,6 +698,11 @@ export type highlightsUncheckedCreateWithoutUserInput = {
   clips: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isProcessing?: boolean
   updatedAt?: Date | string
+  likes?: number
+  views?: number
+  createdAt?: Date | string
+  highLightsLink?: string | null
+  likedBy?: Prisma.LikeHighlightsUncheckedCreateNestedManyWithoutHighlightInput
 }
 
 export type highlightsCreateOrConnectWithoutUserInput = {
@@ -493,6 +743,10 @@ export type highlightsScalarWhereInput = {
   clips?: Prisma.JsonFilter<"highlights">
   isProcessing?: Prisma.BoolFilter<"highlights"> | boolean
   updatedAt?: Prisma.DateTimeFilter<"highlights"> | Date | string
+  likes?: Prisma.IntFilter<"highlights"> | number
+  views?: Prisma.IntFilter<"highlights"> | number
+  createdAt?: Prisma.DateTimeFilter<"highlights"> | Date | string
+  highLightsLink?: Prisma.StringNullableFilter<"highlights"> | string | null
 }
 
 export type highlightsCreateManyUserInput = {
@@ -503,6 +757,10 @@ export type highlightsCreateManyUserInput = {
   clips: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isProcessing?: boolean
   updatedAt?: Date | string
+  likes?: number
+  views?: number
+  createdAt?: Date | string
+  highLightsLink?: string | null
 }
 
 export type highlightsUpdateWithoutUserInput = {
@@ -513,6 +771,11 @@ export type highlightsUpdateWithoutUserInput = {
   clips?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isProcessing?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  likes?: Prisma.IntFieldUpdateOperationsInput | number
+  views?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  highLightsLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  likedBy?: Prisma.LikeHighlightsUpdateManyWithoutHighlightNestedInput
 }
 
 export type highlightsUncheckedUpdateWithoutUserInput = {
@@ -523,6 +786,11 @@ export type highlightsUncheckedUpdateWithoutUserInput = {
   clips?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isProcessing?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  likes?: Prisma.IntFieldUpdateOperationsInput | number
+  views?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  highLightsLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  likedBy?: Prisma.LikeHighlightsUncheckedUpdateManyWithoutHighlightNestedInput
 }
 
 export type highlightsUncheckedUpdateManyWithoutUserInput = {
@@ -533,8 +801,41 @@ export type highlightsUncheckedUpdateManyWithoutUserInput = {
   clips?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isProcessing?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  likes?: Prisma.IntFieldUpdateOperationsInput | number
+  views?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  highLightsLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
+
+/**
+ * Count Type HighlightsCountOutputType
+ */
+
+export type HighlightsCountOutputType = {
+  likedBy: number
+}
+
+export type HighlightsCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  likedBy?: boolean | HighlightsCountOutputTypeCountLikedByArgs
+}
+
+/**
+ * HighlightsCountOutputType without action
+ */
+export type HighlightsCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the HighlightsCountOutputType
+   */
+  select?: Prisma.HighlightsCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * HighlightsCountOutputType without action
+ */
+export type HighlightsCountOutputTypeCountLikedByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.LikeHighlightsWhereInput
+}
 
 
 export type highlightsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -546,7 +847,13 @@ export type highlightsSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   clips?: boolean
   isProcessing?: boolean
   updatedAt?: boolean
+  likes?: boolean
+  views?: boolean
+  createdAt?: boolean
+  highLightsLink?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  likedBy?: boolean | Prisma.highlights$likedByArgs<ExtArgs>
+  _count?: boolean | Prisma.HighlightsCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["highlights"]>
 
 export type highlightsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -558,6 +865,10 @@ export type highlightsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   clips?: boolean
   isProcessing?: boolean
   updatedAt?: boolean
+  likes?: boolean
+  views?: boolean
+  createdAt?: boolean
+  highLightsLink?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["highlights"]>
 
@@ -570,6 +881,10 @@ export type highlightsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   clips?: boolean
   isProcessing?: boolean
   updatedAt?: boolean
+  likes?: boolean
+  views?: boolean
+  createdAt?: boolean
+  highLightsLink?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["highlights"]>
 
@@ -582,11 +897,17 @@ export type highlightsSelectScalar = {
   clips?: boolean
   isProcessing?: boolean
   updatedAt?: boolean
+  likes?: boolean
+  views?: boolean
+  createdAt?: boolean
+  highLightsLink?: boolean
 }
 
-export type highlightsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "mergedVideoUrl" | "caption" | "description" | "userId" | "clips" | "isProcessing" | "updatedAt", ExtArgs["result"]["highlights"]>
+export type highlightsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "mergedVideoUrl" | "caption" | "description" | "userId" | "clips" | "isProcessing" | "updatedAt" | "likes" | "views" | "createdAt" | "highLightsLink", ExtArgs["result"]["highlights"]>
 export type highlightsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  likedBy?: boolean | Prisma.highlights$likedByArgs<ExtArgs>
+  _count?: boolean | Prisma.HighlightsCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type highlightsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -599,6 +920,7 @@ export type $highlightsPayload<ExtArgs extends runtime.Types.Extensions.Internal
   name: "highlights"
   objects: {
     user: Prisma.$UserPayload<ExtArgs>
+    likedBy: Prisma.$LikeHighlightsPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -609,6 +931,10 @@ export type $highlightsPayload<ExtArgs extends runtime.Types.Extensions.Internal
     clips: runtime.JsonValue
     isProcessing: boolean
     updatedAt: Date
+    likes: number
+    views: number
+    createdAt: Date
+    highLightsLink: string | null
   }, ExtArgs["result"]["highlights"]>
   composites: {}
 }
@@ -1004,6 +1330,7 @@ readonly fields: highlightsFieldRefs;
 export interface Prisma__highlightsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  likedBy<T extends Prisma.highlights$likedByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.highlights$likedByArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LikeHighlightsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1041,6 +1368,10 @@ export interface highlightsFieldRefs {
   readonly clips: Prisma.FieldRef<"highlights", 'Json'>
   readonly isProcessing: Prisma.FieldRef<"highlights", 'Boolean'>
   readonly updatedAt: Prisma.FieldRef<"highlights", 'DateTime'>
+  readonly likes: Prisma.FieldRef<"highlights", 'Int'>
+  readonly views: Prisma.FieldRef<"highlights", 'Int'>
+  readonly createdAt: Prisma.FieldRef<"highlights", 'DateTime'>
+  readonly highLightsLink: Prisma.FieldRef<"highlights", 'String'>
 }
     
 
@@ -1434,6 +1765,30 @@ export type highlightsDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * Limit how many highlights to delete.
    */
   limit?: number
+}
+
+/**
+ * highlights.likedBy
+ */
+export type highlights$likedByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the LikeHighlights
+   */
+  select?: Prisma.LikeHighlightsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the LikeHighlights
+   */
+  omit?: Prisma.LikeHighlightsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LikeHighlightsInclude<ExtArgs> | null
+  where?: Prisma.LikeHighlightsWhereInput
+  orderBy?: Prisma.LikeHighlightsOrderByWithRelationInput | Prisma.LikeHighlightsOrderByWithRelationInput[]
+  cursor?: Prisma.LikeHighlightsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.LikeHighlightsScalarFieldEnum | Prisma.LikeHighlightsScalarFieldEnum[]
 }
 
 /**

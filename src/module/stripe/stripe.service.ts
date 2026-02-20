@@ -650,7 +650,7 @@ export class StripeService {
         return {
           username: tx.user?.athleteFullName || tx.user?.email || 'Unknown',
           transactionId: tx.transactionId,
-          interval: plan || 'N/A', // 🌟 Much more accurate now!
+          interval: plan?.name || 'N/A', // 🌟 Much more accurate now!
           amount: tx.amount,
           status: tx.status === 'succeeded' ? 'Successfull' : tx.status,
           billingDate: tx.billingDate,
@@ -750,7 +750,7 @@ export class StripeService {
           transactionId: tx.transactionId,
           user: tx.user?.athleteFullName || tx.user?.email || 'Unknown',
           plan: plan?.name || 'N/A', // 🌟 Accurate plan name
-          amount: tx.amount / 100,
+          amount: Number((tx.amount).toFixed(2)),
           currency: tx.currency,
           status: tx.status === 'succeeded' ? 'Successfull' : tx.status,
           billingDate: tx.billingDate,

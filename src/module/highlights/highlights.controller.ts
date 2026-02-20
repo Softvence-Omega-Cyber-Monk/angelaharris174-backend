@@ -1,18 +1,19 @@
-import { Body, Controller, Delete, HttpStatus, Post, Res, UploadedFiles, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, Param, Patch, Post, Req, Res, UploadedFiles, UseInterceptors } from '@nestjs/common';
 import { ApiBody, ApiConsumes } from '@nestjs/swagger';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { Public } from '../../common/decorators/public.decorators';
 import { HighlightsService } from './highlights.service';
-import { Response } from 'express';
+import type { Request, Response } from 'express';
 import sendResponse from '../../utils/sendResponse';
 import { HighlightsDto } from './dto/highlights.dto';
 import { RemoveClipDto } from './dto/remove-clip.dto';
+import { Roles } from 'src/common/decorators/roles.decorator';
+import { userRole } from '@prisma';
 
 @Controller('highlights')
 export class HighlightsController {
     constructor(private highlightService: HighlightsService) { }
 
-    @Public()
     @Post('merge-video')
     @UseInterceptors(FilesInterceptor('clips'))
     @ApiConsumes('multipart/form-data')
@@ -20,14 +21,18 @@ export class HighlightsController {
         type: HighlightsDto,
     })
     async mergeVideo(
+        @Req() req: Request,
         @Body() dto: HighlightsDto,
         @UploadedFiles() clips: Express.Multer.File[],
         @Res() res: Response
     ) {
+        const userId = req.user?.id as string 
         const result = await this.highlightService.mergeVideo(
+            userId ,
             dto,
             clips
         );
+
 
         return sendResponse(res, {
             statusCode: HttpStatus.CREATED,
@@ -37,7 +42,7 @@ export class HighlightsController {
         });
     }
 
-    @Public()
+   
     @Delete('remove-clip')
     async removeClip(
         @Body() dto: RemoveClipDto,
@@ -49,6 +54,51 @@ export class HighlightsController {
             statusCode: HttpStatus.OK,
             success: true,
             message: 'Clip removed and video re-merging started',
+            data: result,
+        });
+    }
+
+    @Get()
+    async getAllHighlights(@Res() res: Response) {
+        const result = await this.highlightService.getAllHighlights();
+
+        return sendResponse(res, {
+            statusCode: HttpStatus.OK,
+            success: true,
+            message: 'Highlights retrieved successfully',
+            data: result,
+        });
+    }
+
+    @Patch('like/:id')
+    async incrementLike(
+        @Param('id') id: string,
+        @Req() req: Request,
+        @Res() res: Response
+    ) {
+        const userId = req.user?.id as string;
+        const result = await this.highlightService.incrementLike(id, userId);
+
+        return sendResponse(res, {
+            statusCode: HttpStatus.OK,
+            success: true,
+            message: 'Highlight like incremented successfully',
+            data: result,
+        });
+    }
+
+    @Public()
+    @Patch('view/:id')
+    async incrementView(
+        @Param('id') id: string,
+        @Res() res: Response
+    ) {
+        const result = await this.highlightService.incrementView(id);
+
+        return sendResponse(res, {
+            statusCode: HttpStatus.OK,
+            success: true,
+            message: 'Highlight view incremented successfully',
             data: result,
         });
     }

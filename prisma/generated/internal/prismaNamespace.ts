@@ -384,6 +384,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 
 export const ModelName = {
+  LikeHighlights: 'LikeHighlights',
   highlights: 'highlights',
   OtpCode: 'OtpCode',
   Plan: 'Plan',
@@ -405,10 +406,84 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "highlights" | "otpCode" | "plan" | "subscription" | "transaction" | "user"
+    modelProps: "likeHighlights" | "highlights" | "otpCode" | "plan" | "subscription" | "transaction" | "user"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
+    LikeHighlights: {
+      payload: Prisma.$LikeHighlightsPayload<ExtArgs>
+      fields: Prisma.LikeHighlightsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.LikeHighlightsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LikeHighlightsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.LikeHighlightsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LikeHighlightsPayload>
+        }
+        findFirst: {
+          args: Prisma.LikeHighlightsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LikeHighlightsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.LikeHighlightsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LikeHighlightsPayload>
+        }
+        findMany: {
+          args: Prisma.LikeHighlightsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LikeHighlightsPayload>[]
+        }
+        create: {
+          args: Prisma.LikeHighlightsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LikeHighlightsPayload>
+        }
+        createMany: {
+          args: Prisma.LikeHighlightsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.LikeHighlightsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LikeHighlightsPayload>[]
+        }
+        delete: {
+          args: Prisma.LikeHighlightsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LikeHighlightsPayload>
+        }
+        update: {
+          args: Prisma.LikeHighlightsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LikeHighlightsPayload>
+        }
+        deleteMany: {
+          args: Prisma.LikeHighlightsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.LikeHighlightsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.LikeHighlightsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LikeHighlightsPayload>[]
+        }
+        upsert: {
+          args: Prisma.LikeHighlightsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LikeHighlightsPayload>
+        }
+        aggregate: {
+          args: Prisma.LikeHighlightsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateLikeHighlights>
+        }
+        groupBy: {
+          args: Prisma.LikeHighlightsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LikeHighlightsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.LikeHighlightsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LikeHighlightsCountAggregateOutputType> | number
+        }
+      }
+    }
     highlights: {
       payload: Prisma.$highlightsPayload<ExtArgs>
       fields: Prisma.highlightsFieldRefs
@@ -892,6 +967,16 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
+export const LikeHighlightsScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  highlightId: 'highlightId',
+  createdAt: 'createdAt'
+} as const
+
+export type LikeHighlightsScalarFieldEnum = (typeof LikeHighlightsScalarFieldEnum)[keyof typeof LikeHighlightsScalarFieldEnum]
+
+
 export const HighlightsScalarFieldEnum = {
   id: 'id',
   mergedVideoUrl: 'mergedVideoUrl',
@@ -900,7 +985,11 @@ export const HighlightsScalarFieldEnum = {
   userId: 'userId',
   clips: 'clips',
   isProcessing: 'isProcessing',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  likes: 'likes',
+  views: 'views',
+  createdAt: 'createdAt',
+  highLightsLink: 'highLightsLink'
 } as const
 
 export type HighlightsScalarFieldEnum = (typeof HighlightsScalarFieldEnum)[keyof typeof HighlightsScalarFieldEnum]
@@ -997,7 +1086,8 @@ export const UserScalarFieldEnum = {
   rpg: 'rpg',
   apg: 'apg',
   spg: 'spg',
-  blk: 'blk'
+  blk: 'blk',
+  adminTilte: 'adminTilte'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -1064,6 +1154,20 @@ export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaMod
 
 
 /**
+ * Reference to a field of type 'DateTime'
+ */
+export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
+    
+
+
+/**
+ * Reference to a field of type 'DateTime[]'
+ */
+export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+/**
  * Reference to a field of type 'Json'
  */
 export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
@@ -1085,16 +1189,16 @@ export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel,
 
 
 /**
- * Reference to a field of type 'DateTime'
+ * Reference to a field of type 'Int'
  */
-export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
+export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
     
 
 
 /**
- * Reference to a field of type 'DateTime[]'
+ * Reference to a field of type 'Int[]'
  */
-export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
     
 
 
@@ -1123,20 +1227,6 @@ export type EnumsubscribeStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$
  * Reference to a field of type 'subscribeStatus[]'
  */
 export type ListEnumsubscribeStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'subscribeStatus[]'>
-    
-
-
-/**
- * Reference to a field of type 'Int'
- */
-export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
-    
-
-
-/**
- * Reference to a field of type 'Int[]'
- */
-export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
     
 
 
@@ -1248,6 +1338,7 @@ export type PrismaClientOptions = ({
   comments?: runtime.SqlCommenterPlugin[]
 }
 export type GlobalOmitConfig = {
+  likeHighlights?: Prisma.LikeHighlightsOmit
   highlights?: Prisma.highlightsOmit
   otpCode?: Prisma.OtpCodeOmit
   plan?: Prisma.PlanOmit

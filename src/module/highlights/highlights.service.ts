@@ -13,10 +13,19 @@ export class HighlightsService {
         private s3Service: S3Service,
     ) { }
 
-    async mergeVideo(dto: HighlightsDto, files: Express.Multer.File[]) {
+    async mergeVideo(userId: string, dto: HighlightsDto, files: Express.Multer.File[]) {
         try {
             if (!files || files.length < 2) {
                 throw new InternalServerErrorException('At least 2 video clips are required for merging');
+            }
+
+            const existingHighlight = await this.prisma.client.highlights.findFirst({
+                where: { userId },
+                select: { id: true },
+            });
+
+            if (existingHighlight) {
+                throw new BadRequestException('Only one highlight video is allowed per user');
             }
 
             // 1. Create a highlight record in the database with isProcessing = true
@@ -25,11 +34,12 @@ export class HighlightsService {
                 data: {
                     caption: dto.caption,
                     description: dto.description,
-                    userId: dto.userId,
+                    userId: userId,
                     clips: [] as any,
                     isProcessing: true,
                 },
             });
+
 
             try {
                 // 2. Upload each clip to S3 and collect information
@@ -51,7 +61,7 @@ export class HighlightsService {
                 const mergedVideoUrl = await this.s3Service.mergeVideos(
                     uploadedClips.map((c) => ({ s3Key: c.s3Key, order: c.order }))
                 );
-
+                 const highLightsLink = `${process.env.BASE_URL}/?videoUrl=${mergedVideoUrl}`
                 // 4. Update the highlight record with the merged video URL and final clip list
                 const updatedHighlight = await this.prisma.client.highlights.update({
                     where: { id: highlight.id },
@@ -59,6 +69,7 @@ export class HighlightsService {
                         mergedVideoUrl: mergedVideoUrl,
                         clips: uploadedClips as any,
                         isProcessing: false,
+                        highLightsLink :highLightsLink,
                     },
                 });
 
@@ -72,7 +83,10 @@ export class HighlightsService {
                 throw error;
             }
         } catch (error) {
-            if (error instanceof InternalServerErrorException) {
+            if (
+                error instanceof InternalServerErrorException ||
+                error instanceof BadRequestException
+            ) {
                 throw error;
             }
             throw new InternalServerErrorException(`Failed to process video merging: ${error.message}`);
@@ -152,5 +166,100 @@ export class HighlightsService {
             }).catch(() => { });
             throw new InternalServerErrorException(`Failed to remove clip and re-merge: ${error.message}`);
         }
+    }
+
+    async getAllHighlights() {
+        return this.prisma.client.highlights.findMany({
+            include: {
+                user: {
+                    select: {
+                        id: true,
+                        athleteFullName: true,
+                        imgUrl: true,
+                        role: true,
+                        createdAt: true,
+                    },
+                },
+            },
+            orderBy: [
+                { updatedAt: 'desc' },
+                { createdAt: 'desc' },
+            ],
+        });
+    }
+
+    async incrementLike(highlightId: string, userId: string) {
+        // 1. Verify the highlight exists
+        const highlight = await this.prisma.client.highlights.findUnique({
+            where: { id: highlightId },
+        });
+
+        if (!highlight) {
+            throw new BadRequestException('Highlight not found');
+        }
+
+        // 2. Check if the user has already liked this highlight
+        const existingLike = await this.prisma.client.likeHighlights.findUnique({
+            where: {
+                userId_highlightId: {
+                    userId,
+                    highlightId,
+                },
+            },
+        });
+
+        if (existingLike) {
+            // --- UNLIKE LOGIC ---
+            // Delete the like record
+            await this.prisma.client.likeHighlights.delete({
+                where: {
+                    id: existingLike.id, // Assuming 'id' is the primary key of the like table
+                    // OR use your composite key if no single ID exists:
+                    // userId_highlightId: { userId, highlightId }
+                },
+            });
+
+            // Decrement the like count on the highlight
+            return this.prisma.client.highlights.update({
+                where: { id: highlightId },
+                data: {
+                    likes: { decrement: 1 },
+                },
+            });
+        } else {
+            // --- LIKE LOGIC ---
+            // Create the new like record
+            await this.prisma.client.likeHighlights.create({
+                data: {
+                    userId,
+                    highlightId,
+                },
+            });
+
+            // Increment the like count on the highlight
+            return this.prisma.client.highlights.update({
+                where: { id: highlightId },
+                data: {
+                    likes: { increment: 1 },
+                },
+            });
+        }
+    }
+
+    async incrementView(highlightId: string) {
+        const highlight = await this.prisma.client.highlights.findUnique({
+            where: { id: highlightId },
+        });
+
+        if (!highlight) {
+            throw new BadRequestException('Highlight not found');
+        }
+
+        return this.prisma.client.highlights.update({
+            where: { id: highlightId },
+            data: {
+                views: { increment: 1 },
+            },
+        });
     }
 }

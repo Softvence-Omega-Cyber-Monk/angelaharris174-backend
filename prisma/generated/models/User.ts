@@ -80,6 +80,7 @@ export type UserMinAggregateOutputType = {
   apg: number | null
   spg: number | null
   blk: number | null
+  adminTilte: string | null
 }
 
 export type UserMaxAggregateOutputType = {
@@ -112,6 +113,7 @@ export type UserMaxAggregateOutputType = {
   apg: number | null
   spg: number | null
   blk: number | null
+  adminTilte: string | null
 }
 
 export type UserCountAggregateOutputType = {
@@ -144,6 +146,7 @@ export type UserCountAggregateOutputType = {
   apg: number
   spg: number
   blk: number
+  adminTilte: number
   _all: number
 }
 
@@ -202,6 +205,7 @@ export type UserMinAggregateInputType = {
   apg?: true
   spg?: true
   blk?: true
+  adminTilte?: true
 }
 
 export type UserMaxAggregateInputType = {
@@ -234,6 +238,7 @@ export type UserMaxAggregateInputType = {
   apg?: true
   spg?: true
   blk?: true
+  adminTilte?: true
 }
 
 export type UserCountAggregateInputType = {
@@ -266,6 +271,7 @@ export type UserCountAggregateInputType = {
   apg?: true
   spg?: true
   blk?: true
+  adminTilte?: true
   _all?: true
 }
 
@@ -385,6 +391,7 @@ export type UserGroupByOutputType = {
   apg: number | null
   spg: number | null
   blk: number | null
+  adminTilte: string | null
   _count: UserCountAggregateOutputType | null
   _avg: UserAvgAggregateOutputType | null
   _sum: UserSumAggregateOutputType | null
@@ -440,9 +447,11 @@ export type UserWhereInput = {
   apg?: Prisma.FloatNullableFilter<"User"> | number | null
   spg?: Prisma.FloatNullableFilter<"User"> | number | null
   blk?: Prisma.FloatNullableFilter<"User"> | number | null
+  adminTilte?: Prisma.StringNullableFilter<"User"> | string | null
   highligts?: Prisma.HighlightsListRelationFilter
   subscriptions?: Prisma.SubscriptionListRelationFilter
   transactions?: Prisma.TransactionListRelationFilter
+  likes?: Prisma.LikeHighlightsListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -475,9 +484,11 @@ export type UserOrderByWithRelationInput = {
   apg?: Prisma.SortOrderInput | Prisma.SortOrder
   spg?: Prisma.SortOrderInput | Prisma.SortOrder
   blk?: Prisma.SortOrderInput | Prisma.SortOrder
+  adminTilte?: Prisma.SortOrderInput | Prisma.SortOrder
   highligts?: Prisma.highlightsOrderByRelationAggregateInput
   subscriptions?: Prisma.SubscriptionOrderByRelationAggregateInput
   transactions?: Prisma.TransactionOrderByRelationAggregateInput
+  likes?: Prisma.LikeHighlightsOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -513,9 +524,11 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   apg?: Prisma.FloatNullableFilter<"User"> | number | null
   spg?: Prisma.FloatNullableFilter<"User"> | number | null
   blk?: Prisma.FloatNullableFilter<"User"> | number | null
+  adminTilte?: Prisma.StringNullableFilter<"User"> | string | null
   highligts?: Prisma.HighlightsListRelationFilter
   subscriptions?: Prisma.SubscriptionListRelationFilter
   transactions?: Prisma.TransactionListRelationFilter
+  likes?: Prisma.LikeHighlightsListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -548,6 +561,7 @@ export type UserOrderByWithAggregationInput = {
   apg?: Prisma.SortOrderInput | Prisma.SortOrder
   spg?: Prisma.SortOrderInput | Prisma.SortOrder
   blk?: Prisma.SortOrderInput | Prisma.SortOrder
+  adminTilte?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
   _avg?: Prisma.UserAvgOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
@@ -588,6 +602,7 @@ export type UserScalarWhereWithAggregatesInput = {
   apg?: Prisma.FloatNullableWithAggregatesFilter<"User"> | number | null
   spg?: Prisma.FloatNullableWithAggregatesFilter<"User"> | number | null
   blk?: Prisma.FloatNullableWithAggregatesFilter<"User"> | number | null
+  adminTilte?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
 }
 
 export type UserCreateInput = {
@@ -620,9 +635,11 @@ export type UserCreateInput = {
   apg?: number | null
   spg?: number | null
   blk?: number | null
+  adminTilte?: string | null
   highligts?: Prisma.highlightsCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
+  likes?: Prisma.LikeHighlightsCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -655,9 +672,11 @@ export type UserUncheckedCreateInput = {
   apg?: number | null
   spg?: number | null
   blk?: number | null
+  adminTilte?: string | null
   highligts?: Prisma.highlightsUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
+  likes?: Prisma.LikeHighlightsUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -690,9 +709,11 @@ export type UserUpdateInput = {
   apg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   spg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   blk?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
+  likes?: Prisma.LikeHighlightsUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -725,9 +746,11 @@ export type UserUncheckedUpdateInput = {
   apg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   spg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   blk?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
+  likes?: Prisma.LikeHighlightsUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -760,6 +783,7 @@ export type UserCreateManyInput = {
   apg?: number | null
   spg?: number | null
   blk?: number | null
+  adminTilte?: string | null
 }
 
 export type UserUpdateManyMutationInput = {
@@ -792,6 +816,7 @@ export type UserUpdateManyMutationInput = {
   apg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   spg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   blk?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type UserUncheckedUpdateManyInput = {
@@ -824,6 +849,7 @@ export type UserUncheckedUpdateManyInput = {
   apg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   spg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   blk?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type UserScalarRelationFilter = {
@@ -861,6 +887,7 @@ export type UserCountOrderByAggregateInput = {
   apg?: Prisma.SortOrder
   spg?: Prisma.SortOrder
   blk?: Prisma.SortOrder
+  adminTilte?: Prisma.SortOrder
 }
 
 export type UserAvgOrderByAggregateInput = {
@@ -905,6 +932,7 @@ export type UserMaxOrderByAggregateInput = {
   apg?: Prisma.SortOrder
   spg?: Prisma.SortOrder
   blk?: Prisma.SortOrder
+  adminTilte?: Prisma.SortOrder
 }
 
 export type UserMinOrderByAggregateInput = {
@@ -937,6 +965,7 @@ export type UserMinOrderByAggregateInput = {
   apg?: Prisma.SortOrder
   spg?: Prisma.SortOrder
   blk?: Prisma.SortOrder
+  adminTilte?: Prisma.SortOrder
 }
 
 export type UserSumOrderByAggregateInput = {
@@ -949,6 +978,20 @@ export type UserSumOrderByAggregateInput = {
   apg?: Prisma.SortOrder
   spg?: Prisma.SortOrder
   blk?: Prisma.SortOrder
+}
+
+export type UserCreateNestedOneWithoutLikesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutLikesInput, Prisma.UserUncheckedCreateWithoutLikesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutLikesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutLikesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutLikesInput, Prisma.UserUncheckedCreateWithoutLikesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutLikesInput
+  upsert?: Prisma.UserUpsertWithoutLikesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutLikesInput, Prisma.UserUpdateWithoutLikesInput>, Prisma.UserUncheckedUpdateWithoutLikesInput>
 }
 
 export type UserCreateNestedOneWithoutHighligtsInput = {
@@ -1017,6 +1060,166 @@ export type EnumuserRoleFieldUpdateOperationsInput = {
   set?: $Enums.userRole
 }
 
+export type UserCreateWithoutLikesInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  stripeCustomerId?: string | null
+  subscribeStatus?: $Enums.subscribeStatus
+  athleteFullName: string
+  dateOfBirth: Date | string
+  email: string
+  password: string
+  imgUrl?: string | null
+  parentName?: string | null
+  city?: string | null
+  state?: string | null
+  gradYear?: number | null
+  position?: string | null
+  height?: number | null
+  weight?: number | null
+  school?: string | null
+  gpa?: number | null
+  agreedToTerms?: boolean
+  fcmToken?: string | null
+  isActive?: boolean
+  isDeleted?: boolean
+  role?: $Enums.userRole
+  ppg?: number | null
+  rpg?: number | null
+  apg?: number | null
+  spg?: number | null
+  blk?: number | null
+  adminTilte?: string | null
+  highligts?: Prisma.highlightsCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutLikesInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  stripeCustomerId?: string | null
+  subscribeStatus?: $Enums.subscribeStatus
+  athleteFullName: string
+  dateOfBirth: Date | string
+  email: string
+  password: string
+  imgUrl?: string | null
+  parentName?: string | null
+  city?: string | null
+  state?: string | null
+  gradYear?: number | null
+  position?: string | null
+  height?: number | null
+  weight?: number | null
+  school?: string | null
+  gpa?: number | null
+  agreedToTerms?: boolean
+  fcmToken?: string | null
+  isActive?: boolean
+  isDeleted?: boolean
+  role?: $Enums.userRole
+  ppg?: number | null
+  rpg?: number | null
+  apg?: number | null
+  spg?: number | null
+  blk?: number | null
+  adminTilte?: string | null
+  highligts?: Prisma.highlightsUncheckedCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutLikesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutLikesInput, Prisma.UserUncheckedCreateWithoutLikesInput>
+}
+
+export type UserUpsertWithoutLikesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutLikesInput, Prisma.UserUncheckedUpdateWithoutLikesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutLikesInput, Prisma.UserUncheckedCreateWithoutLikesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutLikesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutLikesInput, Prisma.UserUncheckedUpdateWithoutLikesInput>
+}
+
+export type UserUpdateWithoutLikesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
+  athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
+  dateOfBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  imgUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  parentName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gradYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  position?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  height?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  weight?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  school?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gpa?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  agreedToTerms?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  fcmToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  role?: Prisma.EnumuserRoleFieldUpdateOperationsInput | $Enums.userRole
+  ppg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  rpg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  apg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  spg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  blk?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  highligts?: Prisma.highlightsUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutLikesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
+  athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
+  dateOfBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  imgUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  parentName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gradYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  position?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  height?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  weight?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  school?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gpa?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  agreedToTerms?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  fcmToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  role?: Prisma.EnumuserRoleFieldUpdateOperationsInput | $Enums.userRole
+  ppg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  rpg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  apg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  spg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  blk?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  highligts?: Prisma.highlightsUncheckedUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
+}
+
 export type UserCreateWithoutHighligtsInput = {
   id?: string
   createdAt?: Date | string
@@ -1047,8 +1250,10 @@ export type UserCreateWithoutHighligtsInput = {
   apg?: number | null
   spg?: number | null
   blk?: number | null
+  adminTilte?: string | null
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
+  likes?: Prisma.LikeHighlightsCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutHighligtsInput = {
@@ -1081,8 +1286,10 @@ export type UserUncheckedCreateWithoutHighligtsInput = {
   apg?: number | null
   spg?: number | null
   blk?: number | null
+  adminTilte?: string | null
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
+  likes?: Prisma.LikeHighlightsUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutHighligtsInput = {
@@ -1131,8 +1338,10 @@ export type UserUpdateWithoutHighligtsInput = {
   apg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   spg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   blk?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
+  likes?: Prisma.LikeHighlightsUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutHighligtsInput = {
@@ -1165,8 +1374,10 @@ export type UserUncheckedUpdateWithoutHighligtsInput = {
   apg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   spg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   blk?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
+  likes?: Prisma.LikeHighlightsUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSubscriptionsInput = {
@@ -1199,8 +1410,10 @@ export type UserCreateWithoutSubscriptionsInput = {
   apg?: number | null
   spg?: number | null
   blk?: number | null
+  adminTilte?: string | null
   highligts?: Prisma.highlightsCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
+  likes?: Prisma.LikeHighlightsCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSubscriptionsInput = {
@@ -1233,8 +1446,10 @@ export type UserUncheckedCreateWithoutSubscriptionsInput = {
   apg?: number | null
   spg?: number | null
   blk?: number | null
+  adminTilte?: string | null
   highligts?: Prisma.highlightsUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
+  likes?: Prisma.LikeHighlightsUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSubscriptionsInput = {
@@ -1283,8 +1498,10 @@ export type UserUpdateWithoutSubscriptionsInput = {
   apg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   spg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   blk?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
+  likes?: Prisma.LikeHighlightsUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSubscriptionsInput = {
@@ -1317,8 +1534,10 @@ export type UserUncheckedUpdateWithoutSubscriptionsInput = {
   apg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   spg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   blk?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
+  likes?: Prisma.LikeHighlightsUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutTransactionsInput = {
@@ -1351,8 +1570,10 @@ export type UserCreateWithoutTransactionsInput = {
   apg?: number | null
   spg?: number | null
   blk?: number | null
+  adminTilte?: string | null
   highligts?: Prisma.highlightsCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
+  likes?: Prisma.LikeHighlightsCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTransactionsInput = {
@@ -1385,8 +1606,10 @@ export type UserUncheckedCreateWithoutTransactionsInput = {
   apg?: number | null
   spg?: number | null
   blk?: number | null
+  adminTilte?: string | null
   highligts?: Prisma.highlightsUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
+  likes?: Prisma.LikeHighlightsUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTransactionsInput = {
@@ -1435,8 +1658,10 @@ export type UserUpdateWithoutTransactionsInput = {
   apg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   spg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   blk?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
+  likes?: Prisma.LikeHighlightsUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTransactionsInput = {
@@ -1469,8 +1694,10 @@ export type UserUncheckedUpdateWithoutTransactionsInput = {
   apg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   spg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   blk?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  likes?: Prisma.LikeHighlightsUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -1482,12 +1709,14 @@ export type UserCountOutputType = {
   highligts: number
   subscriptions: number
   transactions: number
+  likes: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   highligts?: boolean | UserCountOutputTypeCountHighligtsArgs
   subscriptions?: boolean | UserCountOutputTypeCountSubscriptionsArgs
   transactions?: boolean | UserCountOutputTypeCountTransactionsArgs
+  likes?: boolean | UserCountOutputTypeCountLikesArgs
 }
 
 /**
@@ -1521,6 +1750,13 @@ export type UserCountOutputTypeCountTransactionsArgs<ExtArgs extends runtime.Typ
   where?: Prisma.TransactionWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountLikesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.LikeHighlightsWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1552,9 +1788,11 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   apg?: boolean
   spg?: boolean
   blk?: boolean
+  adminTilte?: boolean
   highligts?: boolean | Prisma.User$highligtsArgs<ExtArgs>
   subscriptions?: boolean | Prisma.User$subscriptionsArgs<ExtArgs>
   transactions?: boolean | Prisma.User$transactionsArgs<ExtArgs>
+  likes?: boolean | Prisma.User$likesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -1588,6 +1826,7 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   apg?: boolean
   spg?: boolean
   blk?: boolean
+  adminTilte?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1620,6 +1859,7 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   apg?: boolean
   spg?: boolean
   blk?: boolean
+  adminTilte?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectScalar = {
@@ -1652,13 +1892,15 @@ export type UserSelectScalar = {
   apg?: boolean
   spg?: boolean
   blk?: boolean
+  adminTilte?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "stripeCustomerId" | "subscribeStatus" | "athleteFullName" | "dateOfBirth" | "email" | "password" | "imgUrl" | "parentName" | "city" | "state" | "gradYear" | "position" | "height" | "weight" | "school" | "gpa" | "agreedToTerms" | "fcmToken" | "isActive" | "isDeleted" | "role" | "ppg" | "rpg" | "apg" | "spg" | "blk", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "stripeCustomerId" | "subscribeStatus" | "athleteFullName" | "dateOfBirth" | "email" | "password" | "imgUrl" | "parentName" | "city" | "state" | "gradYear" | "position" | "height" | "weight" | "school" | "gpa" | "agreedToTerms" | "fcmToken" | "isActive" | "isDeleted" | "role" | "ppg" | "rpg" | "apg" | "spg" | "blk" | "adminTilte", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   highligts?: boolean | Prisma.User$highligtsArgs<ExtArgs>
   subscriptions?: boolean | Prisma.User$subscriptionsArgs<ExtArgs>
   transactions?: boolean | Prisma.User$transactionsArgs<ExtArgs>
+  likes?: boolean | Prisma.User$likesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1670,6 +1912,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     highligts: Prisma.$highlightsPayload<ExtArgs>[]
     subscriptions: Prisma.$SubscriptionPayload<ExtArgs>[]
     transactions: Prisma.$TransactionPayload<ExtArgs>[]
+    likes: Prisma.$LikeHighlightsPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1701,6 +1944,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     apg: number | null
     spg: number | null
     blk: number | null
+    adminTilte: string | null
   }, ExtArgs["result"]["user"]>
   composites: {}
 }
@@ -2098,6 +2342,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   highligts<T extends Prisma.User$highligtsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$highligtsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$highlightsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   subscriptions<T extends Prisma.User$subscriptionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$subscriptionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   transactions<T extends Prisma.User$transactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$transactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  likes<T extends Prisma.User$likesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$likesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LikeHighlightsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2156,6 +2401,7 @@ export interface UserFieldRefs {
   readonly apg: Prisma.FieldRef<"User", 'Float'>
   readonly spg: Prisma.FieldRef<"User", 'Float'>
   readonly blk: Prisma.FieldRef<"User", 'Float'>
+  readonly adminTilte: Prisma.FieldRef<"User", 'String'>
 }
     
 
@@ -2613,6 +2859,30 @@ export type User$transactionsArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.TransactionScalarFieldEnum | Prisma.TransactionScalarFieldEnum[]
+}
+
+/**
+ * User.likes
+ */
+export type User$likesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the LikeHighlights
+   */
+  select?: Prisma.LikeHighlightsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the LikeHighlights
+   */
+  omit?: Prisma.LikeHighlightsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LikeHighlightsInclude<ExtArgs> | null
+  where?: Prisma.LikeHighlightsWhereInput
+  orderBy?: Prisma.LikeHighlightsOrderByWithRelationInput | Prisma.LikeHighlightsOrderByWithRelationInput[]
+  cursor?: Prisma.LikeHighlightsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.LikeHighlightsScalarFieldEnum | Prisma.LikeHighlightsScalarFieldEnum[]
 }
 
 /**

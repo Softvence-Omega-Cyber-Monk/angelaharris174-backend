@@ -18,6 +18,7 @@ model User {
     highligts        highlights[]
     subscriptions    Subscription[]
     transactions     Transaction[]
+    likes            LikeHighlights[]
     stripeCustomerId String?
     subscribeStatus  subscribeStatus @default(FREE)
     // Required core identity fields
@@ -49,6 +50,8 @@ model User {
     apg Float? // Assists Per Game
     spg Float? // Steals Per Game
     blk Float? // Blocks Per Game
+
+    adminTilte String?
 
     // Indexes for performance (optional but recommended)
 

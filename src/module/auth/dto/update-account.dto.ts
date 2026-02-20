@@ -1,16 +1,19 @@
 // update-user.dto.ts
 import {
   IsEmail,
-  IsNotEmpty,
   IsString,
   IsOptional,
   IsInt,
   IsNumber,
   Min,
   Max,
-  IsBoolean,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { Type, Transform } from 'class-transformer';
+
+// Helper: convert empty strings to undefined so @IsOptional() skips them
+const EmptyToUndefined = () =>
+  Transform(({ value }) => (value === '' ? undefined : value));
 
 export class UpdateUserDto {
   @ApiProperty({
@@ -19,6 +22,7 @@ export class UpdateUserDto {
     required: false,
   })
   @IsOptional()
+  @EmptyToUndefined()
   @IsString()
   athleteFullName?: string;
 
@@ -28,6 +32,7 @@ export class UpdateUserDto {
     required: false,
   })
   @IsOptional()
+  @EmptyToUndefined()
   @IsString()
   dateOfBirth?: string;
 
@@ -37,27 +42,33 @@ export class UpdateUserDto {
     required: false,
   })
   @IsOptional()
+  @EmptyToUndefined()
   @IsEmail({}, { message: 'Invalid email format' })
   email?: string;
 
   // Optional personal/academic info
   @ApiProperty({ example: 'Jane Doe', required: false })
   @IsOptional()
+  @EmptyToUndefined()
   @IsString()
   parentName?: string;
 
   @ApiProperty({ example: 'New York', required: false })
   @IsOptional()
+  @EmptyToUndefined()
   @IsString()
   city?: string;
 
   @ApiProperty({ example: 'NY', required: false })
   @IsOptional()
+  @EmptyToUndefined()
   @IsString()
   state?: string;
 
   @ApiProperty({ example: 2026, required: false })
   @IsOptional()
+  @EmptyToUndefined()
+  @Type(() => Number)
   @IsInt()
   @Min(2000)
   @Max(2035)
@@ -65,59 +76,75 @@ export class UpdateUserDto {
 
   @ApiProperty({ example: 'Quarterback', required: false })
   @IsOptional()
+  @EmptyToUndefined()
   @IsString()
   position?: string;
 
   @ApiProperty({ example: 180.5, required: false })
   @IsOptional()
+  @EmptyToUndefined()
+  @Type(() => Number)
   @IsNumber({}, { message: 'Height must be a number' })
   @Min(0)
   height?: number;
 
   @ApiProperty({ example: 75.2, required: false })
   @IsOptional()
+  @EmptyToUndefined()
+  @Type(() => Number)
   @IsNumber({}, { message: 'Weight must be a number' })
   @Min(0)
   weight?: number;
 
   @ApiProperty({ example: 'Lincoln High School', required: false })
   @IsOptional()
+  @EmptyToUndefined()
   @IsString()
   school?: string;
 
   @ApiProperty({ example: 3.75, required: false })
   @IsOptional()
+  @EmptyToUndefined()
+  @Type(() => Number)
   @IsNumber(
     { maxDecimalPlaces: 2 },
-    { message: 'GPA must be a number with up to 2 decimal places' }
+    { message: 'GPA must be a number with up to 2 decimal places' },
   )
   @Min(0.0)
   @Max(4.0)
   gpa?: number;
 
+  @ApiProperty({ example: 'Head Coach', description: 'Admin title', required: false })
+  @IsOptional()
+  @EmptyToUndefined()
+  @IsString()
+  adminTilte?: string;
+
   @ApiProperty({ example: 'fcm_token_abc123', required: false })
   @IsOptional()
+  @EmptyToUndefined()
   @IsString()
   fcmToken?: string;
 
-  // Optional: allow updating consent status (e.g., re-agreeing after policy change)
+  // 🔹 Profile Image (for Swagger file upload)
   @ApiProperty({
-    example: true,
-    description: 'Agreement to terms (optional update)',
+    type: 'string',
+    format: 'binary',
+    description: 'Profile image file',
     required: false,
   })
   @IsOptional()
-  @IsBoolean()
-  agreedToTerms?: boolean;
+  image?: any;
 
-
-  // 🔹 NEW: Basketball Performance Stats
+  // 🔹 Basketball Performance Stats
   @ApiProperty({
     example: 22.5,
     description: 'Points Per Game (PPG)',
     required: false,
   })
   @IsOptional()
+  @EmptyToUndefined()
+  @Type(() => Number)
   @IsNumber({}, { message: 'PPG must be a number' })
   @Min(0)
   ppg?: number;
@@ -128,6 +155,8 @@ export class UpdateUserDto {
     required: false,
   })
   @IsOptional()
+  @EmptyToUndefined()
+  @Type(() => Number)
   @IsNumber({}, { message: 'RPG must be a number' })
   @Min(0)
   rpg?: number;
@@ -138,6 +167,8 @@ export class UpdateUserDto {
     required: false,
   })
   @IsOptional()
+  @EmptyToUndefined()
+  @Type(() => Number)
   @IsNumber({}, { message: 'APG must be a number' })
   @Min(0)
   apg?: number;
@@ -148,6 +179,8 @@ export class UpdateUserDto {
     required: false,
   })
   @IsOptional()
+  @EmptyToUndefined()
+  @Type(() => Number)
   @IsNumber({}, { message: 'SPG must be a number' })
   @Min(0)
   spg?: number;
@@ -158,8 +191,9 @@ export class UpdateUserDto {
     required: false,
   })
   @IsOptional()
+  @EmptyToUndefined()
+  @Type(() => Number)
   @IsNumber({}, { message: 'BLK must be a number' })
   @Min(0)
   blk?: number;
-
 }

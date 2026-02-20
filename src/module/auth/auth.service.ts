@@ -16,6 +16,7 @@ import { RegisterDto } from './dto/register.dto';
 // import { userRole } from '@prisma';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { UpdateUserDto } from './dto/update-account.dto';
+import { S3Service } from '../s3/s3.service';
 import { RequestResetCodeDto } from './dto/forgetPasswordDto';
 import { VerifyResetCodeDto } from './dto/forgetPasswordDto';
 
@@ -24,6 +25,7 @@ export class AuthService {
   constructor(
     private prisma: PrismaService,
     private jwtService: JwtService,
+    private s3Service: S3Service,
   ) { }
 
   async register(dto: RegisterDto) {
@@ -177,12 +179,24 @@ export class AuthService {
 
     // Handle string fields
     if (dto.athleteFullName !== undefined) data.athleteFullName = dto.athleteFullName;
-    if (dto.email !== undefined) data.email = dto.email;
+
+    // Handle email update — only if it's actually changing
+    if (dto.email !== undefined && dto.email !== existingUser.email) {
+      const emailTaken = await this.prisma.client.user.findUnique({
+        where: { email: dto.email },
+      });
+      if (emailTaken) {
+        throw new BadRequestException('Email is already in use by another account');
+      }
+      data.email = dto.email;
+    }
+
     if (dto.parentName !== undefined) data.parentName = dto.parentName;
     if (dto.city !== undefined) data.city = dto.city;
     if (dto.state !== undefined) data.state = dto.state;
     if (dto.position !== undefined) data.position = dto.position;
     if (dto.school !== undefined) data.school = dto.school;
+    if (dto.adminTilte !== undefined) data.adminTilte = dto.adminTilte;
 
     // Handle numeric fields
     if (dto.gradYear !== undefined) data.gradYear = dto.gradYear;
@@ -198,7 +212,6 @@ export class AuthService {
     if (dto.blk !== undefined) data.blk = dto.blk;
 
     // Handle boolean
-    if (dto.agreedToTerms !== undefined) data.agreedToTerms = dto.agreedToTerms;
 
     // Handle FCM token
     if (dto.fcmToken !== undefined) data.fcmToken = dto.fcmToken;
@@ -209,8 +222,16 @@ export class AuthService {
     }
 
     // Handle profile image (only update if provided)
-    if (imageUrl !== undefined) {
-      data.image = imageUrl; // assuming your Prisma model has an `image` field
+    if (imageUrl) {
+      // Delete old image from S3 if it exists
+      if (existingUser.imgUrl) {
+        try {
+          await this.s3Service.deleteFile(existingUser.imgUrl);
+        } catch {
+          // Log but don't fail the update if old image deletion fails
+        }
+      }
+      data.imgUrl = imageUrl;
     }
 
     const updatedUser = await this.prisma.client.user.update({

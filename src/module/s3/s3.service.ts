@@ -266,9 +266,10 @@ export class S3Service {
     if (!key.startsWith('audios/') &&
       !key.startsWith('images/') &&
       !key.startsWith('videos/') &&
-      !key.startsWith('merged_videos/')) {
+      !key.startsWith('merged_videos/') &&
+      !key.startsWith('profile-images/')) {
       this.logger.warn(`Attempted to delete non-managed file: ${key}`);
-      throw new InternalServerErrorException('Only audios/, images/, videos/, and merged_videos/ files can be deleted');
+      throw new InternalServerErrorException('Only audios/, images/, videos/, merged_videos/, and profile-images/ files can be deleted');
     }
     this.logger.log(`Deleting file from S3: ${key} (bucket: ${bucket})`);
 

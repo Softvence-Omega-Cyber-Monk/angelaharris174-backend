@@ -51,6 +51,7 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
+  LikeHighlights: 'LikeHighlights',
   highlights: 'highlights',
   OtpCode: 'OtpCode',
   Plan: 'Plan',
@@ -75,6 +76,16 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
+export const LikeHighlightsScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  highlightId: 'highlightId',
+  createdAt: 'createdAt'
+} as const
+
+export type LikeHighlightsScalarFieldEnum = (typeof LikeHighlightsScalarFieldEnum)[keyof typeof LikeHighlightsScalarFieldEnum]
+
+
 export const HighlightsScalarFieldEnum = {
   id: 'id',
   mergedVideoUrl: 'mergedVideoUrl',
@@ -83,7 +94,11 @@ export const HighlightsScalarFieldEnum = {
   userId: 'userId',
   clips: 'clips',
   isProcessing: 'isProcessing',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  likes: 'likes',
+  views: 'views',
+  createdAt: 'createdAt',
+  highLightsLink: 'highLightsLink'
 } as const
 
 export type HighlightsScalarFieldEnum = (typeof HighlightsScalarFieldEnum)[keyof typeof HighlightsScalarFieldEnum]
@@ -180,7 +195,8 @@ export const UserScalarFieldEnum = {
   rpg: 'rpg',
   apg: 'apg',
   spg: 'spg',
-  blk: 'blk'
+  blk: 'blk',
+  adminTilte: 'adminTilte'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]

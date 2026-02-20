@@ -7,6 +7,7 @@ import { AuthModule } from './module/auth/auth.module';
 import { HighlightsModule } from './module/highlights/highlights.module';
 import { StripeModule } from './module/stripe/stripe.module';
 import { SeederService } from './seeder/seeder.service';
+import { AdminModule } from './module/admin/admin.module';
 
 @Module({
   imports: [ConfigModule.forRoot({
@@ -16,6 +17,7 @@ import { SeederService } from './seeder/seeder.service';
     PrismaModule,
     HighlightsModule,
     StripeModule,
+    AdminModule,
 
   ],
   controllers: [AppController],
