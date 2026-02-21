@@ -223,7 +223,7 @@ export type LikeHighlightsScalarWhereWithAggregatesInput = {
 export type LikeHighlightsCreateInput = {
   id?: string
   createdAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutLikesInput
+  user: Prisma.UserCreateNestedOneWithoutLikesHilghlightsInput
   highlight: Prisma.highlightsCreateNestedOneWithoutLikedByInput
 }
 
@@ -237,7 +237,7 @@ export type LikeHighlightsUncheckedCreateInput = {
 export type LikeHighlightsUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutLikesNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutLikesHilghlightsNestedInput
   highlight?: Prisma.highlightsUpdateOneRequiredWithoutLikedByNestedInput
 }
 
@@ -390,7 +390,7 @@ export type LikeHighlightsUncheckedUpdateManyWithoutUserNestedInput = {
 export type LikeHighlightsCreateWithoutHighlightInput = {
   id?: string
   createdAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutLikesInput
+  user: Prisma.UserCreateNestedOneWithoutLikesHilghlightsInput
 }
 
 export type LikeHighlightsUncheckedCreateWithoutHighlightInput = {
@@ -482,7 +482,7 @@ export type LikeHighlightsCreateManyHighlightInput = {
 export type LikeHighlightsUpdateWithoutHighlightInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutLikesNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutLikesHilghlightsNestedInput
 }
 
 export type LikeHighlightsUncheckedUpdateWithoutHighlightInput = {

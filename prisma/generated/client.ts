@@ -27,8 +27,8 @@ export * from "./enums"
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more LoginSessions
- * const loginSessions = await prisma.loginSession.findMany()
+ * // Fetch zero or more Comments
+ * const comments = await prisma.comment.findMany()
  * ```
  * 
  * Read more in our [docs](https://pris.ly/d/client).
@@ -37,6 +37,11 @@ export const PrismaClient = $Class.getPrismaClientClass()
 export type PrismaClient<LogOpts extends Prisma.LogLevel = never, OmitOpts extends Prisma.PrismaClientOptions["omit"] = Prisma.PrismaClientOptions["omit"], ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = $Class.PrismaClient<LogOpts, OmitOpts, ExtArgs>
 export { Prisma }
 
+/**
+ * Model Comment
+ * 
+ */
+export type Comment = Prisma.CommentModel
 /**
  * Model LoginSession
  * 
@@ -53,10 +58,45 @@ export type LikeHighlights = Prisma.LikeHighlightsModel
  */
 export type highlights = Prisma.highlightsModel
 /**
+ * Model Like
+ * 
+ */
+export type Like = Prisma.LikeModel
+/**
+ * Model Message
+ * 
+ */
+export type Message = Prisma.MessageModel
+/**
+ * Model MessageAttachment
+ * 
+ */
+export type MessageAttachment = Prisma.MessageAttachmentModel
+/**
+ * Model Notification
+ * 
+ */
+export type Notification = Prisma.NotificationModel
+/**
  * Model OtpCode
  * 
  */
 export type OtpCode = Prisma.OtpCodeModel
+/**
+ * Model PostView
+ * 
+ */
+export type PostView = Prisma.PostViewModel
+/**
+ * Model Post
+ * 
+ */
+export type Post = Prisma.PostModel
+/**
+ * Model PostImage
+ * 
+ */
+export type PostImage = Prisma.PostImageModel
 /**
  * Model Plan
  * 

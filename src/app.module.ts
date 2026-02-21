@@ -8,6 +8,11 @@ import { HighlightsModule } from './module/highlights/highlights.module';
 import { StripeModule } from './module/stripe/stripe.module';
 import { SeederService } from './seeder/seeder.service';
 import { AdminModule } from './module/admin/admin.module';
+import { PostModule } from './module/post/post.module';
+import { LikeModule } from './module/like/like.module';
+import { CommentModule } from './module/comment/comment.module';
+import { NotificationModule } from './module/notification/notification.module';
+import { ChatModule } from './module/chat/chat.module';
 
 @Module({
   imports: [ConfigModule.forRoot({
@@ -18,6 +23,12 @@ import { AdminModule } from './module/admin/admin.module';
     HighlightsModule,
     StripeModule,
     AdminModule,
+    // miraz vai 
+    PostModule,
+    LikeModule,
+    CommentModule,
+    NotificationModule,
+    ChatModule
 
   ],
   controllers: [AppController],

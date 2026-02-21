@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messenger Tester (Fixed)</title>
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; padding: 20px; }
+        .chat-container { width: 400px; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); display: flex; flex-direction: column; height: 600px; }
+        .header { padding: 15px; background: #0084ff; color: white; border-radius: 8px 8px 0 0; }
+        #status { font-size: 12px; float: right; }
+        .messages { flex: 1; padding: 15px; overflow-y: auto; border-bottom: 1px solid #eee; display: flex; flex-direction: column; }
+        .msg { margin-bottom: 10px; padding: 8px 12px; border-radius: 18px; max-width: 70%; font-size: 14px; position: relative; word-wrap: break-word; }
+        .sent { background: #0084ff; color: white; align-self: flex-end; }
+        .received { background: #e4e6eb; color: black; align-self: flex-start; }
+        .attachment { max-width: 100%; border-radius: 10px; margin-top: 5px; display: block; border: 1px solid #ddd; }
+        .input-area { padding: 15px; display: flex; flex-direction: column; gap: 10px; }
+        input, button { padding: 10px; border-radius: 5px; border: 1px solid #ddd; }
+        button { background: #0084ff; color: white; border: none; cursor: pointer; font-weight: bold; }
+        button:disabled { background: #ccc; }
+        .file-label { font-size: 12px; color: #666; }
+    </style>
+</head>
+<body>
+
+<div class="chat-container">
+    <div class="header">
+        <strong>Messenger Tester</strong>
+        <span id="status">🔴 Offline</span>
+    </div>
+    
+    <div class="messages" id="message-box"></div>
+
+    <div class="input-area">
+        <input type="text" id="receiverId" placeholder="Receiver ID (Target User ID)">
+        <input type="text" id="content" placeholder="Type a message...">
+        <div class="file-label">Upload Files:</div>
+        <input type="file" id="fileInput" multiple>
+        <button id="sendBtn" onclick="handleSend()">Send Message</button>
+    </div>
+</div>
+
+<script>
+    const MY_ID = "46656ab7-2f98-48d4-b0ed-96ccaa88ec5b"; 
+    const BACKEND_URL = "http://localhost:5000";
+
+    const socket = io(BACKEND_URL, {
+        query: { userId: MY_ID }
+    });
+
+    const statusSpan = document.getElementById('status');
+    const messageBox = document.getElementById('message-box');
+    const sendBtn = document.getElementById('sendBtn');
+
+    socket.on('connect', () => {
+        statusSpan.innerText = "🟢 Online";
+        statusSpan.style.color = "#00ff00";
+    });
+
+    socket.on('disconnect', () => {
+        statusSpan.innerText = "🔴 Offline";
+    });
+
+    socket.on('newMessage', (data) => {
+        console.log("New message received:", data);
+        appendMessage(data, 'received');
+    });
+
+    socket.on('messageSent', (data) => {
+        console.log("Message saved in DB:", data);
+    });
+
+    async function handleSend() {
+        const receiverId = document.getElementById('receiverId').value;
+        const content = document.getElementById('content').value;
+        const fileInput = document.getElementById('fileInput');
+        
+        if (!receiverId) return alert("Receiver ID দিন!");
+        if (!content && fileInput.files.length === 0) return alert("মেসেজ বা ফাইল কিছু একটা দিন!");
+
+        sendBtn.disabled = true;
+        sendBtn.innerText = "Sending...";
+
+        let uploadedFiles = [];
+
+        // ১. ফাইল আপলোড লজিক
+        if (fileInput.files.length > 0) {
+            const formData = new FormData();
+            for (let i = 0; i < fileInput.files.length; i++) {
+                formData.append('files', fileInput.files[i]);
+            }
+
+            try {
+                const response = await fetch(`${BACKEND_URL}/chat/upload`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(errorText);
+                }
+
+                uploadedFiles = await response.json();
+                // নিশ্চিত করা যে এটি সবসময় একটি অ্যারে
+                if (!Array.isArray(uploadedFiles)) {
+                    uploadedFiles = [uploadedFiles];
+                }
+            } catch (err) {
+                console.error("Upload Error:", err);
+                alert("ফাইল আপলোড ফেইল হয়েছে! সার্ভার টার্মিনাল চেক করুন।");
+                sendBtn.disabled = false;
+                sendBtn.innerText = "Send Message";
+                return;
+            }
+        }
+
+        // ২. সকেট পেলোড (Payload) তৈরি
+        const payload = {
+            receiverId: receiverId,
+            content: content || "",
+            files: uploadedFiles // এটি এখন নিশ্চিতভাবে একটি অ্যারে
+        };
+
+        // ৩. সকেট ইমিট
+        socket.emit('sendMessage', payload);
+        
+        // নিজের স্ক্রিনে মেসেজ দেখানো
+        appendMessage({ content, attachments: uploadedFiles }, 'sent');
+        
+        // ইনপুট ক্লিয়ার
+        document.getElementById('content').value = "";
+        document.getElementById('fileInput').value = "";
+        sendBtn.disabled = false;
+        sendBtn.innerText = "Send Message";
+    }
+
+    function appendMessage(data, type) {
+        const div = document.createElement('div');
+        div.className = `msg ${type}`;
+        
+        let html = `<div>${data.content || ''}</div>`;
+        
+        // attachments বা files দুইটাই চেক করা হচ্ছে সেফটির জন্য
+        const files = data.attachments || data.files || [];
+        
+        if (files.length > 0) {
+            files.forEach(file => {
+                const url = file.fileUrl || file.url;
+                const fType = file.fileType || file.type;
+
+                if (fType === 'IMAGE') {
+                    html += `<img src="${url}" class="attachment" onerror="this.src='https://via.placeholder.com/150?text=Error+Loading+Image'">`;
+                } else {
+                    html += `<div style="margin-top:5px;"><a href="${url}" target="_blank" style="color: ${type === 'sent' ? 'white' : '#0084ff'}; font-size:12px;">📁 Download Attachment</a></div>`;
+                }
+            });
+        }
+        
+        div.innerHTML = html;
+        messageBox.appendChild(div);
+        messageBox.scrollTop = messageBox.scrollHeight;
+    }
+</script>
+
+</body>
+</html>

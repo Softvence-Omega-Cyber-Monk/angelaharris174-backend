@@ -18,7 +18,7 @@ model User {
     highligts        highlights[]
     subscriptions    Subscription[]
     transactions     Transaction[]
-    likes            LikeHighlights[]
+    likesHilghlights            LikeHighlights[]
     loginSessions    LoginSession[]
     stripeCustomerId String?
     subscribeStatus  subscribeStatus @default(FREE)
@@ -57,6 +57,17 @@ model User {
     profileViews Int @default(0)
     lastViewed     DateTime?
     // Indexes for performance (optional but recommended)
+
+  // miraz vai 
+      posts                 Post[]
+      comments              Comment[]
+      likesPost                 Like[]
+          viewedPosts           PostView[]
+    receivedNotifications Notification[] @relation("Recipient")
+    sentNotifications     Notification[] @relation("Sender")
+    sentMessages          Message[]      @relation("SentMessages")
+    receivedMessages      Message[]      @relation("ReceivedMessages")
+
 
     @@index([email])
     @@index([athleteFullName])

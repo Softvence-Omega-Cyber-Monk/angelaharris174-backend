@@ -8,10 +8,18 @@
  *
  * 🟢 You can import this file directly.
  */
+export type * from './models/Comment'
 export type * from './models/LoginSession'
 export type * from './models/LikeHighlights'
 export type * from './models/highlights'
+export type * from './models/Like'
+export type * from './models/Message'
+export type * from './models/MessageAttachment'
+export type * from './models/Notification'
 export type * from './models/OtpCode'
+export type * from './models/PostView'
+export type * from './models/Post'
+export type * from './models/PostImage'
 export type * from './models/Plan'
 export type * from './models/Subscription'
 export type * from './models/Transaction'

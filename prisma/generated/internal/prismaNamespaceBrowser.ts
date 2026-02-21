@@ -51,10 +51,18 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
+  Comment: 'Comment',
   LoginSession: 'LoginSession',
   LikeHighlights: 'LikeHighlights',
   highlights: 'highlights',
+  Like: 'Like',
+  Message: 'Message',
+  MessageAttachment: 'MessageAttachment',
+  Notification: 'Notification',
   OtpCode: 'OtpCode',
+  PostView: 'PostView',
+  Post: 'Post',
+  PostImage: 'PostImage',
   Plan: 'Plan',
   Subscription: 'Subscription',
   Transaction: 'Transaction',
@@ -75,6 +83,19 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 } as const)
 
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
+
+
+export const CommentScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  userId: 'userId',
+  postId: 'postId',
+  parentId: 'parentId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CommentScalarFieldEnum = (typeof CommentScalarFieldEnum)[keyof typeof CommentScalarFieldEnum]
 
 
 export const LoginSessionScalarFieldEnum = {
@@ -123,6 +144,51 @@ export const HighlightsScalarFieldEnum = {
 export type HighlightsScalarFieldEnum = (typeof HighlightsScalarFieldEnum)[keyof typeof HighlightsScalarFieldEnum]
 
 
+export const LikeScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  postId: 'postId'
+} as const
+
+export type LikeScalarFieldEnum = (typeof LikeScalarFieldEnum)[keyof typeof LikeScalarFieldEnum]
+
+
+export const MessageScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  senderId: 'senderId',
+  receiverId: 'receiverId',
+  createdAt: 'createdAt'
+} as const
+
+export type MessageScalarFieldEnum = (typeof MessageScalarFieldEnum)[keyof typeof MessageScalarFieldEnum]
+
+
+export const MessageAttachmentScalarFieldEnum = {
+  id: 'id',
+  fileUrl: 'fileUrl',
+  fileType: 'fileType',
+  messageId: 'messageId'
+} as const
+
+export type MessageAttachmentScalarFieldEnum = (typeof MessageAttachmentScalarFieldEnum)[keyof typeof MessageAttachmentScalarFieldEnum]
+
+
+export const NotificationScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  message: 'message',
+  isRead: 'isRead',
+  type: 'type',
+  userId: 'userId',
+  senderId: 'senderId',
+  postId: 'postId',
+  createdAt: 'createdAt'
+} as const
+
+export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
+
+
 export const OtpCodeScalarFieldEnum = {
   id: 'id',
   email: 'email',
@@ -133,6 +199,40 @@ export const OtpCodeScalarFieldEnum = {
 } as const
 
 export type OtpCodeScalarFieldEnum = (typeof OtpCodeScalarFieldEnum)[keyof typeof OtpCodeScalarFieldEnum]
+
+
+export const PostViewScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  postId: 'postId',
+  createdAt: 'createdAt'
+} as const
+
+export type PostViewScalarFieldEnum = (typeof PostViewScalarFieldEnum)[keyof typeof PostViewScalarFieldEnum]
+
+
+export const PostScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  caption: 'caption',
+  likes: 'likes',
+  comments: 'comments',
+  viewCount: 'viewCount',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PostScalarFieldEnum = (typeof PostScalarFieldEnum)[keyof typeof PostScalarFieldEnum]
+
+
+export const PostImageScalarFieldEnum = {
+  id: 'id',
+  url: 'url',
+  postId: 'postId',
+  createdAt: 'createdAt'
+} as const
+
+export type PostImageScalarFieldEnum = (typeof PostImageScalarFieldEnum)[keyof typeof PostImageScalarFieldEnum]
 
 
 export const PlanScalarFieldEnum = {

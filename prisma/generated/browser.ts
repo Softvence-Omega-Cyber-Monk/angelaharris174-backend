@@ -18,6 +18,11 @@ export { Prisma }
 export * as $Enums from './enums'
 export * from './enums';
 /**
+ * Model Comment
+ * 
+ */
+export type Comment = Prisma.CommentModel
+/**
  * Model LoginSession
  * 
  */
@@ -33,10 +38,45 @@ export type LikeHighlights = Prisma.LikeHighlightsModel
  */
 export type highlights = Prisma.highlightsModel
 /**
+ * Model Like
+ * 
+ */
+export type Like = Prisma.LikeModel
+/**
+ * Model Message
+ * 
+ */
+export type Message = Prisma.MessageModel
+/**
+ * Model MessageAttachment
+ * 
+ */
+export type MessageAttachment = Prisma.MessageAttachmentModel
+/**
+ * Model Notification
+ * 
+ */
+export type Notification = Prisma.NotificationModel
+/**
  * Model OtpCode
  * 
  */
 export type OtpCode = Prisma.OtpCodeModel
+/**
+ * Model PostView
+ * 
+ */
+export type PostView = Prisma.PostViewModel
+/**
+ * Model Post
+ * 
+ */
+export type Post = Prisma.PostModel
+/**
+ * Model PostImage
+ * 
+ */
+export type PostImage = Prisma.PostImageModel
 /**
  * Model Plan
  * 
