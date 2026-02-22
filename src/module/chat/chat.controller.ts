@@ -17,7 +17,7 @@ import { S3Service } from '../s3/s3.service';
 import { Request } from 'express';
 
 @Controller('chat')
-// @UseGuards(JwtGuard)
+@UseGuards(JwtGuard)
 export class ChatController {
   constructor(
     private readonly chatService: ChatService,
@@ -34,24 +34,58 @@ export class ChatController {
   }
 
   @Post('upload')
-  @UseInterceptors(FilesInterceptor('files', 10))
+  @UseInterceptors(
+    FilesInterceptor('files', 10, {
+      // limits: { fileSize: 10 * 1024 * 1024 },
+    }),
+  )
   async uploadFiles(@UploadedFiles() files: Array<Express.Multer.File>) {
+    if (!files || files.length === 0) return [];
+
     try {
-      const uploadPromises = files.map(async (file) => {
-        const folder = file.mimetype.startsWith('image')
-          ? 'chat/images'
-          : 'chat/files';
-        const url = await this.s3Service.uploadFile(file, folder);
+      const uploadResults = await Promise.all(
+        files.map(async (file) => {
+          const isImage = file.mimetype.startsWith('image/');
+          const isVideo = file.mimetype.startsWith('video/');
 
-        return {
-          url,
-          type: file.mimetype.startsWith('image') ? 'IMAGE' : 'FILE',
-        };
-      });
+          const folder = isImage
+            ? 'chat/images'
+            : isVideo
+              ? 'chat/videos'
+              : 'chat/files';
+          const type = isImage ? 'IMAGE' : isVideo ? 'VIDEO' : 'FILE';
 
-      return await Promise.all(uploadPromises);
-    } catch (error) {
+          const url = await this.s3Service.uploadFile(file, folder);
+
+          return { url, type };
+        }),
+      );
+
+      return uploadResults;
+    } catch (error: any) {
       throw new InternalServerErrorException(`Upload failed: ${error.message}`);
     }
   }
+
+  // @Post('upload')
+  // @UseInterceptors(FilesInterceptor('files', 10))
+  // async uploadFiles(@UploadedFiles() files: Array<Express.Multer.File>) {
+  //   try {
+  //     const uploadPromises = files.map(async (file) => {
+  //       const folder = file.mimetype.startsWith('image')
+  //         ? 'chat/images'
+  //         : 'chat/files';
+  //       const url = await this.s3Service.uploadFile(file, folder);
+
+  //       return {
+  //         url,
+  //         type: file.mimetype.startsWith('image') ? 'IMAGE' : 'FILE',
+  //       };
+  //     });
+
+  //     return await Promise.all(uploadPromises);
+  //   } catch (error: any) {
+  //     throw new InternalServerErrorException(`Upload failed: ${error.message}`);
+  //   }
+  // }
 }
