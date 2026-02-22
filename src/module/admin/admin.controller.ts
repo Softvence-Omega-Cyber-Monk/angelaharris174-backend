@@ -7,18 +7,26 @@ import {
     Res,
     HttpStatus,
     UseGuards,
+    Delete,
+    Param,
+    Post,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiQuery, ApiBearerAuth } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiQuery, ApiBearerAuth, ApiParam } from '@nestjs/swagger';
 import { Request, Response } from 'express';
 import { AdminService } from './admin.service';
 import { GetUsersQueryDto } from './dto/admin.dto';
 import sendResponse from '../../utils/sendResponse';
+import { Public } from 'src/common/decorators/public.decorators';
+import { userRole } from '@prisma';
+import { Roles } from 'src/common/decorators/roles.decorator';
+import { ManageUserQueryDto, UserAction } from './dto/action.dto';
 
 @ApiTags('Admin')
 @Controller('admin')
 export class AdminController {
     constructor(private readonly adminService: AdminService) { }
 
+    @Public()
     @Get('allUsers')
     @ApiOperation({
         summary: 'Get all users (Admin)',
@@ -49,6 +57,95 @@ export class AdminController {
             statusCode: HttpStatus.OK,
             success: true,
             message: 'Users retrieved successfully',
+            data: result,
+        });
+    }
+
+
+    @Post('manage-user/:userId')
+    @ApiOperation({
+        summary: 'Manage user by ID (Admin)',
+        description: 'Perform action on user: delete (soft) or deactivate. Defaults to deactivate if no action specified.',
+    })
+    @ApiParam({
+        name: 'userId',
+        required: true,
+        description: 'User ID to manage',
+        type: String,
+    })
+    @ApiQuery({
+        name: 'action',
+        required: false,
+        enum: ['delete', 'deactivate'],
+        description: 'Action to perform: delete (sets isDeleted=true) or deactivate (sets isActive=false). Default: deactivate',
+    })
+    async manageUser(
+        @Req() req: Request,
+        @Res() res: Response,
+        @Param('userId') userId: string,
+        @Query() query: ManageUserQueryDto,
+    ) {
+        const action = query.action || UserAction.DEACTIVATE; // default to deactivate
+
+        await this.adminService.manageUser(userId, action);
+
+        const message =
+            action === UserAction.DELETE
+                ? 'User soft-deleted successfully'
+                : 'User deactivated successfully';
+
+        return sendResponse(res, {
+            statusCode: HttpStatus.OK,
+            success: true,
+            message,
+            data: null,
+        });
+    }
+
+    @Get('user-details/:userId')
+    @Roles(userRole.ADMIN)
+    @ApiOperation({
+        summary: 'Get user details by ID (Admin)',
+        description:
+            'Returns complete user information including profile, stats, highlights, subscriptions, transactions, and recent activity',
+    })
+    @ApiParam({
+        name: 'userId',
+        required: true,
+        description: 'User ID to fetch details for',
+        type: String,
+    })
+    async getUserDetails(
+        @Req() req: Request,
+        @Res() res: Response,
+        @Param('userId') userId: string,
+    ) {
+        const result = await this.adminService.getUserDetails(userId);
+
+        return sendResponse(res, {
+            statusCode: HttpStatus.OK,
+            success: true,
+            message: 'User details retrieved successfully',
+            data: result,
+        });
+    }
+
+    // overView 
+    @Get('admin/dashboard-stats')
+    @ApiOperation({
+        summary: 'Get dashboard statistics',
+        description: 'Returns total counts, month-over-month percentage changes, and current year monthly user stats',
+    })
+    async getDashboardStats(
+        @Req() req: Request,
+        @Res() res: Response,
+    ) {
+        const result = await this.adminService.getDashboardStats();
+
+        return sendResponse(res, {
+            statusCode: HttpStatus.OK,
+            success: true,
+            message: 'Dashboard statistics retrieved successfully',
             data: result,
         });
     }
