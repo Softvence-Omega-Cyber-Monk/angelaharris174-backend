@@ -6,7 +6,6 @@ import {
 } from '@nestjs/common';
 import { PostService } from 'src/module/post/post.service';
 
-
 @Injectable()
 export class PostExistsPipe implements PipeTransform {
   constructor(private readonly postService: PostService) {}

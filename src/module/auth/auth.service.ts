@@ -61,7 +61,6 @@ export class AuthService {
         fcmToken: dto.fcmToken ?? undefined,
         agreedToTerms: dto.agreedToTerms,
         isActive: true,
-        // referralCode : "REF"+Math.random().toString(36).substring(2, 10)
         // role defaults to ATHLATE per your Prisma schema
         // isActive, isDeleted default to false
       },

@@ -14,7 +14,7 @@ export class PostExistsPipe implements PipeTransform {
     try {
       await this.commentService.findOne(value);
     } catch (error) {
-      throw new NotFoundException(`Post with ID ${value} not found`);
+      throw new NotFoundException(`Comment with ID ${value} not found`);
     }
     return value;
   }
