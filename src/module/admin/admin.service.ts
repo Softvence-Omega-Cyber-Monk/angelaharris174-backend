@@ -1,12 +1,11 @@
 // src/admin/admin.service.ts
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { userRole } from '@prisma';
+import { subscribeStatus, userRole } from '@prisma';
 import { GetUsersQueryDto } from './dto/admin.dto';
 import { DashboardStatsDto, MonthlyUserStatsDto } from './dto/overView.dto';
 import { UserAction } from './dto/action.dto';
 import { CreateUserDto } from './dto/create.user.dto';
-import { subscribeStatus } from '@prisma/client';
 
 @Injectable()
 export class AdminService {
