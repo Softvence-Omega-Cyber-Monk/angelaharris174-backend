@@ -13,6 +13,7 @@ import { LikeModule } from './module/like/like.module';
 import { CommentModule } from './module/comment/comment.module';
 import { NotificationModule } from './module/notification/notification.module';
 import { ChatModule } from './module/chat/chat.module';
+import { FeedModule } from './module/feed/feed.module';
 
 @Module({
   imports: [ConfigModule.forRoot({
@@ -28,7 +29,8 @@ import { ChatModule } from './module/chat/chat.module';
     LikeModule,
     CommentModule,
     NotificationModule,
-    ChatModule
+    ChatModule,
+    FeedModule
 
   ],
   controllers: [AppController],

@@ -1,6 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 
+interface ChatAttachment {
+  url?: string;
+  fileUrl?: string;
+  type?: string;
+  fileType?: string;
+}
+
 @Injectable()
 export class ChatService {
   constructor(private prisma: PrismaService) {}
@@ -9,9 +16,11 @@ export class ChatService {
     senderId: string;
     receiverId: string;
     content?: string;
-    files?: any;
+    files?: ChatAttachment[];
   }) {
-    const filesArray = Array.isArray(data.files) ? data.files : [];
+    const filesArray: ChatAttachment[] = Array.isArray(data.files)
+      ? data.files
+      : [];
 
     return await this.prisma.client.message.create({
       data: {
@@ -19,9 +28,9 @@ export class ChatService {
         receiverId: data.receiverId,
         content: data.content,
         attachments: {
-          create: filesArray.map((file) => ({
-            fileUrl: file.url || file.fileUrl,
-            fileType: file.type || file.fileType,
+          create: filesArray.map((file: ChatAttachment) => ({
+            fileUrl: file.url ?? file.fileUrl ?? '',
+            fileType: file.type ?? file.fileType ?? 'FILE',
           })),
         },
       },

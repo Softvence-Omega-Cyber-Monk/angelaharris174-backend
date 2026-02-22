@@ -57,7 +57,7 @@ export class PostService {
           },
         },
         orderBy: { createdAt: 'desc' },
-        take: 20,
+        take: 50,
       });
     }
 
@@ -298,34 +298,6 @@ export class PostService {
     return posts;
   }
 
-  // Find Current User All Posts by User ID
-  async findCurrentUserAllByUserId(userId: string, user: any): Promise<Post[]> {
-    const { id } = user;
-    if (userId !== user.id) {
-      throw new NotFoundException('User is not valid');
-    }
-    const posts = await this.prisma.client.post.findMany({
-      where: {
-        userId: id,
-      },
-      include: {
-        user: {
-          select: {
-            id: true,
-            athleteFullName: true,
-            email: true,
-          },
-        },
-        commentsList: {},
-      },
-      orderBy: {
-        createdAt: 'desc',
-      },
-    });
-
-    return posts;
-  }
-
   // Update Post only user
   async update(
     postId: string,
@@ -375,51 +347,11 @@ export class PostService {
         },
         include: { images: true },
       });
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error('Update failed', error.stack);
       throw new InternalServerErrorException('Failed to update post');
     }
   }
-
-  // async update(
-  //   postId: string,
-  //   userId: string,
-  //   updatePostDto: UpdatePostDto,
-  // ): Promise<Post> {
-  //   const post = await this.prisma.client.post.findUnique({
-  //     where: { id: postId },
-  //   });
-
-  //   if (!post) {
-  //     throw new NotFoundException(`Post with ID ${postId} not found`);
-  //   }
-
-  //   if (post.userId !== userId) {
-  //     throw new ForbiddenException('You are not allowed to update this post');
-  //   }
-
-  //   try {
-  //     const updatedPost = await this.prisma.client.post.update({
-  //       where: { id: postId },
-  //       data: {
-  //         ...updatePostDto,
-  //       },
-  //       include: {
-  //         user: {
-  //           select: {
-  //             id: true,
-  //             athleteFullName: true,
-  //             email: true,
-  //           },
-  //         },
-  //       },
-  //     });
-
-  //     return updatedPost;
-  //   } catch (error) {
-  //     throw new InternalServerErrorException('Failed to update the post');
-  //   }
-  // }
 
   // Detele Post
   async remove(id: string, user: any) {

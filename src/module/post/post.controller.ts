@@ -30,11 +30,19 @@ export class PostController {
     private readonly s3Service: S3Service,
   ) {}
 
+  // Feed
+  @Get('feed')
+  @UseGuards(JwtGuard)
+  async getSmartFeed(@Req() req: Request) {
+    const userId = req.user!.id;
+    return await this.postService.getSmartFeedTwo(userId);
+  }
+
   // Seen Posts
   @Post(':id/seen')
   async markAsSeen(
     @Param('id', ParseUUIDPipe) postId: string,
-    @Req() req : Request
+    @Req() req: Request,
   ) {
     const userId = req.user!.id;
     return await this.postService.markAsSeenTwo(postId, userId);

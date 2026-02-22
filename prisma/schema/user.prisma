@@ -57,7 +57,7 @@ model User {
     profileViews Int @default(0)
     lastViewed     DateTime?
     // Indexes for performance (optional but recommended)
-    // refferalCode    String @unique
+
   // miraz vai 
       posts                 Post[]
       comments              Comment[]
