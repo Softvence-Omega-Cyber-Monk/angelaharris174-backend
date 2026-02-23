@@ -1874,7 +1874,11 @@ export const UserScalarFieldEnum = {
   blk: 'blk',
   adminTilte: 'adminTilte',
   profileViews: 'profileViews',
-  lastViewed: 'lastViewed'
+  lastViewed: 'lastViewed',
+  parentEmail: 'parentEmail',
+  referralCode: 'referralCode',
+  referredBy: 'referredBy',
+  profileLink: 'profileLink'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]

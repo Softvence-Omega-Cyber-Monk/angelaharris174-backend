@@ -1,4 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { subscribeStatus, userRole } from "@prisma";
 import { IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString } from "class-validator";
 
 export class CreateUserDto {
@@ -23,12 +24,12 @@ export class CreateUserDto {
   })
   systemRole: string;
 
-  @IsEnum(['BASIC', 'PRO', 'ELITE', 'COMPEDED'])
+  @IsEnum(subscribeStatus)
   @IsNotEmpty()
   @ApiProperty({ 
     description: 'Subscription plan', 
-    enum: ['BASIC', 'PRO', 'ELITE', 'COMPEDED'],
-    example: 'BASIC' 
+    enum:subscribeStatus,
+    example: 'FREE' 
   })
   subscriptionPlan: string;
 }

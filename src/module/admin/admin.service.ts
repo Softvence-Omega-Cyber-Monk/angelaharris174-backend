@@ -319,5 +319,175 @@ export class AdminService {
         };
     }
 
+    async createUser(dto: CreateUserDto) {
+        // 1. Check if user already exists
+        const existingUser = await this.prisma.client.user.findUnique({
+            where: { email: dto.email },
+        });
+
+        if (existingUser) {
+            throw new BadRequestException('User with this email already exists');
+        }
+
+        // 2. Hash the password
+        // const hashedPassword = await bcrypt.hash(dto.password, 10);
+
+        // 3. Set defaults for optional enum fields
+        const role = dto.systemRole ?? userRole.ATHLATE; // Default role
+        const subscribeStatusValue = dto.subscriptionPlan ?? subscribeStatus.FREE; // Default subscription
+
+        // 4. Create the user in database
+        const newUser = await this.prisma.client.user.create({
+            data: {
+                email: dto.email,
+                password: "hashedPassword",
+                athleteFullName: dto.athleteFullName,
+                role: role as userRole,
+                subscribeStatus: subscribeStatusValue as subscribeStatus,
+            },
+            select: {
+                email: true,
+                athleteFullName: true,
+                role: true,
+                subscribeStatus: true,
+            }
+        });
+
+        return {
+            success: true,
+            message: 'User created successfully',
+            data: newUser,
+        };
+    }
+
+    async getUserById(userId: string) {
+        // 1. Fetch user with selected fields (exclude password) + highlight count
+        const user = await this.prisma.client.user.findUnique({
+            where: { id: userId },
+            select: {
+                // Core identity
+                id: true,
+                email: true,
+                athleteFullName: true,
+                role: true,
+                subscribeStatus: true,
+                imgUrl: true,
+                createdAt: true,
+                updatedAt: true,
+
+                // Personal info
+                parentName: true,
+                city: true,
+                state: true,
+                gradYear: true,
+                position: true,
+                height: true,
+                weight: true,
+                school: true,
+                gpa: true,
+                dateOfBirth: true,
+
+                // Stats
+                ppg: true,
+                rpg: true,
+                apg: true,
+                spg: true,
+                blk: true,
+                profileViews: true,
+                lastViewed: true,
+
+                // Metadata
+                isActive: true,
+                isDeleted: true,
+                agreedToTerms: true,
+                fcmToken: true,
+                stripeCustomerId: true,
+                adminTilte: true,
+                profileLink: true,
+                parentEmail: true,
+                referralCode: true,
+                referredBy: true,
+
+                _count: {
+                    select: {
+                        highligts: true, // Matches your schema field name (typo preserved)
+                    },
+                },
+
+
+            },
+        });
+
+        if (!user || user.isDeleted) {
+            throw new NotFoundException('User not found');
+        }
+
+        // 2. Find all users who were referred by THIS user
+        // Logic: Match other users' `referredBy` field with THIS user's `referralCode`
+        const referredUsers = await this.prisma.client.user.findMany({
+            where: {
+                referredBy: user.referralCode, // Users who used this user's referral code
+                isDeleted: false, // Exclude deleted accounts
+            },
+            select: {
+                id: true,
+                athleteFullName: true,
+                email: true,
+                createdAt: true,
+                subscribeStatus: true,
+                profileLink: true,
+            },
+            orderBy: {
+                createdAt: 'desc',
+            },
+        });
+
+        // 3. Transform response to clean format
+        const { _count, ...userData } = user;
+
+        return {
+            success: true,
+            data: {
+                ...userData,
+                // Rename _count to a cleaner field name
+                totalHighlights: _count?.highligts ?? 0,
+                // Add referred users list
+                referredUsers: {
+                    count: referredUsers.length,
+                    list: referredUsers,
+                },
+            },
+        };
+    }
+
+    async getSubscriberCounts() {
+        // Use Prisma groupBy to get all counts in a SINGLE efficient query
+        const statusCounts = await this.prisma.client.user.groupBy({
+            by: ['subscribeStatus'],
+            where: {
+                isDeleted: false, // Exclude soft-deleted users
+            },
+            _count: {
+                subscribeStatus: true,
+            },
+        });
+
+        // Initialize default counts for all enum values (ensures all keys exist)
+        const counts: Record<subscribeStatus, number> = {
+            [subscribeStatus.ELITE]: 0,
+            [subscribeStatus.PRO]: 0,
+            [subscribeStatus.FREE]: 0,
+            [subscribeStatus.COMPED]: 0,
+        };
+
+        // Populate counts from query results
+        statusCounts.forEach((item) => {
+            if (item.subscribeStatus && counts.hasOwnProperty(item.subscribeStatus)) {
+                counts[item.subscribeStatus] = item._count.subscribeStatus;
+            }
+        });
+
+        return counts;
+    }
 
 }

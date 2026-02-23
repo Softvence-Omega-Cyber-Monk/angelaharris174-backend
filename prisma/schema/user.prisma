@@ -12,39 +12,39 @@ enum subscribeStatus {
 }
 
 model User {
-    id               String         @id @default(uuid())
-    createdAt        DateTime       @default(now())
-    updatedAt        DateTime       @updatedAt
+    id               String           @id @default(uuid())
+    createdAt        DateTime         @default(now())
+    updatedAt        DateTime         @updatedAt
     highligts        highlights[]
     subscriptions    Subscription[]
     transactions     Transaction[]
-    likesHilghlights            LikeHighlights[]
+    likesHilghlights LikeHighlights[]
     loginSessions    LoginSession[]
     stripeCustomerId String?
-    subscribeStatus  subscribeStatus @default(FREE)
+    subscribeStatus  subscribeStatus  @default(FREE)
     // Required core identity fields
-    athleteFullName String
-    dateOfBirth     DateTime // stored as DATE in DB (PostgreSQL supports it)
-    email           String   @unique
-    password        String // hashed (e.g., via bcrypt)
-    imgUrl          String?
+    athleteFullName  String
+    dateOfBirth      DateTime? // stored as DATE in DB (PostgreSQL supports it)
+    email            String           @unique
+    password         String // hashed (e.g., via bcrypt)
+    imgUrl           String?
     // Optional personal/academic info
-    parentName      String?
-    city            String?
-    state           String?
-    gradYear        Int? // e.g., 2026
-    position        String? // could be enum if fixed options
-    height          Float? // in cm or inches — clarify unit; using Float for flexibility
-    weight          Float? // same note as height
-    school          String?
-    gpa             Float?   @map("gpa") // optional, mapped to column 'gpa'
+    parentName       String?
+    city             String?
+    state            String?
+    gradYear         Int? // e.g., 2026
+    position         String? // could be enum if fixed options
+    height           Float? // in cm or inches — clarify unit; using Float for flexibility
+    weight           Float? // same note as height
+    school           String?
+    gpa              Float?           @map("gpa") // optional, mapped to column 'gpa'
 
     // Consent & metadata
     agreedToTerms Boolean  @default(false)
     fcmToken      String?
     isActive      Boolean  @default(true)
     isDeleted     Boolean  @default(false)
-    role          userRole @default(USER)
+    role          userRole @default(ATHLATE)
 
     ppg Float? // Points Per Game
     rpg Float? // Rebounds Per Game
@@ -54,20 +54,24 @@ model User {
 
     adminTilte String?
 
-    profileViews Int @default(0)
-    lastViewed     DateTime?
+    profileViews Int       @default(0)
+    lastViewed   DateTime?
     // Indexes for performance (optional but recommended)
 
-  // miraz vai 
-      posts                 Post[]
-      comments              Comment[]
-      likesPost                 Like[]
-          viewedPosts           PostView[]
+    // miraz vai 
+    posts                 Post[]
+    comments              Comment[]
+    likesPost             Like[]
+    viewedPosts           PostView[]
     receivedNotifications Notification[] @relation("Recipient")
     sentNotifications     Notification[] @relation("Sender")
     sentMessages          Message[]      @relation("SentMessages")
     receivedMessages      Message[]      @relation("ReceivedMessages")
 
+    parentEmail  String?
+    referralCode String?
+    referredBy   String?
+    profileLink  String?
 
     @@index([email])
     @@index([athleteFullName])

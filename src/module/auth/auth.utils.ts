@@ -10,13 +10,14 @@ export async function getTokens(
   userId: string,
   email: string,
   role: userRole,
+  expiresIn?: string,
 ) {
   const [access_token, refresh_token] = await Promise.all([
     jwtService.signAsync(
       { id: userId, email, role  },
       {
         secret: process.env.ACCESS_TOKEN_SECRET,
-        expiresIn: process.env.ACCESS_TOKEN_EXPIREIN,
+        expiresIn: expiresIn || process.env.ACCESS_TOKEN_EXPIREIN,
       } as any,
     ),
     jwtService.signAsync(

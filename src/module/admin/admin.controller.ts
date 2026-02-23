@@ -10,6 +10,8 @@ import {
     Delete,
     Param,
     Post,
+    Body,
+    NotFoundException,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiQuery, ApiBearerAuth, ApiParam } from '@nestjs/swagger';
 import { Request, Response } from 'express';
@@ -20,6 +22,7 @@ import { Public } from 'src/common/decorators/public.decorators';
 import { userRole } from '@prisma';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { ManageUserQueryDto, UserAction } from './dto/action.dto';
+import { CreateUserDto } from './dto/create.user.dto';
 
 @ApiTags('Admin')
 @Controller('admin')
@@ -149,4 +152,61 @@ export class AdminController {
             data: result,
         });
     }
+
+
+    @Post('add-user')
+    @Roles(userRole.ADMIN)
+    async createUser(
+        @Body() dto: CreateUserDto,
+        @Req() req: Request,
+        @Res() res: Response,
+    ) {
+
+        const result = await this.adminService.createUser(dto);
+
+        return sendResponse(res, {
+            statusCode: HttpStatus.CREATED,
+            success: true,
+            message: result.message,
+            data: result.data,
+        });
+
+    }
+
+
+    @Get('/stats/subscribers')
+    async getSubscriberCounts(@Res() res: Response) {
+        const counts = await this.adminService.getSubscriberCounts();
+
+        return sendResponse(res, {
+            statusCode: HttpStatus.OK,
+            success: true,
+            message: 'Subscriber counts retrieved',
+            data: counts,
+        });
+
+    }
+
+    // ... your existing findAllSubscriptions endpoint ...
+    @Get('userDetails/:id')
+    @ApiOperation({
+        summary: 'Get user details by ID',
+        description: 'Returns user profile information, total highlight count, and list of referred users. Password is never exposed.'
+    })
+    async getUserById(
+        @Param('id') userId: string,
+        @Req() req: Request,
+        @Res() res: Response,
+    ) {
+        const result = await this.adminService.getUserById(userId);
+
+        return sendResponse(res, {
+            statusCode: HttpStatus.OK,
+            success: true,
+            message: 'User details retrieved',
+            data: result,
+        });
+
+    }
+
 }
