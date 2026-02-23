@@ -59,23 +59,31 @@ export class AuthService {
         school: dto.school ?? undefined,
         gpa: dto.gpa ?? undefined,
         fcmToken: dto.fcmToken ?? undefined,
-        agreedToTerms: dto.agreedToTerms,
+        referralCode: "REF_" + Math.floor(100000 + Math.random() * 900000).toString(), // Generate a unique referral code
         isActive: true,
+        parentEmail:dto.parentEmail,
+        referredBy:dto.referredBy?? undefined,
         // role defaults to ATHLATE per your Prisma schema
         // isActive, isDeleted default to false
       },
     });
 
+    const profileLink =process.env.BASE_URL+'/profile/'+newUser.id
 
 
+
+    const updatedUser = await this.prisma.client.user.update({
+      where : {id : newUser.id},
+      data:{profileLink}
+    })
     const tokens = await getTokens(
       this.jwtService,
-      newUser.id,
-      newUser.email,
-      newUser.role,
+      updatedUser.id,
+      updatedUser.email,
+      updatedUser.role,
     );
 
-    return { user: newUser, ...tokens };
+    return { user: updatedUser, ...tokens };
   }
 
   // login

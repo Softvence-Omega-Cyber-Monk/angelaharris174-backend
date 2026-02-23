@@ -85,6 +85,10 @@ export type UserMinAggregateOutputType = {
   adminTilte: string | null
   profileViews: number | null
   lastViewed: Date | null
+  parentEmail: string | null
+  referralCode: string | null
+  referredBy: string | null
+  profileLink: string | null
 }
 
 export type UserMaxAggregateOutputType = {
@@ -120,6 +124,10 @@ export type UserMaxAggregateOutputType = {
   adminTilte: string | null
   profileViews: number | null
   lastViewed: Date | null
+  parentEmail: string | null
+  referralCode: string | null
+  referredBy: string | null
+  profileLink: string | null
 }
 
 export type UserCountAggregateOutputType = {
@@ -155,6 +163,10 @@ export type UserCountAggregateOutputType = {
   adminTilte: number
   profileViews: number
   lastViewed: number
+  parentEmail: number
+  referralCode: number
+  referredBy: number
+  profileLink: number
   _all: number
 }
 
@@ -218,6 +230,10 @@ export type UserMinAggregateInputType = {
   adminTilte?: true
   profileViews?: true
   lastViewed?: true
+  parentEmail?: true
+  referralCode?: true
+  referredBy?: true
+  profileLink?: true
 }
 
 export type UserMaxAggregateInputType = {
@@ -253,6 +269,10 @@ export type UserMaxAggregateInputType = {
   adminTilte?: true
   profileViews?: true
   lastViewed?: true
+  parentEmail?: true
+  referralCode?: true
+  referredBy?: true
+  profileLink?: true
 }
 
 export type UserCountAggregateInputType = {
@@ -288,6 +308,10 @@ export type UserCountAggregateInputType = {
   adminTilte?: true
   profileViews?: true
   lastViewed?: true
+  parentEmail?: true
+  referralCode?: true
+  referredBy?: true
+  profileLink?: true
   _all?: true
 }
 
@@ -384,7 +408,7 @@ export type UserGroupByOutputType = {
   stripeCustomerId: string | null
   subscribeStatus: $Enums.subscribeStatus
   athleteFullName: string
-  dateOfBirth: Date
+  dateOfBirth: Date | null
   email: string
   password: string
   imgUrl: string | null
@@ -410,6 +434,10 @@ export type UserGroupByOutputType = {
   adminTilte: string | null
   profileViews: number
   lastViewed: Date | null
+  parentEmail: string | null
+  referralCode: string | null
+  referredBy: string | null
+  profileLink: string | null
   _count: UserCountAggregateOutputType | null
   _avg: UserAvgAggregateOutputType | null
   _sum: UserSumAggregateOutputType | null
@@ -442,7 +470,7 @@ export type UserWhereInput = {
   stripeCustomerId?: Prisma.StringNullableFilter<"User"> | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFilter<"User"> | $Enums.subscribeStatus
   athleteFullName?: Prisma.StringFilter<"User"> | string
-  dateOfBirth?: Prisma.DateTimeFilter<"User"> | Date | string
+  dateOfBirth?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   email?: Prisma.StringFilter<"User"> | string
   password?: Prisma.StringFilter<"User"> | string
   imgUrl?: Prisma.StringNullableFilter<"User"> | string | null
@@ -468,6 +496,10 @@ export type UserWhereInput = {
   adminTilte?: Prisma.StringNullableFilter<"User"> | string | null
   profileViews?: Prisma.IntFilter<"User"> | number
   lastViewed?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  parentEmail?: Prisma.StringNullableFilter<"User"> | string | null
+  referralCode?: Prisma.StringNullableFilter<"User"> | string | null
+  referredBy?: Prisma.StringNullableFilter<"User"> | string | null
+  profileLink?: Prisma.StringNullableFilter<"User"> | string | null
   highligts?: Prisma.HighlightsListRelationFilter
   subscriptions?: Prisma.SubscriptionListRelationFilter
   transactions?: Prisma.TransactionListRelationFilter
@@ -490,7 +522,7 @@ export type UserOrderByWithRelationInput = {
   stripeCustomerId?: Prisma.SortOrderInput | Prisma.SortOrder
   subscribeStatus?: Prisma.SortOrder
   athleteFullName?: Prisma.SortOrder
-  dateOfBirth?: Prisma.SortOrder
+  dateOfBirth?: Prisma.SortOrderInput | Prisma.SortOrder
   email?: Prisma.SortOrder
   password?: Prisma.SortOrder
   imgUrl?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -516,6 +548,10 @@ export type UserOrderByWithRelationInput = {
   adminTilte?: Prisma.SortOrderInput | Prisma.SortOrder
   profileViews?: Prisma.SortOrder
   lastViewed?: Prisma.SortOrderInput | Prisma.SortOrder
+  parentEmail?: Prisma.SortOrderInput | Prisma.SortOrder
+  referralCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  referredBy?: Prisma.SortOrderInput | Prisma.SortOrder
+  profileLink?: Prisma.SortOrderInput | Prisma.SortOrder
   highligts?: Prisma.highlightsOrderByRelationAggregateInput
   subscriptions?: Prisma.SubscriptionOrderByRelationAggregateInput
   transactions?: Prisma.TransactionOrderByRelationAggregateInput
@@ -542,7 +578,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   stripeCustomerId?: Prisma.StringNullableFilter<"User"> | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFilter<"User"> | $Enums.subscribeStatus
   athleteFullName?: Prisma.StringFilter<"User"> | string
-  dateOfBirth?: Prisma.DateTimeFilter<"User"> | Date | string
+  dateOfBirth?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   password?: Prisma.StringFilter<"User"> | string
   imgUrl?: Prisma.StringNullableFilter<"User"> | string | null
   parentName?: Prisma.StringNullableFilter<"User"> | string | null
@@ -567,6 +603,10 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   adminTilte?: Prisma.StringNullableFilter<"User"> | string | null
   profileViews?: Prisma.IntFilter<"User"> | number
   lastViewed?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  parentEmail?: Prisma.StringNullableFilter<"User"> | string | null
+  referralCode?: Prisma.StringNullableFilter<"User"> | string | null
+  referredBy?: Prisma.StringNullableFilter<"User"> | string | null
+  profileLink?: Prisma.StringNullableFilter<"User"> | string | null
   highligts?: Prisma.HighlightsListRelationFilter
   subscriptions?: Prisma.SubscriptionListRelationFilter
   transactions?: Prisma.TransactionListRelationFilter
@@ -589,7 +629,7 @@ export type UserOrderByWithAggregationInput = {
   stripeCustomerId?: Prisma.SortOrderInput | Prisma.SortOrder
   subscribeStatus?: Prisma.SortOrder
   athleteFullName?: Prisma.SortOrder
-  dateOfBirth?: Prisma.SortOrder
+  dateOfBirth?: Prisma.SortOrderInput | Prisma.SortOrder
   email?: Prisma.SortOrder
   password?: Prisma.SortOrder
   imgUrl?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -615,6 +655,10 @@ export type UserOrderByWithAggregationInput = {
   adminTilte?: Prisma.SortOrderInput | Prisma.SortOrder
   profileViews?: Prisma.SortOrder
   lastViewed?: Prisma.SortOrderInput | Prisma.SortOrder
+  parentEmail?: Prisma.SortOrderInput | Prisma.SortOrder
+  referralCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  referredBy?: Prisma.SortOrderInput | Prisma.SortOrder
+  profileLink?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
   _avg?: Prisma.UserAvgOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
@@ -632,7 +676,7 @@ export type UserScalarWhereWithAggregatesInput = {
   stripeCustomerId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusWithAggregatesFilter<"User"> | $Enums.subscribeStatus
   athleteFullName?: Prisma.StringWithAggregatesFilter<"User"> | string
-  dateOfBirth?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
+  dateOfBirth?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   email?: Prisma.StringWithAggregatesFilter<"User"> | string
   password?: Prisma.StringWithAggregatesFilter<"User"> | string
   imgUrl?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
@@ -658,6 +702,10 @@ export type UserScalarWhereWithAggregatesInput = {
   adminTilte?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   profileViews?: Prisma.IntWithAggregatesFilter<"User"> | number
   lastViewed?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+  parentEmail?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  referralCode?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  referredBy?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  profileLink?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
 }
 
 export type UserCreateInput = {
@@ -667,7 +715,7 @@ export type UserCreateInput = {
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
   athleteFullName: string
-  dateOfBirth: Date | string
+  dateOfBirth?: Date | string | null
   email: string
   password: string
   imgUrl?: string | null
@@ -693,6 +741,10 @@ export type UserCreateInput = {
   adminTilte?: string | null
   profileViews?: number
   lastViewed?: Date | string | null
+  parentEmail?: string | null
+  referralCode?: string | null
+  referredBy?: string | null
+  profileLink?: string | null
   highligts?: Prisma.highlightsCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
@@ -715,7 +767,7 @@ export type UserUncheckedCreateInput = {
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
   athleteFullName: string
-  dateOfBirth: Date | string
+  dateOfBirth?: Date | string | null
   email: string
   password: string
   imgUrl?: string | null
@@ -741,6 +793,10 @@ export type UserUncheckedCreateInput = {
   adminTilte?: string | null
   profileViews?: number
   lastViewed?: Date | string | null
+  parentEmail?: string | null
+  referralCode?: string | null
+  referredBy?: string | null
+  profileLink?: string | null
   highligts?: Prisma.highlightsUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
@@ -763,7 +819,7 @@ export type UserUpdateInput = {
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
-  dateOfBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   imgUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -789,6 +845,10 @@ export type UserUpdateInput = {
   adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileViews?: Prisma.IntFieldUpdateOperationsInput | number
   lastViewed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  parentEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
@@ -811,7 +871,7 @@ export type UserUncheckedUpdateInput = {
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
-  dateOfBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   imgUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -837,6 +897,10 @@ export type UserUncheckedUpdateInput = {
   adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileViews?: Prisma.IntFieldUpdateOperationsInput | number
   lastViewed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  parentEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
@@ -859,7 +923,7 @@ export type UserCreateManyInput = {
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
   athleteFullName: string
-  dateOfBirth: Date | string
+  dateOfBirth?: Date | string | null
   email: string
   password: string
   imgUrl?: string | null
@@ -885,6 +949,10 @@ export type UserCreateManyInput = {
   adminTilte?: string | null
   profileViews?: number
   lastViewed?: Date | string | null
+  parentEmail?: string | null
+  referralCode?: string | null
+  referredBy?: string | null
+  profileLink?: string | null
 }
 
 export type UserUpdateManyMutationInput = {
@@ -894,7 +962,7 @@ export type UserUpdateManyMutationInput = {
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
-  dateOfBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   imgUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -920,6 +988,10 @@ export type UserUpdateManyMutationInput = {
   adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileViews?: Prisma.IntFieldUpdateOperationsInput | number
   lastViewed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  parentEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type UserUncheckedUpdateManyInput = {
@@ -929,7 +1001,7 @@ export type UserUncheckedUpdateManyInput = {
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
-  dateOfBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   imgUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -955,6 +1027,10 @@ export type UserUncheckedUpdateManyInput = {
   adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileViews?: Prisma.IntFieldUpdateOperationsInput | number
   lastViewed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  parentEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type UserScalarRelationFilter = {
@@ -1000,6 +1076,10 @@ export type UserCountOrderByAggregateInput = {
   adminTilte?: Prisma.SortOrder
   profileViews?: Prisma.SortOrder
   lastViewed?: Prisma.SortOrder
+  parentEmail?: Prisma.SortOrder
+  referralCode?: Prisma.SortOrder
+  referredBy?: Prisma.SortOrder
+  profileLink?: Prisma.SortOrder
 }
 
 export type UserAvgOrderByAggregateInput = {
@@ -1048,6 +1128,10 @@ export type UserMaxOrderByAggregateInput = {
   adminTilte?: Prisma.SortOrder
   profileViews?: Prisma.SortOrder
   lastViewed?: Prisma.SortOrder
+  parentEmail?: Prisma.SortOrder
+  referralCode?: Prisma.SortOrder
+  referredBy?: Prisma.SortOrder
+  profileLink?: Prisma.SortOrder
 }
 
 export type UserMinOrderByAggregateInput = {
@@ -1083,6 +1167,10 @@ export type UserMinOrderByAggregateInput = {
   adminTilte?: Prisma.SortOrder
   profileViews?: Prisma.SortOrder
   lastViewed?: Prisma.SortOrder
+  parentEmail?: Prisma.SortOrder
+  referralCode?: Prisma.SortOrder
+  referredBy?: Prisma.SortOrder
+  profileLink?: Prisma.SortOrder
 }
 
 export type UserSumOrderByAggregateInput = {
@@ -1313,7 +1401,7 @@ export type UserCreateWithoutCommentsInput = {
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
   athleteFullName: string
-  dateOfBirth: Date | string
+  dateOfBirth?: Date | string | null
   email: string
   password: string
   imgUrl?: string | null
@@ -1339,6 +1427,10 @@ export type UserCreateWithoutCommentsInput = {
   adminTilte?: string | null
   profileViews?: number
   lastViewed?: Date | string | null
+  parentEmail?: string | null
+  referralCode?: string | null
+  referredBy?: string | null
+  profileLink?: string | null
   highligts?: Prisma.highlightsCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
@@ -1360,7 +1452,7 @@ export type UserUncheckedCreateWithoutCommentsInput = {
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
   athleteFullName: string
-  dateOfBirth: Date | string
+  dateOfBirth?: Date | string | null
   email: string
   password: string
   imgUrl?: string | null
@@ -1386,6 +1478,10 @@ export type UserUncheckedCreateWithoutCommentsInput = {
   adminTilte?: string | null
   profileViews?: number
   lastViewed?: Date | string | null
+  parentEmail?: string | null
+  referralCode?: string | null
+  referredBy?: string | null
+  profileLink?: string | null
   highligts?: Prisma.highlightsUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
@@ -1423,7 +1519,7 @@ export type UserUpdateWithoutCommentsInput = {
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
-  dateOfBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   imgUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1449,6 +1545,10 @@ export type UserUpdateWithoutCommentsInput = {
   adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileViews?: Prisma.IntFieldUpdateOperationsInput | number
   lastViewed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  parentEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
@@ -1470,7 +1570,7 @@ export type UserUncheckedUpdateWithoutCommentsInput = {
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
-  dateOfBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   imgUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1496,6 +1596,10 @@ export type UserUncheckedUpdateWithoutCommentsInput = {
   adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileViews?: Prisma.IntFieldUpdateOperationsInput | number
   lastViewed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  parentEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
@@ -1517,7 +1621,7 @@ export type UserCreateWithoutLoginSessionsInput = {
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
   athleteFullName: string
-  dateOfBirth: Date | string
+  dateOfBirth?: Date | string | null
   email: string
   password: string
   imgUrl?: string | null
@@ -1543,6 +1647,10 @@ export type UserCreateWithoutLoginSessionsInput = {
   adminTilte?: string | null
   profileViews?: number
   lastViewed?: Date | string | null
+  parentEmail?: string | null
+  referralCode?: string | null
+  referredBy?: string | null
+  profileLink?: string | null
   highligts?: Prisma.highlightsCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
@@ -1564,7 +1672,7 @@ export type UserUncheckedCreateWithoutLoginSessionsInput = {
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
   athleteFullName: string
-  dateOfBirth: Date | string
+  dateOfBirth?: Date | string | null
   email: string
   password: string
   imgUrl?: string | null
@@ -1590,6 +1698,10 @@ export type UserUncheckedCreateWithoutLoginSessionsInput = {
   adminTilte?: string | null
   profileViews?: number
   lastViewed?: Date | string | null
+  parentEmail?: string | null
+  referralCode?: string | null
+  referredBy?: string | null
+  profileLink?: string | null
   highligts?: Prisma.highlightsUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
@@ -1627,7 +1739,7 @@ export type UserUpdateWithoutLoginSessionsInput = {
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
-  dateOfBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   imgUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1653,6 +1765,10 @@ export type UserUpdateWithoutLoginSessionsInput = {
   adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileViews?: Prisma.IntFieldUpdateOperationsInput | number
   lastViewed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  parentEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
@@ -1674,7 +1790,7 @@ export type UserUncheckedUpdateWithoutLoginSessionsInput = {
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
-  dateOfBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   imgUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1700,6 +1816,10 @@ export type UserUncheckedUpdateWithoutLoginSessionsInput = {
   adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileViews?: Prisma.IntFieldUpdateOperationsInput | number
   lastViewed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  parentEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
@@ -1721,7 +1841,7 @@ export type UserCreateWithoutLikesHilghlightsInput = {
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
   athleteFullName: string
-  dateOfBirth: Date | string
+  dateOfBirth?: Date | string | null
   email: string
   password: string
   imgUrl?: string | null
@@ -1747,6 +1867,10 @@ export type UserCreateWithoutLikesHilghlightsInput = {
   adminTilte?: string | null
   profileViews?: number
   lastViewed?: Date | string | null
+  parentEmail?: string | null
+  referralCode?: string | null
+  referredBy?: string | null
+  profileLink?: string | null
   highligts?: Prisma.highlightsCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
@@ -1768,7 +1892,7 @@ export type UserUncheckedCreateWithoutLikesHilghlightsInput = {
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
   athleteFullName: string
-  dateOfBirth: Date | string
+  dateOfBirth?: Date | string | null
   email: string
   password: string
   imgUrl?: string | null
@@ -1794,6 +1918,10 @@ export type UserUncheckedCreateWithoutLikesHilghlightsInput = {
   adminTilte?: string | null
   profileViews?: number
   lastViewed?: Date | string | null
+  parentEmail?: string | null
+  referralCode?: string | null
+  referredBy?: string | null
+  profileLink?: string | null
   highligts?: Prisma.highlightsUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
@@ -1831,7 +1959,7 @@ export type UserUpdateWithoutLikesHilghlightsInput = {
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
-  dateOfBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   imgUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1857,6 +1985,10 @@ export type UserUpdateWithoutLikesHilghlightsInput = {
   adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileViews?: Prisma.IntFieldUpdateOperationsInput | number
   lastViewed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  parentEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
@@ -1878,7 +2010,7 @@ export type UserUncheckedUpdateWithoutLikesHilghlightsInput = {
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
-  dateOfBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   imgUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1904,6 +2036,10 @@ export type UserUncheckedUpdateWithoutLikesHilghlightsInput = {
   adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileViews?: Prisma.IntFieldUpdateOperationsInput | number
   lastViewed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  parentEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
@@ -1925,7 +2061,7 @@ export type UserCreateWithoutHighligtsInput = {
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
   athleteFullName: string
-  dateOfBirth: Date | string
+  dateOfBirth?: Date | string | null
   email: string
   password: string
   imgUrl?: string | null
@@ -1951,6 +2087,10 @@ export type UserCreateWithoutHighligtsInput = {
   adminTilte?: string | null
   profileViews?: number
   lastViewed?: Date | string | null
+  parentEmail?: string | null
+  referralCode?: string | null
+  referredBy?: string | null
+  profileLink?: string | null
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
   likesHilghlights?: Prisma.LikeHighlightsCreateNestedManyWithoutUserInput
@@ -1972,7 +2112,7 @@ export type UserUncheckedCreateWithoutHighligtsInput = {
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
   athleteFullName: string
-  dateOfBirth: Date | string
+  dateOfBirth?: Date | string | null
   email: string
   password: string
   imgUrl?: string | null
@@ -1998,6 +2138,10 @@ export type UserUncheckedCreateWithoutHighligtsInput = {
   adminTilte?: string | null
   profileViews?: number
   lastViewed?: Date | string | null
+  parentEmail?: string | null
+  referralCode?: string | null
+  referredBy?: string | null
+  profileLink?: string | null
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
   likesHilghlights?: Prisma.LikeHighlightsUncheckedCreateNestedManyWithoutUserInput
@@ -2035,7 +2179,7 @@ export type UserUpdateWithoutHighligtsInput = {
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
-  dateOfBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   imgUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2061,6 +2205,10 @@ export type UserUpdateWithoutHighligtsInput = {
   adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileViews?: Prisma.IntFieldUpdateOperationsInput | number
   lastViewed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  parentEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
   likesHilghlights?: Prisma.LikeHighlightsUpdateManyWithoutUserNestedInput
@@ -2082,7 +2230,7 @@ export type UserUncheckedUpdateWithoutHighligtsInput = {
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
-  dateOfBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   imgUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2108,6 +2256,10 @@ export type UserUncheckedUpdateWithoutHighligtsInput = {
   adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileViews?: Prisma.IntFieldUpdateOperationsInput | number
   lastViewed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  parentEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
   likesHilghlights?: Prisma.LikeHighlightsUncheckedUpdateManyWithoutUserNestedInput
@@ -2129,7 +2281,7 @@ export type UserCreateWithoutLikesPostInput = {
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
   athleteFullName: string
-  dateOfBirth: Date | string
+  dateOfBirth?: Date | string | null
   email: string
   password: string
   imgUrl?: string | null
@@ -2155,6 +2307,10 @@ export type UserCreateWithoutLikesPostInput = {
   adminTilte?: string | null
   profileViews?: number
   lastViewed?: Date | string | null
+  parentEmail?: string | null
+  referralCode?: string | null
+  referredBy?: string | null
+  profileLink?: string | null
   highligts?: Prisma.highlightsCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
@@ -2176,7 +2332,7 @@ export type UserUncheckedCreateWithoutLikesPostInput = {
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
   athleteFullName: string
-  dateOfBirth: Date | string
+  dateOfBirth?: Date | string | null
   email: string
   password: string
   imgUrl?: string | null
@@ -2202,6 +2358,10 @@ export type UserUncheckedCreateWithoutLikesPostInput = {
   adminTilte?: string | null
   profileViews?: number
   lastViewed?: Date | string | null
+  parentEmail?: string | null
+  referralCode?: string | null
+  referredBy?: string | null
+  profileLink?: string | null
   highligts?: Prisma.highlightsUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
@@ -2239,7 +2399,7 @@ export type UserUpdateWithoutLikesPostInput = {
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
-  dateOfBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   imgUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2265,6 +2425,10 @@ export type UserUpdateWithoutLikesPostInput = {
   adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileViews?: Prisma.IntFieldUpdateOperationsInput | number
   lastViewed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  parentEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
@@ -2286,7 +2450,7 @@ export type UserUncheckedUpdateWithoutLikesPostInput = {
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
-  dateOfBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   imgUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2312,6 +2476,10 @@ export type UserUncheckedUpdateWithoutLikesPostInput = {
   adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileViews?: Prisma.IntFieldUpdateOperationsInput | number
   lastViewed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  parentEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
@@ -2333,7 +2501,7 @@ export type UserCreateWithoutSentMessagesInput = {
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
   athleteFullName: string
-  dateOfBirth: Date | string
+  dateOfBirth?: Date | string | null
   email: string
   password: string
   imgUrl?: string | null
@@ -2359,6 +2527,10 @@ export type UserCreateWithoutSentMessagesInput = {
   adminTilte?: string | null
   profileViews?: number
   lastViewed?: Date | string | null
+  parentEmail?: string | null
+  referralCode?: string | null
+  referredBy?: string | null
+  profileLink?: string | null
   highligts?: Prisma.highlightsCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
@@ -2380,7 +2552,7 @@ export type UserUncheckedCreateWithoutSentMessagesInput = {
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
   athleteFullName: string
-  dateOfBirth: Date | string
+  dateOfBirth?: Date | string | null
   email: string
   password: string
   imgUrl?: string | null
@@ -2406,6 +2578,10 @@ export type UserUncheckedCreateWithoutSentMessagesInput = {
   adminTilte?: string | null
   profileViews?: number
   lastViewed?: Date | string | null
+  parentEmail?: string | null
+  referralCode?: string | null
+  referredBy?: string | null
+  profileLink?: string | null
   highligts?: Prisma.highlightsUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
@@ -2432,7 +2608,7 @@ export type UserCreateWithoutReceivedMessagesInput = {
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
   athleteFullName: string
-  dateOfBirth: Date | string
+  dateOfBirth?: Date | string | null
   email: string
   password: string
   imgUrl?: string | null
@@ -2458,6 +2634,10 @@ export type UserCreateWithoutReceivedMessagesInput = {
   adminTilte?: string | null
   profileViews?: number
   lastViewed?: Date | string | null
+  parentEmail?: string | null
+  referralCode?: string | null
+  referredBy?: string | null
+  profileLink?: string | null
   highligts?: Prisma.highlightsCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
@@ -2479,7 +2659,7 @@ export type UserUncheckedCreateWithoutReceivedMessagesInput = {
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
   athleteFullName: string
-  dateOfBirth: Date | string
+  dateOfBirth?: Date | string | null
   email: string
   password: string
   imgUrl?: string | null
@@ -2505,6 +2685,10 @@ export type UserUncheckedCreateWithoutReceivedMessagesInput = {
   adminTilte?: string | null
   profileViews?: number
   lastViewed?: Date | string | null
+  parentEmail?: string | null
+  referralCode?: string | null
+  referredBy?: string | null
+  profileLink?: string | null
   highligts?: Prisma.highlightsUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
@@ -2542,7 +2726,7 @@ export type UserUpdateWithoutSentMessagesInput = {
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
-  dateOfBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   imgUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2568,6 +2752,10 @@ export type UserUpdateWithoutSentMessagesInput = {
   adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileViews?: Prisma.IntFieldUpdateOperationsInput | number
   lastViewed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  parentEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
@@ -2589,7 +2777,7 @@ export type UserUncheckedUpdateWithoutSentMessagesInput = {
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
-  dateOfBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   imgUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2615,6 +2803,10 @@ export type UserUncheckedUpdateWithoutSentMessagesInput = {
   adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileViews?: Prisma.IntFieldUpdateOperationsInput | number
   lastViewed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  parentEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
@@ -2647,7 +2839,7 @@ export type UserUpdateWithoutReceivedMessagesInput = {
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
-  dateOfBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   imgUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2673,6 +2865,10 @@ export type UserUpdateWithoutReceivedMessagesInput = {
   adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileViews?: Prisma.IntFieldUpdateOperationsInput | number
   lastViewed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  parentEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
@@ -2694,7 +2890,7 @@ export type UserUncheckedUpdateWithoutReceivedMessagesInput = {
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
-  dateOfBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   imgUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2720,6 +2916,10 @@ export type UserUncheckedUpdateWithoutReceivedMessagesInput = {
   adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileViews?: Prisma.IntFieldUpdateOperationsInput | number
   lastViewed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  parentEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
@@ -2741,7 +2941,7 @@ export type UserCreateWithoutReceivedNotificationsInput = {
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
   athleteFullName: string
-  dateOfBirth: Date | string
+  dateOfBirth?: Date | string | null
   email: string
   password: string
   imgUrl?: string | null
@@ -2767,6 +2967,10 @@ export type UserCreateWithoutReceivedNotificationsInput = {
   adminTilte?: string | null
   profileViews?: number
   lastViewed?: Date | string | null
+  parentEmail?: string | null
+  referralCode?: string | null
+  referredBy?: string | null
+  profileLink?: string | null
   highligts?: Prisma.highlightsCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
@@ -2788,7 +2992,7 @@ export type UserUncheckedCreateWithoutReceivedNotificationsInput = {
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
   athleteFullName: string
-  dateOfBirth: Date | string
+  dateOfBirth?: Date | string | null
   email: string
   password: string
   imgUrl?: string | null
@@ -2814,6 +3018,10 @@ export type UserUncheckedCreateWithoutReceivedNotificationsInput = {
   adminTilte?: string | null
   profileViews?: number
   lastViewed?: Date | string | null
+  parentEmail?: string | null
+  referralCode?: string | null
+  referredBy?: string | null
+  profileLink?: string | null
   highligts?: Prisma.highlightsUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
@@ -2840,7 +3048,7 @@ export type UserCreateWithoutSentNotificationsInput = {
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
   athleteFullName: string
-  dateOfBirth: Date | string
+  dateOfBirth?: Date | string | null
   email: string
   password: string
   imgUrl?: string | null
@@ -2866,6 +3074,10 @@ export type UserCreateWithoutSentNotificationsInput = {
   adminTilte?: string | null
   profileViews?: number
   lastViewed?: Date | string | null
+  parentEmail?: string | null
+  referralCode?: string | null
+  referredBy?: string | null
+  profileLink?: string | null
   highligts?: Prisma.highlightsCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
@@ -2887,7 +3099,7 @@ export type UserUncheckedCreateWithoutSentNotificationsInput = {
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
   athleteFullName: string
-  dateOfBirth: Date | string
+  dateOfBirth?: Date | string | null
   email: string
   password: string
   imgUrl?: string | null
@@ -2913,6 +3125,10 @@ export type UserUncheckedCreateWithoutSentNotificationsInput = {
   adminTilte?: string | null
   profileViews?: number
   lastViewed?: Date | string | null
+  parentEmail?: string | null
+  referralCode?: string | null
+  referredBy?: string | null
+  profileLink?: string | null
   highligts?: Prisma.highlightsUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
@@ -2950,7 +3166,7 @@ export type UserUpdateWithoutReceivedNotificationsInput = {
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
-  dateOfBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   imgUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2976,6 +3192,10 @@ export type UserUpdateWithoutReceivedNotificationsInput = {
   adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileViews?: Prisma.IntFieldUpdateOperationsInput | number
   lastViewed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  parentEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
@@ -2997,7 +3217,7 @@ export type UserUncheckedUpdateWithoutReceivedNotificationsInput = {
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
-  dateOfBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   imgUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3023,6 +3243,10 @@ export type UserUncheckedUpdateWithoutReceivedNotificationsInput = {
   adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileViews?: Prisma.IntFieldUpdateOperationsInput | number
   lastViewed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  parentEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
@@ -3055,7 +3279,7 @@ export type UserUpdateWithoutSentNotificationsInput = {
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
-  dateOfBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   imgUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3081,6 +3305,10 @@ export type UserUpdateWithoutSentNotificationsInput = {
   adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileViews?: Prisma.IntFieldUpdateOperationsInput | number
   lastViewed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  parentEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
@@ -3102,7 +3330,7 @@ export type UserUncheckedUpdateWithoutSentNotificationsInput = {
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
-  dateOfBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   imgUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3128,6 +3356,10 @@ export type UserUncheckedUpdateWithoutSentNotificationsInput = {
   adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileViews?: Prisma.IntFieldUpdateOperationsInput | number
   lastViewed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  parentEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
@@ -3149,7 +3381,7 @@ export type UserCreateWithoutViewedPostsInput = {
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
   athleteFullName: string
-  dateOfBirth: Date | string
+  dateOfBirth?: Date | string | null
   email: string
   password: string
   imgUrl?: string | null
@@ -3175,6 +3407,10 @@ export type UserCreateWithoutViewedPostsInput = {
   adminTilte?: string | null
   profileViews?: number
   lastViewed?: Date | string | null
+  parentEmail?: string | null
+  referralCode?: string | null
+  referredBy?: string | null
+  profileLink?: string | null
   highligts?: Prisma.highlightsCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
@@ -3196,7 +3432,7 @@ export type UserUncheckedCreateWithoutViewedPostsInput = {
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
   athleteFullName: string
-  dateOfBirth: Date | string
+  dateOfBirth?: Date | string | null
   email: string
   password: string
   imgUrl?: string | null
@@ -3222,6 +3458,10 @@ export type UserUncheckedCreateWithoutViewedPostsInput = {
   adminTilte?: string | null
   profileViews?: number
   lastViewed?: Date | string | null
+  parentEmail?: string | null
+  referralCode?: string | null
+  referredBy?: string | null
+  profileLink?: string | null
   highligts?: Prisma.highlightsUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
@@ -3259,7 +3499,7 @@ export type UserUpdateWithoutViewedPostsInput = {
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
-  dateOfBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   imgUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3285,6 +3525,10 @@ export type UserUpdateWithoutViewedPostsInput = {
   adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileViews?: Prisma.IntFieldUpdateOperationsInput | number
   lastViewed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  parentEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
@@ -3306,7 +3550,7 @@ export type UserUncheckedUpdateWithoutViewedPostsInput = {
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
-  dateOfBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   imgUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3332,6 +3576,10 @@ export type UserUncheckedUpdateWithoutViewedPostsInput = {
   adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileViews?: Prisma.IntFieldUpdateOperationsInput | number
   lastViewed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  parentEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
@@ -3353,7 +3601,7 @@ export type UserCreateWithoutPostsInput = {
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
   athleteFullName: string
-  dateOfBirth: Date | string
+  dateOfBirth?: Date | string | null
   email: string
   password: string
   imgUrl?: string | null
@@ -3379,6 +3627,10 @@ export type UserCreateWithoutPostsInput = {
   adminTilte?: string | null
   profileViews?: number
   lastViewed?: Date | string | null
+  parentEmail?: string | null
+  referralCode?: string | null
+  referredBy?: string | null
+  profileLink?: string | null
   highligts?: Prisma.highlightsCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
@@ -3400,7 +3652,7 @@ export type UserUncheckedCreateWithoutPostsInput = {
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
   athleteFullName: string
-  dateOfBirth: Date | string
+  dateOfBirth?: Date | string | null
   email: string
   password: string
   imgUrl?: string | null
@@ -3426,6 +3678,10 @@ export type UserUncheckedCreateWithoutPostsInput = {
   adminTilte?: string | null
   profileViews?: number
   lastViewed?: Date | string | null
+  parentEmail?: string | null
+  referralCode?: string | null
+  referredBy?: string | null
+  profileLink?: string | null
   highligts?: Prisma.highlightsUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
@@ -3463,7 +3719,7 @@ export type UserUpdateWithoutPostsInput = {
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
-  dateOfBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   imgUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3489,6 +3745,10 @@ export type UserUpdateWithoutPostsInput = {
   adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileViews?: Prisma.IntFieldUpdateOperationsInput | number
   lastViewed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  parentEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
@@ -3510,7 +3770,7 @@ export type UserUncheckedUpdateWithoutPostsInput = {
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
-  dateOfBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   imgUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3536,6 +3796,10 @@ export type UserUncheckedUpdateWithoutPostsInput = {
   adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileViews?: Prisma.IntFieldUpdateOperationsInput | number
   lastViewed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  parentEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
@@ -3557,7 +3821,7 @@ export type UserCreateWithoutSubscriptionsInput = {
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
   athleteFullName: string
-  dateOfBirth: Date | string
+  dateOfBirth?: Date | string | null
   email: string
   password: string
   imgUrl?: string | null
@@ -3583,6 +3847,10 @@ export type UserCreateWithoutSubscriptionsInput = {
   adminTilte?: string | null
   profileViews?: number
   lastViewed?: Date | string | null
+  parentEmail?: string | null
+  referralCode?: string | null
+  referredBy?: string | null
+  profileLink?: string | null
   highligts?: Prisma.highlightsCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
   likesHilghlights?: Prisma.LikeHighlightsCreateNestedManyWithoutUserInput
@@ -3604,7 +3872,7 @@ export type UserUncheckedCreateWithoutSubscriptionsInput = {
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
   athleteFullName: string
-  dateOfBirth: Date | string
+  dateOfBirth?: Date | string | null
   email: string
   password: string
   imgUrl?: string | null
@@ -3630,6 +3898,10 @@ export type UserUncheckedCreateWithoutSubscriptionsInput = {
   adminTilte?: string | null
   profileViews?: number
   lastViewed?: Date | string | null
+  parentEmail?: string | null
+  referralCode?: string | null
+  referredBy?: string | null
+  profileLink?: string | null
   highligts?: Prisma.highlightsUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
   likesHilghlights?: Prisma.LikeHighlightsUncheckedCreateNestedManyWithoutUserInput
@@ -3667,7 +3939,7 @@ export type UserUpdateWithoutSubscriptionsInput = {
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
-  dateOfBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   imgUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3693,6 +3965,10 @@ export type UserUpdateWithoutSubscriptionsInput = {
   adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileViews?: Prisma.IntFieldUpdateOperationsInput | number
   lastViewed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  parentEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
   likesHilghlights?: Prisma.LikeHighlightsUpdateManyWithoutUserNestedInput
@@ -3714,7 +3990,7 @@ export type UserUncheckedUpdateWithoutSubscriptionsInput = {
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
-  dateOfBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   imgUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3740,6 +4016,10 @@ export type UserUncheckedUpdateWithoutSubscriptionsInput = {
   adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileViews?: Prisma.IntFieldUpdateOperationsInput | number
   lastViewed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  parentEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
   likesHilghlights?: Prisma.LikeHighlightsUncheckedUpdateManyWithoutUserNestedInput
@@ -3761,7 +4041,7 @@ export type UserCreateWithoutTransactionsInput = {
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
   athleteFullName: string
-  dateOfBirth: Date | string
+  dateOfBirth?: Date | string | null
   email: string
   password: string
   imgUrl?: string | null
@@ -3787,6 +4067,10 @@ export type UserCreateWithoutTransactionsInput = {
   adminTilte?: string | null
   profileViews?: number
   lastViewed?: Date | string | null
+  parentEmail?: string | null
+  referralCode?: string | null
+  referredBy?: string | null
+  profileLink?: string | null
   highligts?: Prisma.highlightsCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   likesHilghlights?: Prisma.LikeHighlightsCreateNestedManyWithoutUserInput
@@ -3808,7 +4092,7 @@ export type UserUncheckedCreateWithoutTransactionsInput = {
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
   athleteFullName: string
-  dateOfBirth: Date | string
+  dateOfBirth?: Date | string | null
   email: string
   password: string
   imgUrl?: string | null
@@ -3834,6 +4118,10 @@ export type UserUncheckedCreateWithoutTransactionsInput = {
   adminTilte?: string | null
   profileViews?: number
   lastViewed?: Date | string | null
+  parentEmail?: string | null
+  referralCode?: string | null
+  referredBy?: string | null
+  profileLink?: string | null
   highligts?: Prisma.highlightsUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   likesHilghlights?: Prisma.LikeHighlightsUncheckedCreateNestedManyWithoutUserInput
@@ -3871,7 +4159,7 @@ export type UserUpdateWithoutTransactionsInput = {
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
-  dateOfBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   imgUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3897,6 +4185,10 @@ export type UserUpdateWithoutTransactionsInput = {
   adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileViews?: Prisma.IntFieldUpdateOperationsInput | number
   lastViewed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  parentEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   likesHilghlights?: Prisma.LikeHighlightsUpdateManyWithoutUserNestedInput
@@ -3918,7 +4210,7 @@ export type UserUncheckedUpdateWithoutTransactionsInput = {
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
-  dateOfBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   imgUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3944,6 +4236,10 @@ export type UserUncheckedUpdateWithoutTransactionsInput = {
   adminTilte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileViews?: Prisma.IntFieldUpdateOperationsInput | number
   lastViewed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  parentEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   likesHilghlights?: Prisma.LikeHighlightsUncheckedUpdateManyWithoutUserNestedInput
@@ -4130,6 +4426,10 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   adminTilte?: boolean
   profileViews?: boolean
   lastViewed?: boolean
+  parentEmail?: boolean
+  referralCode?: boolean
+  referredBy?: boolean
+  profileLink?: boolean
   highligts?: boolean | Prisma.User$highligtsArgs<ExtArgs>
   subscriptions?: boolean | Prisma.User$subscriptionsArgs<ExtArgs>
   transactions?: boolean | Prisma.User$transactionsArgs<ExtArgs>
@@ -4179,6 +4479,10 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   adminTilte?: boolean
   profileViews?: boolean
   lastViewed?: boolean
+  parentEmail?: boolean
+  referralCode?: boolean
+  referredBy?: boolean
+  profileLink?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -4214,6 +4518,10 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   adminTilte?: boolean
   profileViews?: boolean
   lastViewed?: boolean
+  parentEmail?: boolean
+  referralCode?: boolean
+  referredBy?: boolean
+  profileLink?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectScalar = {
@@ -4249,9 +4557,13 @@ export type UserSelectScalar = {
   adminTilte?: boolean
   profileViews?: boolean
   lastViewed?: boolean
+  parentEmail?: boolean
+  referralCode?: boolean
+  referredBy?: boolean
+  profileLink?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "stripeCustomerId" | "subscribeStatus" | "athleteFullName" | "dateOfBirth" | "email" | "password" | "imgUrl" | "parentName" | "city" | "state" | "gradYear" | "position" | "height" | "weight" | "school" | "gpa" | "agreedToTerms" | "fcmToken" | "isActive" | "isDeleted" | "role" | "ppg" | "rpg" | "apg" | "spg" | "blk" | "adminTilte" | "profileViews" | "lastViewed", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "stripeCustomerId" | "subscribeStatus" | "athleteFullName" | "dateOfBirth" | "email" | "password" | "imgUrl" | "parentName" | "city" | "state" | "gradYear" | "position" | "height" | "weight" | "school" | "gpa" | "agreedToTerms" | "fcmToken" | "isActive" | "isDeleted" | "role" | "ppg" | "rpg" | "apg" | "spg" | "blk" | "adminTilte" | "profileViews" | "lastViewed" | "parentEmail" | "referralCode" | "referredBy" | "profileLink", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   highligts?: boolean | Prisma.User$highligtsArgs<ExtArgs>
   subscriptions?: boolean | Prisma.User$subscriptionsArgs<ExtArgs>
@@ -4295,7 +4607,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     stripeCustomerId: string | null
     subscribeStatus: $Enums.subscribeStatus
     athleteFullName: string
-    dateOfBirth: Date
+    dateOfBirth: Date | null
     email: string
     password: string
     imgUrl: string | null
@@ -4321,6 +4633,10 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     adminTilte: string | null
     profileViews: number
     lastViewed: Date | null
+    parentEmail: string | null
+    referralCode: string | null
+    referredBy: string | null
+    profileLink: string | null
   }, ExtArgs["result"]["user"]>
   composites: {}
 }
@@ -4789,6 +5105,10 @@ export interface UserFieldRefs {
   readonly adminTilte: Prisma.FieldRef<"User", 'String'>
   readonly profileViews: Prisma.FieldRef<"User", 'Int'>
   readonly lastViewed: Prisma.FieldRef<"User", 'DateTime'>
+  readonly parentEmail: Prisma.FieldRef<"User", 'String'>
+  readonly referralCode: Prisma.FieldRef<"User", 'String'>
+  readonly referredBy: Prisma.FieldRef<"User", 'String'>
+  readonly profileLink: Prisma.FieldRef<"User", 'String'>
 }
     
 

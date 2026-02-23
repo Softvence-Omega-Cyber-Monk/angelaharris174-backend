@@ -37,6 +37,21 @@ export class RegisterDto {
   email: string;
 
   @ApiProperty({
+    example: 'john.doe@example.com',
+    description: 'Unique email address',
+  })
+  @IsNotEmpty({ message: 'Email is required!' })
+  @IsEmail({}, { message: 'Invalid email format' })
+  parentEmail: string;
+
+  @ApiProperty({
+    example: 'REF_123456',
+    description: 'Unique referral code',
+  })
+  @IsNotEmpty({ message: 'Referral code is required!' })
+  referredBy: string;
+
+  @ApiProperty({
     example: '123456',
     description: 'User password ',
   })
@@ -116,11 +131,5 @@ export class RegisterDto {
   @IsString()
   fcmToken?: string;
 
-  @ApiProperty({
-    example: true,
-    description: 'Must agree to terms',
-  })
-  @IsNotEmpty({ message: 'Agreement to terms is required!' })
-  @IsBoolean()
-  agreedToTerms: boolean;
+
 }
