@@ -13,6 +13,7 @@ export class NotificationService {
     recipientId,
     senderId,
     postId,
+    highlightId,
     title,
     message,
     type,
@@ -20,6 +21,7 @@ export class NotificationService {
     recipientId: string;
     senderId: string;
     postId?: string;
+    highlightId?: string;
     title: string;
     message: string;
     type: 'LIKE' | 'COMMENT' | 'NEW_POST' | 'REPLY';
@@ -29,6 +31,7 @@ export class NotificationService {
         userId: recipientId,
         senderId,
         postId,
+        highlightId,
         title,
         message,
         type,

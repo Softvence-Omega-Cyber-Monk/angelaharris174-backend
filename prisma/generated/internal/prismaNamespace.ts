@@ -386,6 +386,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   Comment: 'Comment',
   LoginSession: 'LoginSession',
+  HighlightsView: 'HighlightsView',
   LikeHighlights: 'LikeHighlights',
   highlights: 'highlights',
   Like: 'Like',
@@ -415,7 +416,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "comment" | "loginSession" | "likeHighlights" | "highlights" | "like" | "message" | "messageAttachment" | "notification" | "otpCode" | "postView" | "post" | "postImage" | "plan" | "subscription" | "transaction" | "user"
+    modelProps: "comment" | "loginSession" | "highlightsView" | "likeHighlights" | "highlights" | "like" | "message" | "messageAttachment" | "notification" | "otpCode" | "postView" | "post" | "postImage" | "plan" | "subscription" | "transaction" | "user"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -564,6 +565,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.LoginSessionCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.LoginSessionCountAggregateOutputType> | number
+        }
+      }
+    }
+    HighlightsView: {
+      payload: Prisma.$HighlightsViewPayload<ExtArgs>
+      fields: Prisma.HighlightsViewFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.HighlightsViewFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HighlightsViewPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.HighlightsViewFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HighlightsViewPayload>
+        }
+        findFirst: {
+          args: Prisma.HighlightsViewFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HighlightsViewPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.HighlightsViewFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HighlightsViewPayload>
+        }
+        findMany: {
+          args: Prisma.HighlightsViewFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HighlightsViewPayload>[]
+        }
+        create: {
+          args: Prisma.HighlightsViewCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HighlightsViewPayload>
+        }
+        createMany: {
+          args: Prisma.HighlightsViewCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.HighlightsViewCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HighlightsViewPayload>[]
+        }
+        delete: {
+          args: Prisma.HighlightsViewDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HighlightsViewPayload>
+        }
+        update: {
+          args: Prisma.HighlightsViewUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HighlightsViewPayload>
+        }
+        deleteMany: {
+          args: Prisma.HighlightsViewDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.HighlightsViewUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.HighlightsViewUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HighlightsViewPayload>[]
+        }
+        upsert: {
+          args: Prisma.HighlightsViewUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HighlightsViewPayload>
+        }
+        aggregate: {
+          args: Prisma.HighlightsViewAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateHighlightsView>
+        }
+        groupBy: {
+          args: Prisma.HighlightsViewGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.HighlightsViewGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.HighlightsViewCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.HighlightsViewCountAggregateOutputType> | number
         }
       }
     }
@@ -1673,6 +1748,16 @@ export const LoginSessionScalarFieldEnum = {
 export type LoginSessionScalarFieldEnum = (typeof LoginSessionScalarFieldEnum)[keyof typeof LoginSessionScalarFieldEnum]
 
 
+export const HighlightsViewScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  highlightsId: 'highlightsId',
+  createdAt: 'createdAt'
+} as const
+
+export type HighlightsViewScalarFieldEnum = (typeof HighlightsViewScalarFieldEnum)[keyof typeof HighlightsViewScalarFieldEnum]
+
+
 export const LikeHighlightsScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -1740,6 +1825,7 @@ export const NotificationScalarFieldEnum = {
   userId: 'userId',
   senderId: 'senderId',
   postId: 'postId',
+  highlightId: 'highlightId',
   createdAt: 'createdAt'
 } as const
 
@@ -2131,6 +2217,7 @@ export type PrismaClientOptions = ({
 export type GlobalOmitConfig = {
   comment?: Prisma.CommentOmit
   loginSession?: Prisma.LoginSessionOmit
+  highlightsView?: Prisma.HighlightsViewOmit
   likeHighlights?: Prisma.LikeHighlightsOmit
   highlights?: Prisma.highlightsOmit
   like?: Prisma.LikeOmit

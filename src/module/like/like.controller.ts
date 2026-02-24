@@ -8,8 +8,10 @@ import {
 } from '@nestjs/common';
 import { LikeService } from './like.service';
 import { Request } from 'express';
+import { JwtGuard } from 'src/common/guards/jwt.guard';
 
 @Controller('post')
+@UseGuards(JwtGuard)
 export class LikeController {
   constructor(private readonly likeService: LikeService) {}
 

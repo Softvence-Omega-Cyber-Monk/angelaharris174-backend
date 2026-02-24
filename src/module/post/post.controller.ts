@@ -24,6 +24,7 @@ import { S3Service } from '../s3/s3.service';
 import { Request } from 'express';
 
 @Controller('post')
+@UseGuards(JwtGuard)
 export class PostController {
   constructor(
     private readonly postService: PostService,

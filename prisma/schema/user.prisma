@@ -63,6 +63,7 @@ model User {
     comments              Comment[]
     likesPost             Like[]
     viewedPosts           PostView[]
+    viewedHighlights      HighlightsView[]
     receivedNotifications Notification[] @relation("Recipient")
     sentNotifications     Notification[] @relation("Sender")
     sentMessages          Message[]      @relation("SentMessages")
