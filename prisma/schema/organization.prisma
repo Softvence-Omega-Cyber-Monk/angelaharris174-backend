@@ -1,0 +1,13 @@
+model Organization {
+    id               String    @id @default(uuid())
+    organizationName String
+    organizationCode String    @unique
+    email            String    @unique
+    imaageUrl        String?
+    accessUrl        String?
+    totalClicks      Int?       @default(0)
+    uniqueVisitors   Int?       @default(0)
+    lastAccessed     DateTime?
+    createdAt        DateTime  @default(now())
+    updatedAt        DateTime  @updatedAt
+}

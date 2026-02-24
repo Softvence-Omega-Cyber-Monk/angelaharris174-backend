@@ -89,6 +89,7 @@ export type UserMinAggregateOutputType = {
   referralCode: string | null
   referredBy: string | null
   profileLink: string | null
+  oranaizaitonCode: string | null
 }
 
 export type UserMaxAggregateOutputType = {
@@ -128,6 +129,7 @@ export type UserMaxAggregateOutputType = {
   referralCode: string | null
   referredBy: string | null
   profileLink: string | null
+  oranaizaitonCode: string | null
 }
 
 export type UserCountAggregateOutputType = {
@@ -167,6 +169,7 @@ export type UserCountAggregateOutputType = {
   referralCode: number
   referredBy: number
   profileLink: number
+  oranaizaitonCode: number
   _all: number
 }
 
@@ -234,6 +237,7 @@ export type UserMinAggregateInputType = {
   referralCode?: true
   referredBy?: true
   profileLink?: true
+  oranaizaitonCode?: true
 }
 
 export type UserMaxAggregateInputType = {
@@ -273,6 +277,7 @@ export type UserMaxAggregateInputType = {
   referralCode?: true
   referredBy?: true
   profileLink?: true
+  oranaizaitonCode?: true
 }
 
 export type UserCountAggregateInputType = {
@@ -312,6 +317,7 @@ export type UserCountAggregateInputType = {
   referralCode?: true
   referredBy?: true
   profileLink?: true
+  oranaizaitonCode?: true
   _all?: true
 }
 
@@ -438,6 +444,7 @@ export type UserGroupByOutputType = {
   referralCode: string | null
   referredBy: string | null
   profileLink: string | null
+  oranaizaitonCode: string | null
   _count: UserCountAggregateOutputType | null
   _avg: UserAvgAggregateOutputType | null
   _sum: UserSumAggregateOutputType | null
@@ -500,6 +507,7 @@ export type UserWhereInput = {
   referralCode?: Prisma.StringNullableFilter<"User"> | string | null
   referredBy?: Prisma.StringNullableFilter<"User"> | string | null
   profileLink?: Prisma.StringNullableFilter<"User"> | string | null
+  oranaizaitonCode?: Prisma.StringNullableFilter<"User"> | string | null
   highligts?: Prisma.HighlightsListRelationFilter
   subscriptions?: Prisma.SubscriptionListRelationFilter
   transactions?: Prisma.TransactionListRelationFilter
@@ -552,6 +560,7 @@ export type UserOrderByWithRelationInput = {
   referralCode?: Prisma.SortOrderInput | Prisma.SortOrder
   referredBy?: Prisma.SortOrderInput | Prisma.SortOrder
   profileLink?: Prisma.SortOrderInput | Prisma.SortOrder
+  oranaizaitonCode?: Prisma.SortOrderInput | Prisma.SortOrder
   highligts?: Prisma.highlightsOrderByRelationAggregateInput
   subscriptions?: Prisma.SubscriptionOrderByRelationAggregateInput
   transactions?: Prisma.TransactionOrderByRelationAggregateInput
@@ -607,6 +616,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   referralCode?: Prisma.StringNullableFilter<"User"> | string | null
   referredBy?: Prisma.StringNullableFilter<"User"> | string | null
   profileLink?: Prisma.StringNullableFilter<"User"> | string | null
+  oranaizaitonCode?: Prisma.StringNullableFilter<"User"> | string | null
   highligts?: Prisma.HighlightsListRelationFilter
   subscriptions?: Prisma.SubscriptionListRelationFilter
   transactions?: Prisma.TransactionListRelationFilter
@@ -659,6 +669,7 @@ export type UserOrderByWithAggregationInput = {
   referralCode?: Prisma.SortOrderInput | Prisma.SortOrder
   referredBy?: Prisma.SortOrderInput | Prisma.SortOrder
   profileLink?: Prisma.SortOrderInput | Prisma.SortOrder
+  oranaizaitonCode?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
   _avg?: Prisma.UserAvgOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
@@ -706,6 +717,7 @@ export type UserScalarWhereWithAggregatesInput = {
   referralCode?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   referredBy?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   profileLink?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  oranaizaitonCode?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
 }
 
 export type UserCreateInput = {
@@ -745,6 +757,7 @@ export type UserCreateInput = {
   referralCode?: string | null
   referredBy?: string | null
   profileLink?: string | null
+  oranaizaitonCode?: string | null
   highligts?: Prisma.highlightsCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
@@ -797,6 +810,7 @@ export type UserUncheckedCreateInput = {
   referralCode?: string | null
   referredBy?: string | null
   profileLink?: string | null
+  oranaizaitonCode?: string | null
   highligts?: Prisma.highlightsUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
@@ -849,6 +863,7 @@ export type UserUpdateInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  oranaizaitonCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
@@ -901,6 +916,7 @@ export type UserUncheckedUpdateInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  oranaizaitonCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
@@ -953,6 +969,7 @@ export type UserCreateManyInput = {
   referralCode?: string | null
   referredBy?: string | null
   profileLink?: string | null
+  oranaizaitonCode?: string | null
 }
 
 export type UserUpdateManyMutationInput = {
@@ -992,6 +1009,7 @@ export type UserUpdateManyMutationInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  oranaizaitonCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type UserUncheckedUpdateManyInput = {
@@ -1031,6 +1049,7 @@ export type UserUncheckedUpdateManyInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  oranaizaitonCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type UserScalarRelationFilter = {
@@ -1080,6 +1099,7 @@ export type UserCountOrderByAggregateInput = {
   referralCode?: Prisma.SortOrder
   referredBy?: Prisma.SortOrder
   profileLink?: Prisma.SortOrder
+  oranaizaitonCode?: Prisma.SortOrder
 }
 
 export type UserAvgOrderByAggregateInput = {
@@ -1132,6 +1152,7 @@ export type UserMaxOrderByAggregateInput = {
   referralCode?: Prisma.SortOrder
   referredBy?: Prisma.SortOrder
   profileLink?: Prisma.SortOrder
+  oranaizaitonCode?: Prisma.SortOrder
 }
 
 export type UserMinOrderByAggregateInput = {
@@ -1171,6 +1192,7 @@ export type UserMinOrderByAggregateInput = {
   referralCode?: Prisma.SortOrder
   referredBy?: Prisma.SortOrder
   profileLink?: Prisma.SortOrder
+  oranaizaitonCode?: Prisma.SortOrder
 }
 
 export type UserSumOrderByAggregateInput = {
@@ -1374,14 +1396,6 @@ export type EnumsubscribeStatusFieldUpdateOperationsInput = {
   set?: $Enums.subscribeStatus
 }
 
-export type NullableIntFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type NullableFloatFieldUpdateOperationsInput = {
   set?: number | null
   increment?: number
@@ -1431,6 +1445,7 @@ export type UserCreateWithoutCommentsInput = {
   referralCode?: string | null
   referredBy?: string | null
   profileLink?: string | null
+  oranaizaitonCode?: string | null
   highligts?: Prisma.highlightsCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
@@ -1482,6 +1497,7 @@ export type UserUncheckedCreateWithoutCommentsInput = {
   referralCode?: string | null
   referredBy?: string | null
   profileLink?: string | null
+  oranaizaitonCode?: string | null
   highligts?: Prisma.highlightsUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
@@ -1549,6 +1565,7 @@ export type UserUpdateWithoutCommentsInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  oranaizaitonCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
@@ -1600,6 +1617,7 @@ export type UserUncheckedUpdateWithoutCommentsInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  oranaizaitonCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
@@ -1651,6 +1669,7 @@ export type UserCreateWithoutLoginSessionsInput = {
   referralCode?: string | null
   referredBy?: string | null
   profileLink?: string | null
+  oranaizaitonCode?: string | null
   highligts?: Prisma.highlightsCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
@@ -1702,6 +1721,7 @@ export type UserUncheckedCreateWithoutLoginSessionsInput = {
   referralCode?: string | null
   referredBy?: string | null
   profileLink?: string | null
+  oranaizaitonCode?: string | null
   highligts?: Prisma.highlightsUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
@@ -1769,6 +1789,7 @@ export type UserUpdateWithoutLoginSessionsInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  oranaizaitonCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
@@ -1820,6 +1841,7 @@ export type UserUncheckedUpdateWithoutLoginSessionsInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  oranaizaitonCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
@@ -1871,6 +1893,7 @@ export type UserCreateWithoutLikesHilghlightsInput = {
   referralCode?: string | null
   referredBy?: string | null
   profileLink?: string | null
+  oranaizaitonCode?: string | null
   highligts?: Prisma.highlightsCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
@@ -1922,6 +1945,7 @@ export type UserUncheckedCreateWithoutLikesHilghlightsInput = {
   referralCode?: string | null
   referredBy?: string | null
   profileLink?: string | null
+  oranaizaitonCode?: string | null
   highligts?: Prisma.highlightsUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
@@ -1989,6 +2013,7 @@ export type UserUpdateWithoutLikesHilghlightsInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  oranaizaitonCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
@@ -2040,6 +2065,7 @@ export type UserUncheckedUpdateWithoutLikesHilghlightsInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  oranaizaitonCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
@@ -2091,6 +2117,7 @@ export type UserCreateWithoutHighligtsInput = {
   referralCode?: string | null
   referredBy?: string | null
   profileLink?: string | null
+  oranaizaitonCode?: string | null
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
   likesHilghlights?: Prisma.LikeHighlightsCreateNestedManyWithoutUserInput
@@ -2142,6 +2169,7 @@ export type UserUncheckedCreateWithoutHighligtsInput = {
   referralCode?: string | null
   referredBy?: string | null
   profileLink?: string | null
+  oranaizaitonCode?: string | null
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
   likesHilghlights?: Prisma.LikeHighlightsUncheckedCreateNestedManyWithoutUserInput
@@ -2209,6 +2237,7 @@ export type UserUpdateWithoutHighligtsInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  oranaizaitonCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
   likesHilghlights?: Prisma.LikeHighlightsUpdateManyWithoutUserNestedInput
@@ -2260,6 +2289,7 @@ export type UserUncheckedUpdateWithoutHighligtsInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  oranaizaitonCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
   likesHilghlights?: Prisma.LikeHighlightsUncheckedUpdateManyWithoutUserNestedInput
@@ -2311,6 +2341,7 @@ export type UserCreateWithoutLikesPostInput = {
   referralCode?: string | null
   referredBy?: string | null
   profileLink?: string | null
+  oranaizaitonCode?: string | null
   highligts?: Prisma.highlightsCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
@@ -2362,6 +2393,7 @@ export type UserUncheckedCreateWithoutLikesPostInput = {
   referralCode?: string | null
   referredBy?: string | null
   profileLink?: string | null
+  oranaizaitonCode?: string | null
   highligts?: Prisma.highlightsUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
@@ -2429,6 +2461,7 @@ export type UserUpdateWithoutLikesPostInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  oranaizaitonCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
@@ -2480,6 +2513,7 @@ export type UserUncheckedUpdateWithoutLikesPostInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  oranaizaitonCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
@@ -2531,6 +2565,7 @@ export type UserCreateWithoutSentMessagesInput = {
   referralCode?: string | null
   referredBy?: string | null
   profileLink?: string | null
+  oranaizaitonCode?: string | null
   highligts?: Prisma.highlightsCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
@@ -2582,6 +2617,7 @@ export type UserUncheckedCreateWithoutSentMessagesInput = {
   referralCode?: string | null
   referredBy?: string | null
   profileLink?: string | null
+  oranaizaitonCode?: string | null
   highligts?: Prisma.highlightsUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
@@ -2638,6 +2674,7 @@ export type UserCreateWithoutReceivedMessagesInput = {
   referralCode?: string | null
   referredBy?: string | null
   profileLink?: string | null
+  oranaizaitonCode?: string | null
   highligts?: Prisma.highlightsCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
@@ -2689,6 +2726,7 @@ export type UserUncheckedCreateWithoutReceivedMessagesInput = {
   referralCode?: string | null
   referredBy?: string | null
   profileLink?: string | null
+  oranaizaitonCode?: string | null
   highligts?: Prisma.highlightsUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
@@ -2756,6 +2794,7 @@ export type UserUpdateWithoutSentMessagesInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  oranaizaitonCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
@@ -2807,6 +2846,7 @@ export type UserUncheckedUpdateWithoutSentMessagesInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  oranaizaitonCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
@@ -2869,6 +2909,7 @@ export type UserUpdateWithoutReceivedMessagesInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  oranaizaitonCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
@@ -2920,6 +2961,7 @@ export type UserUncheckedUpdateWithoutReceivedMessagesInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  oranaizaitonCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
@@ -2971,6 +3013,7 @@ export type UserCreateWithoutReceivedNotificationsInput = {
   referralCode?: string | null
   referredBy?: string | null
   profileLink?: string | null
+  oranaizaitonCode?: string | null
   highligts?: Prisma.highlightsCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
@@ -3022,6 +3065,7 @@ export type UserUncheckedCreateWithoutReceivedNotificationsInput = {
   referralCode?: string | null
   referredBy?: string | null
   profileLink?: string | null
+  oranaizaitonCode?: string | null
   highligts?: Prisma.highlightsUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
@@ -3078,6 +3122,7 @@ export type UserCreateWithoutSentNotificationsInput = {
   referralCode?: string | null
   referredBy?: string | null
   profileLink?: string | null
+  oranaizaitonCode?: string | null
   highligts?: Prisma.highlightsCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
@@ -3129,6 +3174,7 @@ export type UserUncheckedCreateWithoutSentNotificationsInput = {
   referralCode?: string | null
   referredBy?: string | null
   profileLink?: string | null
+  oranaizaitonCode?: string | null
   highligts?: Prisma.highlightsUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
@@ -3196,6 +3242,7 @@ export type UserUpdateWithoutReceivedNotificationsInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  oranaizaitonCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
@@ -3247,6 +3294,7 @@ export type UserUncheckedUpdateWithoutReceivedNotificationsInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  oranaizaitonCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
@@ -3309,6 +3357,7 @@ export type UserUpdateWithoutSentNotificationsInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  oranaizaitonCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
@@ -3360,6 +3409,7 @@ export type UserUncheckedUpdateWithoutSentNotificationsInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  oranaizaitonCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
@@ -3411,6 +3461,7 @@ export type UserCreateWithoutViewedPostsInput = {
   referralCode?: string | null
   referredBy?: string | null
   profileLink?: string | null
+  oranaizaitonCode?: string | null
   highligts?: Prisma.highlightsCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
@@ -3462,6 +3513,7 @@ export type UserUncheckedCreateWithoutViewedPostsInput = {
   referralCode?: string | null
   referredBy?: string | null
   profileLink?: string | null
+  oranaizaitonCode?: string | null
   highligts?: Prisma.highlightsUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
@@ -3529,6 +3581,7 @@ export type UserUpdateWithoutViewedPostsInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  oranaizaitonCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
@@ -3580,6 +3633,7 @@ export type UserUncheckedUpdateWithoutViewedPostsInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  oranaizaitonCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
@@ -3631,6 +3685,7 @@ export type UserCreateWithoutPostsInput = {
   referralCode?: string | null
   referredBy?: string | null
   profileLink?: string | null
+  oranaizaitonCode?: string | null
   highligts?: Prisma.highlightsCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
@@ -3682,6 +3737,7 @@ export type UserUncheckedCreateWithoutPostsInput = {
   referralCode?: string | null
   referredBy?: string | null
   profileLink?: string | null
+  oranaizaitonCode?: string | null
   highligts?: Prisma.highlightsUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
@@ -3749,6 +3805,7 @@ export type UserUpdateWithoutPostsInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  oranaizaitonCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
@@ -3800,6 +3857,7 @@ export type UserUncheckedUpdateWithoutPostsInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  oranaizaitonCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
@@ -3851,6 +3909,7 @@ export type UserCreateWithoutSubscriptionsInput = {
   referralCode?: string | null
   referredBy?: string | null
   profileLink?: string | null
+  oranaizaitonCode?: string | null
   highligts?: Prisma.highlightsCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
   likesHilghlights?: Prisma.LikeHighlightsCreateNestedManyWithoutUserInput
@@ -3902,6 +3961,7 @@ export type UserUncheckedCreateWithoutSubscriptionsInput = {
   referralCode?: string | null
   referredBy?: string | null
   profileLink?: string | null
+  oranaizaitonCode?: string | null
   highligts?: Prisma.highlightsUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
   likesHilghlights?: Prisma.LikeHighlightsUncheckedCreateNestedManyWithoutUserInput
@@ -3969,6 +4029,7 @@ export type UserUpdateWithoutSubscriptionsInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  oranaizaitonCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
   likesHilghlights?: Prisma.LikeHighlightsUpdateManyWithoutUserNestedInput
@@ -4020,6 +4081,7 @@ export type UserUncheckedUpdateWithoutSubscriptionsInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  oranaizaitonCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
   likesHilghlights?: Prisma.LikeHighlightsUncheckedUpdateManyWithoutUserNestedInput
@@ -4071,6 +4133,7 @@ export type UserCreateWithoutTransactionsInput = {
   referralCode?: string | null
   referredBy?: string | null
   profileLink?: string | null
+  oranaizaitonCode?: string | null
   highligts?: Prisma.highlightsCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   likesHilghlights?: Prisma.LikeHighlightsCreateNestedManyWithoutUserInput
@@ -4122,6 +4185,7 @@ export type UserUncheckedCreateWithoutTransactionsInput = {
   referralCode?: string | null
   referredBy?: string | null
   profileLink?: string | null
+  oranaizaitonCode?: string | null
   highligts?: Prisma.highlightsUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   likesHilghlights?: Prisma.LikeHighlightsUncheckedCreateNestedManyWithoutUserInput
@@ -4189,6 +4253,7 @@ export type UserUpdateWithoutTransactionsInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  oranaizaitonCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   likesHilghlights?: Prisma.LikeHighlightsUpdateManyWithoutUserNestedInput
@@ -4240,6 +4305,7 @@ export type UserUncheckedUpdateWithoutTransactionsInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referredBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profileLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  oranaizaitonCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highligts?: Prisma.highlightsUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   likesHilghlights?: Prisma.LikeHighlightsUncheckedUpdateManyWithoutUserNestedInput
@@ -4430,6 +4496,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   referralCode?: boolean
   referredBy?: boolean
   profileLink?: boolean
+  oranaizaitonCode?: boolean
   highligts?: boolean | Prisma.User$highligtsArgs<ExtArgs>
   subscriptions?: boolean | Prisma.User$subscriptionsArgs<ExtArgs>
   transactions?: boolean | Prisma.User$transactionsArgs<ExtArgs>
@@ -4483,6 +4550,7 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   referralCode?: boolean
   referredBy?: boolean
   profileLink?: boolean
+  oranaizaitonCode?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -4522,6 +4590,7 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   referralCode?: boolean
   referredBy?: boolean
   profileLink?: boolean
+  oranaizaitonCode?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectScalar = {
@@ -4561,9 +4630,10 @@ export type UserSelectScalar = {
   referralCode?: boolean
   referredBy?: boolean
   profileLink?: boolean
+  oranaizaitonCode?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "stripeCustomerId" | "subscribeStatus" | "athleteFullName" | "dateOfBirth" | "email" | "password" | "imgUrl" | "parentName" | "city" | "state" | "gradYear" | "position" | "height" | "weight" | "school" | "gpa" | "agreedToTerms" | "fcmToken" | "isActive" | "isDeleted" | "role" | "ppg" | "rpg" | "apg" | "spg" | "blk" | "adminTilte" | "profileViews" | "lastViewed" | "parentEmail" | "referralCode" | "referredBy" | "profileLink", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "stripeCustomerId" | "subscribeStatus" | "athleteFullName" | "dateOfBirth" | "email" | "password" | "imgUrl" | "parentName" | "city" | "state" | "gradYear" | "position" | "height" | "weight" | "school" | "gpa" | "agreedToTerms" | "fcmToken" | "isActive" | "isDeleted" | "role" | "ppg" | "rpg" | "apg" | "spg" | "blk" | "adminTilte" | "profileViews" | "lastViewed" | "parentEmail" | "referralCode" | "referredBy" | "profileLink" | "oranaizaitonCode", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   highligts?: boolean | Prisma.User$highligtsArgs<ExtArgs>
   subscriptions?: boolean | Prisma.User$subscriptionsArgs<ExtArgs>
@@ -4637,6 +4707,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     referralCode: string | null
     referredBy: string | null
     profileLink: string | null
+    oranaizaitonCode: string | null
   }, ExtArgs["result"]["user"]>
   composites: {}
 }
@@ -5109,6 +5180,7 @@ export interface UserFieldRefs {
   readonly referralCode: Prisma.FieldRef<"User", 'String'>
   readonly referredBy: Prisma.FieldRef<"User", 'String'>
   readonly profileLink: Prisma.FieldRef<"User", 'String'>
+  readonly oranaizaitonCode: Prisma.FieldRef<"User", 'String'>
 }
     
 

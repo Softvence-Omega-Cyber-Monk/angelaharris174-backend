@@ -15,6 +15,7 @@ import { CommentModule } from './module/comment/comment.module';
 import { NotificationModule } from './module/notification/notification.module';
 import { ChatModule } from './module/chat/chat.module';
 import { FeedModule } from './module/feed/feed.module';
+import { OrganizationModule } from './module/organization/organization.module';
 
 @Module({
   imports: [ConfigModule.forRoot({
@@ -32,10 +33,12 @@ import { FeedModule } from './module/feed/feed.module';
     CommentModule,
     NotificationModule,
     ChatModule,
-    FeedModule
+    FeedModule,
+    OrganizationModule
 
   ],
   controllers: [AppController],
   providers: [AppService , SeederService],
 })
 export class AppModule { }
+

@@ -42,6 +42,15 @@ export class AuthService {
       throw new BadRequestException('Email is already registered!');
     }
 
+    if(dto.organizationCode ) {
+      await this.prisma.client.organization.update({
+        where:{organizationCode: dto.organizationCode}
+        , data:{
+          uniqueVisitors:{increment:1}
+        }
+      })
+    }
+
     const hashedPassword = await bcrypt.hash(
       dto.password,
       parseInt(process.env.SALT_ROUND!, 10),
@@ -115,6 +124,7 @@ export class AuthService {
     if (!user || !dto.password) {
       throw new ForbiddenException('Invalid credentials');
     }
+
 
     if (user.isDeleted) {
       throw new BadRequestException('User is deleted!');

@@ -153,5 +153,13 @@ export class RegisterDto {
   @IsOptional()
   image?: any;
 
+  @ApiProperty({
+    type: 'string',
+    description: 'Optional organization code',
+    required: false,
+  })
+  @IsOptional()
+  organizationCode?: any;
+
 
 }
