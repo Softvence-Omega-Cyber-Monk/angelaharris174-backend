@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   ForbiddenException,
+  HttpStatus,
   Injectable,
   NotFoundException,
   UnauthorizedException,
@@ -20,7 +21,8 @@ import { S3Service } from '../s3/s3.service';
 import { EmailService } from '../email/email.service';
 import { RequestResetCodeDto } from './dto/forgetPasswordDto';
 import { VerifyResetCodeDto } from './dto/forgetPasswordDto';
-import type { Request } from 'express';
+import type { Request, Response } from 'express';
+import sendResponse from 'src/utils/sendResponse';
 
 @Injectable()
 export class AuthService {
@@ -31,7 +33,7 @@ export class AuthService {
     private emailService: EmailService,
   ) { }
 
-  async register(dto: RegisterDto) {
+  async register(dto: RegisterDto, imageUrl?: string | null) {
     const existingUser = await this.prisma.client.user.findUnique({
       where: { email: dto.email },
     });
@@ -51,6 +53,7 @@ export class AuthService {
         dateOfBirth: new Date(dto.dateOfBirth), // Convert ISO string to Date
         email: dto.email,
         password: hashedPassword,
+        imgUrl: imageUrl ?? undefined,
         parentName: dto.parentName ?? undefined,
         city: dto.city ?? undefined,
         state: dto.state ?? undefined,
@@ -104,7 +107,7 @@ export class AuthService {
   }
 
   // login
-  async login(dto: LoginDto, req: Request) { // <-- Added req: Request
+  async login(dto: LoginDto, req: Request , res: Response) { // <-- Added req: Request
     const user = await this.prisma.client.user.findUnique({
       where: { email: dto.email },
     });
@@ -117,7 +120,7 @@ export class AuthService {
       throw new BadRequestException('User is deleted!');
     }
     if (!user.isActive) {
-      throw new BadRequestException('User is not active!');
+      return {isActive: false  ,  access_token: null , refresh_token :null}
     }
 
     const isMatch = await bcrypt.compare(dto.password, user.password);
@@ -574,3 +577,4 @@ export class AuthService {
 
 
 }
+

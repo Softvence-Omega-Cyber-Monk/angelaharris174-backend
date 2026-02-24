@@ -85,9 +85,35 @@ export class AuthController {
   }
 
   @Public()
+  @UseInterceptors(FileInterceptor('image'))
   @Post('register')
-  async register(@Body() dto: RegisterDto, @Res() res: Response) {
-    const result = await this.authService.register(dto);
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    description: 'Register a user with optional profile image upload',
+    type: RegisterDto,
+  })
+  async register(
+    @Body() dto: RegisterDto,
+    @UploadedFile() file: Express.Multer.File,
+    @Res() res: Response,
+  ) {
+    let imageUrl: string | null = null;
+
+    if (file) {
+      try {
+        imageUrl = await this.s3Service.uploadFile(file, 'profile-images');
+      } catch (error) {
+        console.error(error, 'File Upload Error');
+        return sendResponse(res, {
+          statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+          success: false,
+          message: 'Image upload failed. Please try again.',
+          data: null,
+        });
+      }
+    }
+
+    const result = await this.authService.register(dto, imageUrl);
 
     res.cookie('accessToken', result.access_token, {
       httpOnly: false, // Prevents client-side access to the cookie
@@ -114,7 +140,7 @@ export class AuthController {
   @Public()
   @Post('login')
   async login(@Body() dto: LoginDto, @Req() req: Request, @Res() res: Response) {
-    const result = await this.authService.login(dto, req);
+    const result = await this.authService.login(dto, req , res);
     res.cookie('accessToken', result.access_token, {
       httpOnly: false, // Prevents client-side access to the cookie
       secure: false, // Only true for HTTPS
@@ -129,9 +155,9 @@ export class AuthController {
       sameSite: 'none', // Allow cross-origin requests to send the cookie
     });
     return sendResponse(res, {
-      statusCode: HttpStatus.OK,
-      success: true,
-      message: 'Login successful',
+      statusCode: result.isActive ? HttpStatus.OK : HttpStatus.FORBIDDEN,
+      success: result.isActive ??  true,
+      message: result.isActive ? 'Login successful' : 'Account is not active',
       data: result,
     });
   }
@@ -342,3 +368,5 @@ export class AuthController {
 
 
 }
+
+

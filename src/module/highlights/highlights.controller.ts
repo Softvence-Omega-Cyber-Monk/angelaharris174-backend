@@ -103,4 +103,22 @@ export class HighlightsController {
         });
     }
 
+    @Delete('deleteHighlights/:id')
+    async deleteHighlight(
+        @Param('id') id: string,
+        @Req() req: Request,
+        @Res() res: Response
+    ) {
+        const userId = req.user?.id as string;
+        const role = req.user?.role as string | undefined;
+        const result = await this.highlightService.deleteHighlight(id, userId, role);
+
+        return sendResponse(res, {
+            statusCode: HttpStatus.OK,
+            success: true,
+            message: 'Highlight deleted successfully',
+            data: result,
+        });
+    }
+
 }

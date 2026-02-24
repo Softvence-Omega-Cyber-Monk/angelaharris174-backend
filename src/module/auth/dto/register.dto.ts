@@ -11,6 +11,11 @@ import {
   IsBoolean,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { Type, Transform } from 'class-transformer';
+
+// Helper: convert empty strings to undefined so @IsOptional() skips them
+const EmptyToUndefined = () =>
+  Transform(({ value }) => (value === '' ? undefined : value));
 
 export class RegisterDto {
   @ApiProperty({
@@ -77,6 +82,8 @@ export class RegisterDto {
 
   @ApiProperty({ example: 2026, required: false })
   @IsOptional()
+  @EmptyToUndefined()
+  @Type(() => Number)
   @IsInt()
   @Min(2000)
   @Max(2035)
@@ -93,6 +100,8 @@ export class RegisterDto {
     required: false,
   })
   @IsOptional()
+  @EmptyToUndefined()
+  @Type(() => Number)
   @IsNumber({}, { message: 'Height must be a number' })
   @Min(0)
   height?: number;
@@ -103,6 +112,8 @@ export class RegisterDto {
     required: false,
   })
   @IsOptional()
+  @EmptyToUndefined()
+  @Type(() => Number)
   @IsNumber({}, { message: 'Weight must be a number' })
   @Min(0)
   weight?: number;
@@ -118,6 +129,8 @@ export class RegisterDto {
     required: false,
   })
   @IsOptional()
+  @EmptyToUndefined()
+  @Type(() => Number)
   @IsNumber(
     { maxDecimalPlaces: 2 },
     { message: 'GPA must be a number with up to 2 decimal places' }
@@ -130,6 +143,15 @@ export class RegisterDto {
   @IsOptional()
   @IsString()
   fcmToken?: string;
+
+  @ApiProperty({
+    type: 'string',
+    format: 'binary',
+    description: 'Optional profile image file',
+    required: false,
+  })
+  @IsOptional()
+  image?: any;
 
 
 }
