@@ -48,22 +48,6 @@ export class NotificationService {
     return notification;
   }
 
-  // async create(
-  //   userId: string,
-  //   title: string,
-  //   message: string,
-  //   type: string,
-  //   postId?: string,
-  // ) {
-  //   const notification = await this.prisma.notification.create({
-  //     data: { userId, title, message, type, postId },
-  //   });
-
-  //   this.gateway.send(userId, notification);
-
-  //   return notification;
-  // }
-
   async createLikeNotification(
     postOwnerId: string,
     likerName: string,
