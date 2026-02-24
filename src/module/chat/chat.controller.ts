@@ -24,6 +24,12 @@ export class ChatController {
     private readonly s3Service: S3Service,
   ) {}
 
+  @Get('list')
+  async getMyChatList(@Req() req: Request) {
+    const userId = req.user!.id; // JWT থেকে লগইন করা ইউজারের আইডি
+    return await this.chatService.getMyChatList(userId);
+  }
+
   @Get('history/:contactId')
   async getHistory(
     @Req() req: Request,
