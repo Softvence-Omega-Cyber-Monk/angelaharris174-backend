@@ -614,6 +614,45 @@ export class StripeService {
     });
   }
 
+  async findTransactionById(transactionId: string) {
+    const transaction = await this.prisma.client.transaction.findUnique({
+      where: { id: transactionId },
+      include: {
+        user: {
+          select: {
+            id: true,
+            email: true,
+            athleteFullName: true,
+          },
+        },
+        subscription: {
+          select: {
+            id: true,
+            status: true,
+            stripeSubscriptionId: true,
+            startedAt: true,
+            endedAt: true,
+          },
+        },
+        plan: {
+          select: {
+            id: true,
+            name: true,
+            price: true,
+            currency: true,
+            interval: true,
+          },
+        },
+      },
+    });
+
+    if (!transaction) {
+      throw new HttpException('Transaction not found', HttpStatus.NOT_FOUND);
+    }
+
+    return transaction;
+  }
+
   async findTransactionsByUserId(userId: string, page: number = 1, limit: number = 10) {
     const skip = (page - 1) * limit;
 
