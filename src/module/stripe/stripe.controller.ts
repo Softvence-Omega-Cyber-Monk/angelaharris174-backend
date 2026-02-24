@@ -3,7 +3,7 @@ import { Controller, Post, Body, Req, Res, UseGuards, HttpException, HttpStatus,
 import type { Request, Response } from 'express';
 import { StripeService } from './stripe.service';
 import { AuthGuard } from '@nestjs/passport'; // assuming you have auth
-import { ApiBody, ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateCheckoutSessionDto, CreateProductDto, UpdatePlanDto } from './dto/strpe.dto';
 import { Public } from 'src/common/decorators/public.decorators';
 
@@ -274,6 +274,26 @@ export class StripeController {
       statusCode: HttpStatus.OK,
       data: result.data,
       meta: result.meta,
+    };
+  }
+
+  @Public() // In production, add @UseGuards(AdminGuard)
+  @Get('transaction/:transactionId')
+  @ApiOperation({ summary: 'Get transaction details by transaction ID (Admin)' })
+  @ApiParam({
+    name: 'transactionId',
+    required: true,
+    description: 'Stripe PaymentIntent ID (pi_...)',
+    type: String,
+  })
+  @ApiResponse({ status: 200, description: 'Transaction details' })
+  async getTransactionById(
+    @Param('transactionId') transactionId: string,
+  ) {
+    const transaction = await this.stripeService.findTransactionById(transactionId);
+    return {
+      statusCode: HttpStatus.OK,
+      data: transaction,
     };
   }
 
