@@ -48,8 +48,8 @@ export class RegisterDto {
     example: 'REF_123456',
     description: 'Unique referral code',
   })
-  @IsNotEmpty({ message: 'Referral code is required!' })
-  referredBy: string;
+  @IsOptional()
+  referredBy?: string;
 
   @ApiProperty({
     example: '123456',
