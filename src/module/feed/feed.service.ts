@@ -13,8 +13,21 @@ export class FeedService {
     const [posts, highlightsList] = await Promise.all([
       this.prisma.client.post.findMany({
         include: {
-          images: true,
-          user: { select: { id: true, athleteFullName: true, imgUrl: true } },
+          images: {
+            select: {
+              id: true,
+              url: true,
+            },
+          },
+          user: {
+            select: {
+              id: true,
+              athleteFullName: true,
+              imgUrl: true,
+              isActive: true,
+              subscribeStatus: true,
+            },
+          },
           likesList: { where: { userId }, select: { id: true } },
           views: { where: { userId }, select: { id: true } },
         },
@@ -23,9 +36,31 @@ export class FeedService {
       }),
       this.prisma.client.highlights.findMany({
         where: { isProcessing: false },
-        include: {
-          user: { select: { id: true, athleteFullName: true, imgUrl: true } },
-          likedBy: { where: { userId }, select: { id: true } },
+
+        select: {
+          id: true,
+          mergedVideoUrl: true,
+          caption: true,
+          description: true,
+          userId: true,
+          isProcessing: true,
+          likes: true,
+          views: true,
+          createdAt: true,
+          highLightsLink: true,
+          user: {
+            select: {
+              id: true,
+              athleteFullName: true,
+              imgUrl: true,
+              isActive: true,
+              subscribeStatus: true,
+            },
+          },
+          likedBy: {
+            where: { userId },
+            select: { id: true },
+          },
         },
         orderBy: { createdAt: 'desc' },
         take: dbTake,
