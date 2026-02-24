@@ -8,6 +8,19 @@ interface ChatAttachment {
   fileType?: string;
 }
 
+export interface ChatListItem {
+  contactInfo: {
+    id: string;
+    athleteFullName: string | null;
+    imgUrl: string | null;
+  };
+  lastMessage: {
+    content: string | null;
+    createdAt: Date;
+    id: string;
+  };
+}
+
 @Injectable()
 export class ChatService {
   constructor(private prisma: PrismaService) {}
@@ -83,5 +96,38 @@ export class ChatService {
       },
       orderBy: { createdAt: 'asc' },
     });
+  }
+
+  async getMyChatList(userId: string): Promise<ChatListItem[]> {
+    const messages = await this.prisma.client.message.findMany({
+      where: {
+        OR: [{ senderId: userId }, { receiverId: userId }],
+      },
+      orderBy: { createdAt: 'desc' },
+      include: {
+        sender: { select: { id: true, athleteFullName: true, imgUrl: true } },
+        receiver: { select: { id: true, athleteFullName: true, imgUrl: true } },
+      },
+    });
+
+    const chatMap = new Map<string, ChatListItem>();
+
+    messages.forEach((msg) => {
+      const contact = msg.senderId === userId ? msg.receiver : msg.sender;
+      const contactId = contact.id;
+
+      if (!chatMap.has(contactId)) {
+        chatMap.set(contactId, {
+          contactInfo: contact,
+          lastMessage: {
+            content: msg.content,
+            createdAt: msg.createdAt,
+            id: msg.id,
+          },
+        });
+      }
+    });
+
+    return Array.from(chatMap.values());
   }
 }
