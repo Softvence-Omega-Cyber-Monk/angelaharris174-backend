@@ -42,13 +42,13 @@ export class AuthService {
       throw new BadRequestException('Email is already registered!');
     }
 
-    if(dto.organizationCode ) {
-      await this.prisma.client.organization.update({
-        where:{organizationCode: dto.organizationCode}
-        , data:{
-          uniqueVisitors:{increment:1}
-        }
-      })
+    if (dto.organizationCode) {
+      await this.prisma.client.organization.updateMany({
+        where: { organizationCode: dto.organizationCode },
+        data: {
+          uniqueVisitors: { increment: 1 },
+        },
+      });
     }
 
     const hashedPassword = await bcrypt.hash(
@@ -77,6 +77,7 @@ export class AuthService {
         isActive: false,
         parentEmail: dto.parentEmail,
         referredBy: dto.referredBy ?? undefined,
+        oranaizaitonCode:dto.organizationCode ?? undefined
         // role defaults to ATHLATE per your Prisma schema
         // isActive, isDeleted default to false
       },

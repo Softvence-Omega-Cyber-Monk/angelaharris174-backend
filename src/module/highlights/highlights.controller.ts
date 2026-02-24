@@ -8,13 +8,15 @@ import sendResponse from '../../utils/sendResponse';
 import { HighlightsDto } from './dto/highlights.dto';
 import { RemoveClipDto } from './dto/remove-clip.dto';
 import { Roles } from 'src/common/decorators/roles.decorator';
-import { userRole } from '@prisma';
+import { subscribeStatus, userRole } from '@prisma';
+import { Subscription } from 'src/common/decorators/subscription.decorator';
 
 @Controller('highlights')
 export class HighlightsController {
     constructor(private highlightService: HighlightsService) { }
 
     @Post('merge-video')
+    @Subscription(subscribeStatus.ELITE, subscribeStatus.PRO)
     @UseInterceptors(FilesInterceptor('clips'))
     @ApiConsumes('multipart/form-data')
     @ApiBody({
@@ -26,9 +28,9 @@ export class HighlightsController {
         @UploadedFiles() clips: Express.Multer.File[],
         @Res() res: Response
     ) {
-        const userId = req.user?.id as string 
+        const userId = req.user?.id as string
         const result = await this.highlightService.mergeVideo(
-            userId ,
+            userId,
             dto,
             clips
         );
@@ -42,8 +44,9 @@ export class HighlightsController {
         });
     }
 
-   
+
     @Delete('remove-clip')
+    @Roles(userRole.ADMIN)
     async removeClip(
         @Body() dto: RemoveClipDto,
         @Res() res: Response
@@ -104,6 +107,7 @@ export class HighlightsController {
     }
 
     @Delete('deleteHighlights/:id')
+    @Subscription(subscribeStatus.ELITE, subscribeStatus.PRO)
     async deleteHighlight(
         @Param('id') id: string,
         @Req() req: Request,
