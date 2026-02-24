@@ -88,7 +88,7 @@ export class HighlightsController {
     }
 
     @Public()
-    @Patch('view/:id')
+    @Get('view/:id')
     async incrementView(
         @Param('id') id: string,
         @Res() res: Response
