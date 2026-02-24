@@ -12,6 +12,7 @@ model LikeHighlights {
 
 model highlights {
   id             String   @id @default(uuid())
+
   mergedVideoUrl String?
   caption        String
   description    String

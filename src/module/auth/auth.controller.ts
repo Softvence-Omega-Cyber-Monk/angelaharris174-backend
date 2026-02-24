@@ -250,6 +250,32 @@ export class AuthController {
     });
   }
 
+  @Public()
+  @Post('verify-otp')
+  async verifyOtpCode(@Body() dto: VerifyResetCodeDto, @Res() res: Response) {
+    const result = await this.authService.verifyEmailOtp(dto);
+
+    return sendResponse(res, {
+      statusCode: HttpStatus.OK,
+      success: true,
+      message: 'OTP verified and account activated',
+      data: result,
+    });
+  }
+
+  @Public()
+  @Post('resend-otp')
+  async resendOtp(@Body() dto: RequestResetCodeDto, @Res() res: Response) {
+    const result = await this.authService.resendOtpCode(dto);
+
+    return sendResponse(res, {
+      statusCode: HttpStatus.OK,
+      success: true,
+      message: 'OTP resent successfully',
+      data: result,
+    });
+  }
+
   @Get('me')
   @ApiOperation({
     summary: 'Check if a user is active',

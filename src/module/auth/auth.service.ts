@@ -17,6 +17,7 @@ import { RegisterDto } from './dto/register.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { UpdateUserDto } from './dto/update-account.dto';
 import { S3Service } from '../s3/s3.service';
+import { EmailService } from '../email/email.service';
 import { RequestResetCodeDto } from './dto/forgetPasswordDto';
 import { VerifyResetCodeDto } from './dto/forgetPasswordDto';
 import type { Request } from 'express';
@@ -27,6 +28,7 @@ export class AuthService {
     private prisma: PrismaService,
     private jwtService: JwtService,
     private s3Service: S3Service,
+    private emailService: EmailService,
   ) { }
 
   async register(dto: RegisterDto) {
@@ -60,22 +62,37 @@ export class AuthService {
         gpa: dto.gpa ?? undefined,
         fcmToken: dto.fcmToken ?? undefined,
         referralCode: "REF_" + Math.floor(100000 + Math.random() * 900000).toString(), // Generate a unique referral code
-        isActive: true,
-        parentEmail:dto.parentEmail,
-        referredBy:dto.referredBy?? undefined,
+        isActive: false,
+        parentEmail: dto.parentEmail,
+        referredBy: dto.referredBy ?? undefined,
         // role defaults to ATHLATE per your Prisma schema
         // isActive, isDeleted default to false
       },
     });
 
-    const profileLink =process.env.BASE_URL+'/profile/'+newUser.id
+    const profileLink = process.env.BASE_URL + '/profile/' + newUser.id
 
 
 
     const updatedUser = await this.prisma.client.user.update({
-      where : {id : newUser.id},
-      data:{profileLink}
+      where: { id: newUser.id },
+      data: { profileLink }
     })
+
+    const otpCode = generateOtpCode();
+    const hashedOtp = await hashOtpCode(otpCode);
+    const expiresAt = new Date(Date.now() + 5 * 60 * 1000);
+
+    await this.prisma.client.otpCode.create({
+      data: { email: updatedUser.email, code: hashedOtp, expiresAt },
+    });
+
+    await this.emailService.sendEmail({
+      to: updatedUser.email,
+      subject: 'Verify your email',
+      text: `Your verification code is ${otpCode}. It will expire in 5 minutes.`,
+    });
+
     const tokens = await getTokens(
       this.jwtService,
       updatedUser.id,
@@ -99,6 +116,9 @@ export class AuthService {
     if (user.isDeleted) {
       throw new BadRequestException('User is deleted!');
     }
+    if (!user.isActive) {
+      throw new BadRequestException('User is not active!');
+    }
 
     const isMatch = await bcrypt.compare(dto.password, user.password);
     if (!isMatch) {
@@ -113,7 +133,7 @@ export class AuthService {
     );
 
     // --- START: Login History Logic ---
-    
+
     // 1. Parse User-Agent
     const userAgent = req.get('user-agent') ?? 'Unknown';
 
@@ -124,10 +144,10 @@ export class AuthService {
     const deviceName = `${os} - ${browser}`;
 
     // 2. Get IP Address (Handle Cloudflare/Render/Proxy)
-    const ip = 
-      req.headers['x-forwarded-for']?.toString().split(',')[0].trim() || 
+    const ip =
+      req.headers['x-forwarded-for']?.toString().split(',')[0].trim() ||
       req.headers['cf-connecting-ip']?.toString() || // Specific to Cloudflare
-      req.socket.remoteAddress || 
+      req.socket.remoteAddress ||
       'unknown';
 
     // 3. (Optional) Fetch Location from IP using an external API
@@ -356,6 +376,57 @@ export class AuthService {
     return verifyOtp(this.prisma.client, dto.email, dto.code);
   }
 
+  async verifyEmailOtp(dto: VerifyResetCodeDto) {
+    await verifyOtp(this.prisma.client, dto.email, dto.code);
+
+    const user = await this.prisma.client.user.findUnique({
+      where: { email: dto.email },
+    });
+
+    if (!user || user.isDeleted) {
+      throw new NotFoundException('User not found');
+    }
+
+    if (!user.isActive) {
+      await this.prisma.client.user.update({
+        where: { email: dto.email },
+        data: { isActive: true },
+      });
+    }
+
+    return { message: 'Account verified successfully' };
+  }
+
+  async resendOtpCode(dto: RequestResetCodeDto) {
+    const user = await this.prisma.client.user.findUnique({
+      where: { email: dto.email },
+    });
+
+    if (!user || user.isDeleted) {
+      throw new NotFoundException('User not found');
+    }
+
+    if (user.isActive) {
+      throw new BadRequestException('Account already verified');
+    }
+
+    const code = generateOtpCode();
+    const hashedCode = await hashOtpCode(code);
+    const expiresAt = new Date(Date.now() + 5 * 60 * 1000);
+
+    await this.prisma.client.otpCode.create({
+      data: { email: dto.email, code: hashedCode, expiresAt },
+    });
+
+    await this.emailService.sendEmail({
+      to: dto.email,
+      subject: 'Verify your email',
+      text: `Your verification code is ${code}. It will expire in 5 minutes.`,
+    });
+
+    return { message: 'Verification code resent' };
+  }
+
   // get current user
   async currentUser(id: string) {
     const existingUser = await this.prisma.client.user.findUnique({
@@ -407,7 +478,7 @@ export class AuthService {
     });
   }
 
-    async recordProfileView(targetUserId: string, currentUserId: string) {
+  async recordProfileView(targetUserId: string, currentUserId: string) {
     // 1. Verify the target user exists and is active
     const targetUser = await this.prisma.client.user.findUnique({
       where: { id: targetUserId },
@@ -421,7 +492,7 @@ export class AuthService {
     // 2. Logic: If the viewer is the owner, do not update stats
     if (currentUserId === targetUserId) {
       // Return the user data without modifying the DB
-      return {message : 'welcome to yoor profile'}
+      return { message: 'welcome to yoor profile' }
     }
 
     // Increment profileViews by 1 and set lastViewed to now

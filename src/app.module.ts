@@ -6,6 +6,7 @@ import { PrismaModule } from './module/prisma/prisma.module';
 import { AuthModule } from './module/auth/auth.module';
 import { HighlightsModule } from './module/highlights/highlights.module';
 import { StripeModule } from './module/stripe/stripe.module';
+import { EmailModule } from './module/email/email.module';
 import { SeederService } from './seeder/seeder.service';
 import { AdminModule } from './module/admin/admin.module';
 import { PostModule } from './module/post/post.module';
@@ -23,6 +24,7 @@ import { FeedModule } from './module/feed/feed.module';
     PrismaModule,
     HighlightsModule,
     StripeModule,
+    EmailModule,
     AdminModule,
     // miraz vai 
     PostModule,
