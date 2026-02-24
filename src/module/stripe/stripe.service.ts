@@ -3,12 +3,13 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import Stripe from 'stripe'; // ✅ Correct import
 import { PrismaService } from '../prisma/prisma.service';
 import { UpdatePlanDto } from './dto/strpe.dto';
+import { EmailService } from '../email/email.service';
 
 @Injectable()
 export class StripeService {
   private stripeClient: Stripe;
 
-  constructor(private readonly prisma: PrismaService) {
+  constructor(private readonly prisma: PrismaService, private readonly emailService: EmailService) {
     const secretKey = process.env.STRIPE_SECRET_KEY;
     if (!secretKey) {
       throw new Error('STRIPE_SECRET_KEY is not defined in environment variables');
@@ -90,6 +91,15 @@ export class StripeService {
       );
     }
 
+    const user = await this.prisma.client.user.findUnique({
+      where: { id: userId },
+      select: { email: true },
+    });
+
+    if (!user?.email) {
+      throw new HttpException('User email not found.', HttpStatus.NOT_FOUND);
+    }
+
     const session = await this.stripeClient.checkout.sessions.create({
       mode: 'subscription',
       line_items: [
@@ -114,9 +124,16 @@ export class StripeService {
       },
     });
 
+    if (session.url) {
+      await this.emailService.sendEmail({
+        to: user.email,
+        subject: 'Your Stripe Checkout Session',
+        text: `Use this link to complete your subscription checkout: ${session.url}`,
+      });
+    }
+
     return session;
   }
-
   // GET all plans
   async findAllPlans() {
     return this.prisma.client.plan.findMany({
@@ -832,3 +849,4 @@ export class StripeService {
     };
   }
 }
+
