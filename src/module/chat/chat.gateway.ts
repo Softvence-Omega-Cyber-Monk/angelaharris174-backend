@@ -9,9 +9,11 @@ import {
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { ChatService } from './chat.service';
+import { SendMessageDto } from './dto/sendMessage.dto';
+import { UsePipes, ValidationPipe } from '@nestjs/common';
 
 @WebSocketGateway({
-  cors: { origin: '*' },
+  cors: { origin: process.env.FRONTEND_URL || '*' },
 })
 export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
@@ -34,15 +36,20 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     console.log(`User disconnected: ${userId}`);
   }
 
+  @UsePipes(new ValidationPipe({ transform: true, whitelist: true }))
   @SubscribeMessage('sendMessage')
   async handleSendMessage(
     @ConnectedSocket() client: Socket,
-    @MessageBody()
-    payload: { receiverId: string; content?: string; files?: any },
+    @MessageBody() payload: SendMessageDto,
   ) {
     try {
       const senderId = client.handshake.query.userId as string;
-      const { receiverId } = payload;
+      const { receiverId, conversationId } = payload;
+
+      if (!conversationId) {
+        console.error('Conversation ID missing');
+        return;
+      }
 
       if (!senderId || !receiverId) {
         console.error('Sender or Receiver ID missing');

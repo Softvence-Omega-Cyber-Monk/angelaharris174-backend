@@ -555,7 +555,7 @@ export class StripeService {
     }
 
     // Find existing subscription in your DB
-    let dbSub = await this.prisma.client.subscription.findFirst({
+    const dbSub = await this.prisma.client.subscription.findFirst({
       where: { stripeSubscriptionId },
     });
 
