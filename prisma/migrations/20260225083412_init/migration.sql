@@ -18,6 +18,15 @@ CREATE TABLE "Comment" (
 );
 
 -- CreateTable
+CREATE TABLE "Conversation" (
+    "id" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Conversation_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "LoginSession" (
     "id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
@@ -88,6 +97,7 @@ CREATE TABLE "Message" (
     "content" TEXT,
     "senderId" TEXT NOT NULL,
     "receiverId" TEXT NOT NULL,
+    "conversationId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Message_pkey" PRIMARY KEY ("id")
@@ -117,6 +127,23 @@ CREATE TABLE "Notification" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Notification_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Organization" (
+    "id" TEXT NOT NULL,
+    "organizationName" TEXT NOT NULL,
+    "organizationCode" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "imaageUrl" TEXT,
+    "accessUrl" TEXT,
+    "totalClicks" INTEGER DEFAULT 0,
+    "uniqueVisitors" INTEGER DEFAULT 0,
+    "lastAccessed" TIMESTAMP(3),
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Organization_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -253,8 +280,17 @@ CREATE TABLE "User" (
     "referralCode" TEXT,
     "referredBy" TEXT,
     "profileLink" TEXT,
+    "oranaizaitonCode" TEXT,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "_ConversationToUser" (
+    "A" TEXT NOT NULL,
+    "B" TEXT NOT NULL,
+
+    CONSTRAINT "_ConversationToUser_AB_pkey" PRIMARY KEY ("A","B")
 );
 
 -- CreateIndex
@@ -273,7 +309,16 @@ CREATE UNIQUE INDEX "LikeHighlights_userId_highlightId_key" ON "LikeHighlights"(
 CREATE UNIQUE INDEX "Like_userId_postId_key" ON "Like"("userId", "postId");
 
 -- CreateIndex
+CREATE INDEX "Message_conversationId_idx" ON "Message"("conversationId");
+
+-- CreateIndex
 CREATE INDEX "Notification_userId_idx" ON "Notification"("userId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Organization_organizationCode_key" ON "Organization"("organizationCode");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Organization_email_key" ON "Organization"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "PostView_userId_postId_key" ON "PostView"("userId", "postId");
@@ -292,6 +337,9 @@ CREATE INDEX "User_email_idx" ON "User"("email");
 
 -- CreateIndex
 CREATE INDEX "User_athleteFullName_idx" ON "User"("athleteFullName");
+
+-- CreateIndex
+CREATE INDEX "_ConversationToUser_B_index" ON "_ConversationToUser"("B");
 
 -- AddForeignKey
 ALTER TABLE "Comment" ADD CONSTRAINT "Comment_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -325,6 +373,9 @@ ALTER TABLE "Like" ADD CONSTRAINT "Like_userId_fkey" FOREIGN KEY ("userId") REFE
 
 -- AddForeignKey
 ALTER TABLE "Like" ADD CONSTRAINT "Like_postId_fkey" FOREIGN KEY ("postId") REFERENCES "Post"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Message" ADD CONSTRAINT "Message_conversationId_fkey" FOREIGN KEY ("conversationId") REFERENCES "Conversation"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Message" ADD CONSTRAINT "Message_senderId_fkey" FOREIGN KEY ("senderId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -373,3 +424,9 @@ ALTER TABLE "Transaction" ADD CONSTRAINT "Transaction_subscriptionId_fkey" FOREI
 
 -- AddForeignKey
 ALTER TABLE "Transaction" ADD CONSTRAINT "Transaction_planId_fkey" FOREIGN KEY ("planId") REFERENCES "Plan"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_ConversationToUser" ADD CONSTRAINT "_ConversationToUser_A_fkey" FOREIGN KEY ("A") REFERENCES "Conversation"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_ConversationToUser" ADD CONSTRAINT "_ConversationToUser_B_fkey" FOREIGN KEY ("B") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;

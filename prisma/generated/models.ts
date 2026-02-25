@@ -9,6 +9,7 @@
  * 🟢 You can import this file directly.
  */
 export type * from './models/Comment'
+export type * from './models/Conversation'
 export type * from './models/LoginSession'
 export type * from './models/HighlightsView'
 export type * from './models/LikeHighlights'

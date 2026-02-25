@@ -64,10 +64,12 @@ model User {
     likesPost             Like[]
     viewedPosts           PostView[]
     viewedHighlights      HighlightsView[]
-    receivedNotifications Notification[] @relation("Recipient")
-    sentNotifications     Notification[] @relation("Sender")
-    sentMessages          Message[]      @relation("SentMessages")
-    receivedMessages      Message[]      @relation("ReceivedMessages")
+    receivedNotifications Notification[]   @relation("Recipient")
+    sentNotifications     Notification[]   @relation("Sender")
+
+    conversations    Conversation[]
+    sentMessages     Message[]      @relation("SentMessages")
+    receivedMessages Message[]      @relation("ReceivedMessages")
 
     parentEmail  String?
     referralCode String?
@@ -75,6 +77,7 @@ model User {
     profileLink  String?
 
     oranaizaitonCode String?
+
     @@index([email])
     @@index([athleteFullName])
 }

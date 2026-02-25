@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 // register.dto.ts
 import {
   IsEmail,
@@ -159,6 +160,4 @@ export class RegisterDto {
   })
   @IsOptional()
   organizationCode?: any;
-
-
 }

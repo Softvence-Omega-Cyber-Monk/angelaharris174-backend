@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 
 interface ChatAttachment {
@@ -9,16 +9,17 @@ interface ChatAttachment {
 }
 
 export interface ChatListItem {
+  conversationId: string;
   contactInfo: {
     id: string;
     athleteFullName: string | null;
     imgUrl: string | null;
   };
   lastMessage: {
+    id: string;
     content: string | null;
     createdAt: Date;
-    id: string;
-  };
+  } | null;
 }
 
 @Injectable()
@@ -31,46 +32,46 @@ export class ChatService {
     content?: string;
     files?: ChatAttachment[];
   }) {
-    const filesArray: ChatAttachment[] = Array.isArray(data.files)
-      ? data.files
-      : [];
+    const { senderId, receiverId, content, files } = data;
 
-    return await this.prisma.client.message.create({
-      data: {
-        senderId: data.senderId,
-        receiverId: data.receiverId,
-        content: data.content,
-        attachments: {
-          create: filesArray.map((file: ChatAttachment) => ({
-            fileUrl: file.url ?? file.fileUrl ?? '',
-            fileType: file.type ?? file.fileType ?? 'FILE',
-          })),
-        },
-      },
-      include: {
-        attachments: true,
-        sender: {
-          select: { id: true, athleteFullName: true, imgUrl: true },
-        },
+    if (senderId === receiverId) {
+      throw new BadRequestException('You cannot send a message to yourself');
+    }
+
+    const filesArray = Array.isArray(files) ? files : [];
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+    let conversation = await this.prisma.client.conversation.findFirst({
+      where: {
+        AND: [
+          { participants: { some: { id: senderId } } },
+          { participants: { some: { id: receiverId } } },
+        ],
       },
     });
-  }
 
-  async saveMessage1(data: {
-    senderId: string;
-    receiverId: string;
-    content?: string;
-    files?: { url: string; type: string }[];
-  }) {
+    if (!conversation) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+      conversation = await this.prisma.client.conversation.create({
+        data: {
+          participants: {
+            connect: [{ id: senderId }, { id: receiverId }],
+          },
+        },
+      });
+    }
+
+    // ২. মেসেজ তৈরি করা
     return await this.prisma.client.message.create({
       data: {
-        senderId: data.senderId,
-        receiverId: data.receiverId,
-        content: data.content,
+        senderId,
+        receiverId,
+        content: content ?? null,
+        conversationId: conversation.id,
         attachments: {
-          create: data.files?.map((file) => ({
-            fileUrl: file.url,
-            fileType: file.type,
+          create: filesArray.map((file) => ({
+            fileUrl: file.url ?? file.fileUrl ?? '',
+            fileType: file.type ?? file.fileType ?? 'FILE',
           })),
         },
       },
@@ -99,35 +100,55 @@ export class ChatService {
   }
 
   async getMyChatList(userId: string): Promise<ChatListItem[]> {
-    const messages = await this.prisma.client.message.findMany({
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+    const conversations = await this.prisma.client.conversation.findMany({
       where: {
-        OR: [{ senderId: userId }, { receiverId: userId }],
+        participants: {
+          some: { id: userId },
+        },
       },
-      orderBy: { createdAt: 'desc' },
       include: {
-        sender: { select: { id: true, athleteFullName: true, imgUrl: true } },
-        receiver: { select: { id: true, athleteFullName: true, imgUrl: true } },
+        participants: {
+          where: {
+            id: { not: userId },
+          },
+          select: {
+            id: true,
+            athleteFullName: true,
+            imgUrl: true,
+          },
+        },
+        messages: {
+          orderBy: {
+            createdAt: 'desc',
+          },
+          take: 1,
+        },
+      },
+      orderBy: {
+        updatedAt: 'desc',
       },
     });
 
-    const chatMap = new Map<string, ChatListItem>();
+    return conversations.map((conv) => {
+      const contact = conv.participants[0];
+      const lastMsg = conv.messages[0];
 
-    messages.forEach((msg) => {
-      const contact = msg.senderId === userId ? msg.receiver : msg.sender;
-      const contactId = contact.id;
-
-      if (!chatMap.has(contactId)) {
-        chatMap.set(contactId, {
-          contactInfo: contact,
-          lastMessage: {
-            content: msg.content,
-            createdAt: msg.createdAt,
-            id: msg.id,
-          },
-        });
-      }
+      return {
+        conversationId: conv.id,
+        contactInfo: {
+          id: contact?.id ?? '',
+          athleteFullName: contact?.athleteFullName ?? null,
+          imgUrl: contact?.imgUrl ?? null,
+        },
+        lastMessage: lastMsg
+          ? {
+              id: lastMsg.id,
+              content: lastMsg.content,
+              createdAt: lastMsg.createdAt,
+            }
+          : null,
+      };
     });
-
-    return Array.from(chatMap.values());
   }
 }

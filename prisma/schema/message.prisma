@@ -1,12 +1,16 @@
 model Message {
-  id          String   @id @default(uuid())
-  content     String?  // টেক্সট মেসেজের জন্য
-  senderId    String
-  receiverId  String
-  createdAt   DateTime @default(now())
+  id             String   @id @default(uuid())
+  content        String?
+  senderId       String
+  receiverId     String
+  conversationId String
+  createdAt      DateTime @default(now())
 
   attachments MessageAttachment[]
 
-  sender      User     @relation("SentMessages", fields: [senderId], references: [id])
-  receiver    User     @relation("ReceivedMessages", fields: [receiverId], references: [id])
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  sender       User         @relation("SentMessages", fields: [senderId], references: [id])
+  receiver     User         @relation("ReceivedMessages", fields: [receiverId], references: [id])
+
+  @@index([conversationId])
 }
