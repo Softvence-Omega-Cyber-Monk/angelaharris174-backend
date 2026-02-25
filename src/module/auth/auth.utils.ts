@@ -2,7 +2,7 @@
 
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
-import { PrismaClient, userRole } from '@prisma';
+import { PrismaClient, subscribeStatus, userRole } from '@prisma';
 import { BadRequestException } from '@nestjs/common';
 
 export async function getTokens(
@@ -10,18 +10,20 @@ export async function getTokens(
   userId: string,
   email: string,
   role: userRole,
+  subscribeStatus:subscribeStatus,
   expiresIn?: string,
 ) {
   const [access_token, refresh_token] = await Promise.all([
     jwtService.signAsync(
-      { id: userId, email, role  },
+      { id: userId, email, role, subscribeStatus },
+
       {
         secret: process.env.ACCESS_TOKEN_SECRET,
         expiresIn: expiresIn || process.env.ACCESS_TOKEN_EXPIREIN,
       } as any,
     ),
     jwtService.signAsync(
-      { id: userId, email, role },
+      { id: userId, email, role ,subscribeStatus},
       {
         secret: process.env.REFRESH_TOKEN_SECRET,
         expiresIn: process.env.REFRESH_TOKEN_EXPIREIN,
