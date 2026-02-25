@@ -9,15 +9,10 @@ import { EmailService } from '../email/email.service';
 export class StripeService {
   private stripeClient: Stripe;
 
-  constructor(
-    private readonly prisma: PrismaService,
-    private readonly emailService: EmailService,
-  ) {
+  constructor(private readonly prisma: PrismaService, private readonly emailService: EmailService) {
     const secretKey = process.env.STRIPE_SECRET_KEY;
     if (!secretKey) {
-      throw new Error(
-        'STRIPE_SECRET_KEY is not defined in environment variables',
-      );
+      throw new Error('STRIPE_SECRET_KEY is not defined in environment variables');
     }
 
     this.stripeClient = new Stripe(secretKey, {
@@ -32,7 +27,7 @@ export class StripeService {
     interval: 'month' | 'year' = 'month',
     description?: string,
     features: string[] = [],
-    isPopular = false,
+    isPopular = false
   ) {
     try {
       // 1. Create Product in Stripe
@@ -82,21 +77,14 @@ export class StripeService {
     }
   }
 
-  async createCheckoutSession(
-    userId: string,
-    priceId: string,
-    successUrl: string,
-    cancelUrl: string,
-  ) {
+  async createCheckoutSession(userId: string, priceId: string, successUrl: string, cancelUrl: string) {
     // 1. Validate that the price exists in our database first
     const plan = await this.prisma.client.plan.findFirst({
       where: { stripePriceId: priceId },
     });
 
     if (!plan) {
-      console.error(
-        `Attempted checkout with invalid/unknown priceId: ${priceId}`,
-      );
+      console.error(`Attempted checkout with invalid/unknown priceId: ${priceId}`);
       throw new HttpException(
         'The selected subscription plan is invalid or no longer available.',
         HttpStatus.BAD_REQUEST,
@@ -165,10 +153,8 @@ export class StripeService {
 
     // 2. Check if price or currency changed
     const priceChanged =
-      (updateData.price !== undefined &&
-        updateData.price !== existingPlan.price) ||
-      (updateData.currency !== undefined &&
-        updateData.currency !== existingPlan.currency);
+      (updateData.price !== undefined && updateData.price !== existingPlan.price) ||
+      (updateData.currency !== undefined && updateData.currency !== existingPlan.currency);
 
     let newStripePriceId = existingPlan.stripePriceId;
 
@@ -178,9 +164,7 @@ export class StripeService {
         throw new Error('Cannot update price: missing stripeProductId');
       }
 
-      const unitAmount = Math.round(
-        (updateData.price ?? existingPlan.price) * 100,
-      );
+      const unitAmount = Math.round((updateData.price ?? existingPlan.price) * 100);
 
       const newPrice = await this.stripeClient.prices.create({
         product: existingPlan.stripeProductId,
@@ -225,15 +209,13 @@ export class StripeService {
     try {
       const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
       if (!webhookSecret) {
-        throw new Error(
-          'STRIPE_WEBHOOK_SECRET is not defined in environment variables',
-        );
+        throw new Error('STRIPE_WEBHOOK_SECRET is not defined in environment variables');
       }
 
       event = this.stripeClient.webhooks.constructEvent(
         payload.toString(),
         signature,
-        webhookSecret,
+        webhookSecret
       );
     } catch (err) {
       throw new Error(`Webhook signature verification failed: ${err.message}`);
@@ -243,9 +225,7 @@ export class StripeService {
 
     switch (event.type) {
       case 'checkout.session.completed':
-        await this.handleCheckoutSessionCompleted(
-          event.data.object as Stripe.Checkout.Session,
-        );
+        await this.handleCheckoutSessionCompleted(event.data.object as Stripe.Checkout.Session);
         break;
       case 'invoice.payment_succeeded':
         await this.handleInvoicePaymentSucceeded(event.data.object as any);
@@ -256,9 +236,7 @@ export class StripeService {
       case 'customer.subscription.created':
       case 'customer.subscription.updated':
       case 'customer.subscription.deleted':
-        await this.handleSubscriptionEvent(
-          event.data.object as Stripe.Subscription,
-        );
+        await this.handleSubscriptionEvent(event.data.object as Stripe.Subscription);
         break;
       default:
         console.log(`Unhandled event type: ${event.type}`);
@@ -267,23 +245,19 @@ export class StripeService {
     return { received: true };
   }
 
-  private async handleCheckoutSessionCompleted(
-    session: Stripe.Checkout.Session,
-  ) {
+  private async handleCheckoutSessionCompleted(session: Stripe.Checkout.Session) {
     const userId = session.client_reference_id;
     const customerId = session.customer as string;
     const subscriptionId = session.subscription as string;
     const transactionId = session.payment_intent as string;
 
-    console.log('sessin', session);
+    console.log('sessin', session)
     if (!userId) {
       console.warn('No client_reference_id in session:', session.id);
       return;
     }
 
-    console.log(
-      `✅ Checkout completed for user: ${userId}, Stripe Customer: ${customerId}`,
-    );
+    console.log(`✅ Checkout completed for user: ${userId}, Stripe Customer: ${customerId}`);
 
     // 🔥 1. CRITICAL: Link user to Stripe Customer ID immediately
     // This ensures future webhooks (like invoice.payment_succeeded) can find this user
@@ -297,10 +271,7 @@ export class StripeService {
       });
       console.log(`🔗 User ${userId} linked to Stripe customer ${customerId}`);
     } catch (err) {
-      console.error(
-        `Failed to link user ${userId} to customer ${customerId}:`,
-        err.message,
-      );
+      console.error(`Failed to link user ${userId} to customer ${customerId}:`, err.message);
       // We continue anyway to try and process the subscription
     }
 
@@ -309,7 +280,7 @@ export class StripeService {
       session.id,
       {
         expand: ['line_items'], // ← critical!
-      },
+      }
     );
 
     const priceId = fullSession.line_items?.data[0]?.price?.id;
@@ -318,17 +289,13 @@ export class StripeService {
       return;
     }
 
-    console.log(
-      `✅ Processing checkout for user: ${userId}, priceId: ${priceId}`,
-    );
+    console.log(`✅ Processing checkout for user: ${userId}, priceId: ${priceId}`);
     const plan = await this.prisma.client.plan.findFirst({
       where: { stripePriceId: priceId },
     });
 
     if (!plan) {
-      console.error(
-        `❌ Plan not found in database for Stripe Price ID: ${priceId}. Please ensure your database plans match Stripe.`,
-      );
+      console.error(`❌ Plan not found in database for Stripe Price ID: ${priceId}. Please ensure your database plans match Stripe.`);
       return;
     }
 
@@ -365,21 +332,14 @@ export class StripeService {
           startedAt: new Date(),
         },
       });
-      console.log(
-        `📝 Subscription ${subscriptionId} synced during checkout for user ${userId} (Plan: ${plan.name})`,
-      );
+      console.log(`📝 Subscription ${subscriptionId} synced during checkout for user ${userId} (Plan: ${plan.name})`);
     } catch (err) {
-      console.error(
-        `Error saving subscription for user ${userId}:`,
-        err.message,
-      );
+      console.error(`Error saving subscription for user ${userId}:`, err.message);
     }
   }
 
   private async handleInvoicePaymentSucceeded(invoice: any) {
-    console.log(
-      `Processing invoice.payment_succeeded for customer: ${invoice.customer}`,
-    );
+    console.log(`Processing invoice.payment_succeeded for customer: ${invoice.customer}`);
     const customerId = invoice.customer as string;
     const subscriptionId = invoice.subscription as string;
     const paymentIntentId = invoice.payment_intent as string;
@@ -387,15 +347,12 @@ export class StripeService {
     const currency = invoice.currency;
     const receiptUrl = invoice.hosted_invoice_url || invoice.receipt_url;
     const exprieAt = invoice.period_end; //1771490924
-    console.log('invoice', invoice);
+    console.log('invoice', invoice)
     // Use PaymentIntent ID if available, otherwise fallback to Invoice ID to ensure a unique transaction record
     const transactionId = paymentIntentId || invoice.id;
 
     if (!transactionId) {
-      console.error(
-        'No valid transaction identifier (PaymentIntent or Invoice ID) found for invoice:',
-        invoice.id,
-      );
+      console.error('No valid transaction identifier (PaymentIntent or Invoice ID) found for invoice:', invoice.id);
       return;
     }
 
@@ -404,20 +361,16 @@ export class StripeService {
     });
 
     if (!user) {
-      console.warn(
-        `User not found for Stripe customer: ${customerId}. Checking via subscription lookup...`,
-      );
+      console.warn(`User not found for Stripe customer: ${customerId}. Checking via subscription lookup...`);
       // FALLBACK: Lookup by stripeSubscriptionId if customer lookup fails (race condition)
       const sub = await this.prisma.client.subscription.findFirst({
         where: { stripeSubscriptionId: subscriptionId },
-        include: { user: true },
+        include: { user: true }
       });
 
       if (sub?.user) {
         user = sub.user;
-        console.log(
-          `🔗 Recovery: Found user ${user.id} via subscription ${subscriptionId}`,
-        );
+        console.log(`🔗 Recovery: Found user ${user.id} via subscription ${subscriptionId}`);
 
         // Link them now for future invoices
         // if (!user.stripeCustomerId) {
@@ -430,9 +383,7 @@ export class StripeService {
     }
 
     if (!user) {
-      console.error(
-        `❌ CRITICAL: User not found for Stripe customer ${customerId} or subscription ${subscriptionId}. Cannot create transaction.`,
-      );
+      console.error(`❌ CRITICAL: User not found for Stripe customer ${customerId} or subscription ${subscriptionId}. Cannot create transaction.`);
       return;
     }
 
@@ -450,7 +401,7 @@ export class StripeService {
       subscription = await this.prisma.client.subscription.findFirst({
         where: { userId: user.id },
         include: { plan: true },
-        orderBy: { startedAt: 'desc' },
+        orderBy: { startedAt: 'desc' }
       });
     }
 
@@ -474,6 +425,7 @@ export class StripeService {
         updatedAt: new Date(),
       },
       create: {
+
         userId: user.id,
         subscriptionId: subscription?.id,
         planId: subscription?.planId, // 🌟 Capture the current plan for this transaction specifically
@@ -494,9 +446,7 @@ export class StripeService {
       });
     }
 
-    console.log(
-      `💰 Payment succeeded for user ${user.id}: ${amountPaid} ${currency} (Tx: ${transactionId})`,
-    );
+    console.log(`💰 Payment succeeded for user ${user.id}: ${amountPaid} ${currency} (Tx: ${transactionId})`);
   }
 
   private async handleInvoicePaymentFailed(invoice: any) {
@@ -620,7 +570,7 @@ export class StripeService {
               endedAt: status === 'canceled' ? new Date() : null,
             },
             create: {
-              transactionId: '',
+              transactionId: "",
               userId: user.id,
               planId: plan.id,
               status: mappedStatus,
@@ -629,9 +579,7 @@ export class StripeService {
               endedAt: status === 'canceled' ? new Date() : null,
             },
           });
-          console.log(
-            `📝 Subscription ${stripeSubscriptionId} synced from event: ${status}`,
-          );
+          console.log(`📝 Subscription ${stripeSubscriptionId} synced from event: ${status}`);
         } else {
           // It was created by someone else in the last few ms, so just update it
           await this.prisma.client.subscription.update({
@@ -645,9 +593,7 @@ export class StripeService {
       }
     }
 
-    console.log(
-      `🔄 Subscription ${stripeSubscriptionId} updated to: ${mappedStatus}`,
-    );
+    console.log(`🔄 Subscription ${stripeSubscriptionId} updated to: ${mappedStatus}`);
   }
 
   async findAllSubscriptions() {
@@ -659,7 +605,7 @@ export class StripeService {
           select: {
             id: true,
             email: true,
-            athleteFullName: true,
+            athleteFullName: true
           },
         },
       },
@@ -724,11 +670,7 @@ export class StripeService {
     return transaction;
   }
 
-  async findTransactionsByUserId(
-    userId: string,
-    page: number = 1,
-    limit: number = 10,
-  ) {
+  async findTransactionsByUserId(userId: string, page: number = 1, limit: number = 10) {
     const skip = (page - 1) * limit;
 
     const [transactions, total] = await Promise.all([
@@ -800,7 +742,7 @@ export class StripeService {
         plan: true, // 🌟 Direct link
         subscription: {
           include: {
-            plan: true,
+            plan: true
           },
         },
       },
@@ -864,7 +806,7 @@ export class StripeService {
           transactionId: tx.transactionId,
           user: tx.user?.athleteFullName || tx.user?.email || 'Unknown',
           plan: plan?.name || 'N/A', // 🌟 Accurate plan name
-          amount: Number(tx.amount.toFixed(2)),
+          amount: Number((tx.amount).toFixed(2)),
           currency: tx.currency,
           status: tx.status === 'succeeded' ? 'Successfull' : tx.status,
           billingDate: tx.billingDate,
@@ -906,4 +848,95 @@ export class StripeService {
       plan: subscription.plan,
     };
   }
+
+  async deletePlanById(id: string) {
+    const existingPlan = await this.prisma.client.plan.findUnique({
+      where: { id },
+      include: {
+        subscriptions: {
+          select: { id: true },
+          take: 1,
+        },
+        transactions: {
+          select: { id: true },
+          take: 1,
+        },
+      },
+    });
+
+    if (!existingPlan) {
+      throw new HttpException('Plan not found', HttpStatus.NOT_FOUND);
+    }
+
+    if (existingPlan.subscriptions.length > 0 || existingPlan.transactions.length > 0) {
+      throw new HttpException(
+        'Plan cannot be deleted because it is linked to subscriptions or transactions',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    if (existingPlan.stripePriceId) {
+      await this.stripeClient.prices.update(existingPlan.stripePriceId, { active: false });
+    }
+
+    if (existingPlan.stripeProductId) {
+      await this.stripeClient.products.update(existingPlan.stripeProductId, { active: false });
+    }
+
+    const deletedPlan = await this.prisma.client.plan.delete({
+      where: { id },
+    });
+
+    return deletedPlan;
+  }
+
+  async deleteTransactionById(id: string) {
+    const existingTransaction = await this.prisma.client.transaction.findUnique({
+      where: { id },
+    });
+
+    if (!existingTransaction) {
+      throw new HttpException('Transaction not found', HttpStatus.NOT_FOUND);
+    }
+
+    const deletedTransaction = await this.prisma.client.transaction.delete({
+      where: { id },
+    });
+
+    return deletedTransaction;
+  }
+
+  async deleteSubscriptionById(id: string) {
+    const existingSubscription = await this.prisma.client.subscription.findUnique({
+      where: { id },
+      include: {
+        transactions: {
+          select: { id: true },
+          take: 1,
+        },
+      },
+    });
+
+    if (!existingSubscription) {
+      throw new HttpException('Subscription not found', HttpStatus.NOT_FOUND);
+    }
+
+    if (existingSubscription.transactions.length > 0) {
+      throw new HttpException(
+        'Subscription cannot be deleted because it is linked to transactions',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    if (existingSubscription.stripeSubscriptionId) {
+      await this.stripeClient.subscriptions.cancel(existingSubscription.stripeSubscriptionId);
+    }
+
+    const deletedSubscription = await this.prisma.client.subscription.delete({
+      where: { id },
+    });
+
+    return deletedSubscription;
+  }
 }
+

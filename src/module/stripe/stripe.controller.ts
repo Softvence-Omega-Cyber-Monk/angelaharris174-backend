@@ -1,5 +1,5 @@
 // src/stripe/stripe.controller.ts
-import { Controller, Post, Body, Req, Res, UseGuards, HttpException, HttpStatus, Get, Patch, Param, RawBody, Query } from '@nestjs/common';
+import { Controller, Post, Body, Req, Res, UseGuards, HttpException, HttpStatus, Get, Patch, Param, RawBody, Query, Delete } from '@nestjs/common';
 import type { Request, Response } from 'express';
 import { StripeService } from './stripe.service';
 import { AuthGuard } from '@nestjs/passport'; // assuming you have auth
@@ -306,6 +306,63 @@ export class StripeController {
     return {
       statusCode: HttpStatus.OK,
       data: stats,
+    };
+  }
+
+  @Public() // In production, add @UseGuards(AdminGuard)
+  @Delete('plans/:id')
+  @ApiOperation({ summary: 'Delete a plan by ID' })
+  @ApiParam({
+    name: 'id',
+    required: true,
+    description: 'Plan ID',
+    type: String,
+  })
+  @ApiResponse({ status: 200, description: 'Plan deleted successfully' })
+  async deletePlanById(@Param('id') id: string) {
+    const result = await this.stripeService.deletePlanById(id);
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'Plan deleted successfully',
+      data: result,
+    };
+  }
+
+  @Public() // In production, add @UseGuards(AdminGuard)
+  @Delete('transaction/:id')
+  @ApiOperation({ summary: 'Delete a transaction by ID' })
+  @ApiParam({
+    name: 'id',
+    required: true,
+    description: 'Transaction ID',
+    type: String,
+  })
+  @ApiResponse({ status: 200, description: 'Transaction deleted successfully' })
+  async deleteTransactionById(@Param('id') id: string) {
+    const result = await this.stripeService.deleteTransactionById(id);
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'Transaction deleted successfully',
+      data: result,
+    };
+  }
+
+  @Public() // In production, add @UseGuards(AdminGuard)
+  @Delete('subscription/:id')
+  @ApiOperation({ summary: 'Delete a subscription by ID' })
+  @ApiParam({
+    name: 'id',
+    required: true,
+    description: 'Subscription ID',
+    type: String,
+  })
+  @ApiResponse({ status: 200, description: 'Subscription deleted successfully' })
+  async deleteSubscriptionById(@Param('id') id: string) {
+    const result = await this.stripeService.deleteSubscriptionById(id);
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'Subscription deleted successfully',
+      data: result,
     };
   }
 
