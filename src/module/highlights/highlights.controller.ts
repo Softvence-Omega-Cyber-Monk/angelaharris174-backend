@@ -73,6 +73,7 @@ export class HighlightsController {
         });
     }
 
+    @Public()
     @Patch('like/:id')
     async incrementLike(
         @Param('id') id: string,

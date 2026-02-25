@@ -36,7 +36,7 @@ async function bootstrap() {
   app.useGlobalGuards(
     new JwtGuard(reflector, prisma),
     new RolesGuard(reflector),
-    new SubscriptionGuard(reflector),
+    new SubscriptionGuard(reflector, prisma),
   );
 
   app.setGlobalPrefix('api/v1');

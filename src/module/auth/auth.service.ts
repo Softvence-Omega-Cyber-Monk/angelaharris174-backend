@@ -77,7 +77,7 @@ export class AuthService {
         isActive: true,
         parentEmail: dto.parentEmail,
         referredBy: dto.referredBy ?? undefined,
-        oranaizaitonCode:dto.organizationCode ?? undefined
+        oranaizaitonCode: dto.organizationCode ?? undefined
         // role defaults to ATHLATE per your Prisma schema
         // isActive, isDeleted default to false
       },
@@ -111,13 +111,14 @@ export class AuthService {
       updatedUser.id,
       updatedUser.email,
       updatedUser.role,
+      updatedUser.subscribeStatus,
     );
 
     return { user: updatedUser, ...tokens };
   }
 
   // login
-  async login(dto: LoginDto, req: Request , res: Response) { // <-- Added req: Request
+  async login(dto: LoginDto, req: Request, res: Response) { // <-- Added req: Request
     const user = await this.prisma.client.user.findUnique({
       where: { email: dto.email },
     });
@@ -144,6 +145,8 @@ export class AuthService {
       user.id,
       user.email,
       user.role,
+      user.subscribeStatus,
+
     );
 
     // --- START: Login History Logic ---
@@ -269,6 +272,8 @@ export class AuthService {
         user.id,
         user.email,
         user.role,
+        user.subscribeStatus,
+
       );
     } catch {
       throw new UnauthorizedException('Invalid refresh token');
