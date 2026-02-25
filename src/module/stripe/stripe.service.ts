@@ -848,5 +848,95 @@ export class StripeService {
       plan: subscription.plan,
     };
   }
+
+  async deletePlanById(id: string) {
+    const existingPlan = await this.prisma.client.plan.findUnique({
+      where: { id },
+      include: {
+        subscriptions: {
+          select: { id: true },
+          take: 1,
+        },
+        transactions: {
+          select: { id: true },
+          take: 1,
+        },
+      },
+    });
+
+    if (!existingPlan) {
+      throw new HttpException('Plan not found', HttpStatus.NOT_FOUND);
+    }
+
+    if (existingPlan.subscriptions.length > 0 || existingPlan.transactions.length > 0) {
+      throw new HttpException(
+        'Plan cannot be deleted because it is linked to subscriptions or transactions',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    if (existingPlan.stripePriceId) {
+      await this.stripeClient.prices.update(existingPlan.stripePriceId, { active: false });
+    }
+
+    if (existingPlan.stripeProductId) {
+      await this.stripeClient.products.update(existingPlan.stripeProductId, { active: false });
+    }
+
+    const deletedPlan = await this.prisma.client.plan.delete({
+      where: { id },
+    });
+
+    return deletedPlan;
+  }
+
+  async deleteTransactionById(id: string) {
+    const existingTransaction = await this.prisma.client.transaction.findUnique({
+      where: { id },
+    });
+
+    if (!existingTransaction) {
+      throw new HttpException('Transaction not found', HttpStatus.NOT_FOUND);
+    }
+
+    const deletedTransaction = await this.prisma.client.transaction.delete({
+      where: { id },
+    });
+
+    return deletedTransaction;
+  }
+
+  async deleteSubscriptionById(id: string) {
+    const existingSubscription = await this.prisma.client.subscription.findUnique({
+      where: { id },
+      include: {
+        transactions: {
+          select: { id: true },
+          take: 1,
+        },
+      },
+    });
+
+    if (!existingSubscription) {
+      throw new HttpException('Subscription not found', HttpStatus.NOT_FOUND);
+    }
+
+    if (existingSubscription.transactions.length > 0) {
+      throw new HttpException(
+        'Subscription cannot be deleted because it is linked to transactions',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    if (existingSubscription.stripeSubscriptionId) {
+      await this.stripeClient.subscriptions.cancel(existingSubscription.stripeSubscriptionId);
+    }
+
+    const deletedSubscription = await this.prisma.client.subscription.delete({
+      where: { id },
+    });
+
+    return deletedSubscription;
+  }
 }
 
