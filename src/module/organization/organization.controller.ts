@@ -38,7 +38,6 @@ export class OrganizationController {
     return this.organizationService.createOrganization(dto);
   }
 
-  @Public()
   @Get('all')
   @Roles(userRole.ADMIN)
   @ApiOperation({ summary: 'Get all organizations' })

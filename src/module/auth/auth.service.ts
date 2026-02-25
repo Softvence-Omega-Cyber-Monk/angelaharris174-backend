@@ -74,7 +74,7 @@ export class AuthService {
         gpa: dto.gpa ?? undefined,
         fcmToken: dto.fcmToken ?? undefined,
         referralCode: "REF_" + Math.floor(100000 + Math.random() * 900000).toString(), // Generate a unique referral code
-        isActive: false,
+        isActive: true,
         parentEmail: dto.parentEmail,
         referredBy: dto.referredBy ?? undefined,
         oranaizaitonCode:dto.organizationCode ?? undefined
@@ -96,15 +96,15 @@ export class AuthService {
     const hashedOtp = await hashOtpCode(otpCode);
     const expiresAt = new Date(Date.now() + 5 * 60 * 1000);
 
-    await this.prisma.client.otpCode.create({
-      data: { email: updatedUser.email, code: hashedOtp, expiresAt },
-    });
+    // await this.prisma.client.otpCode.create({
+    //   data: { email: updatedUser.email, code: hashedOtp, expiresAt },
+    // });
 
-    await this.emailService.sendEmail({
-      to: updatedUser.email,
-      subject: 'Verify your email',
-      text: `Your verification code is ${otpCode}. It will expire in 5 minutes.`,
-    });
+    // await this.emailService.sendEmail({
+    //   to: updatedUser.email,
+    //   subject: 'Verify your email',
+    //   text: `Your verification code is ${otpCode}. It will expire in 5 minutes.`,
+    // });
 
     const tokens = await getTokens(
       this.jwtService,
@@ -130,9 +130,9 @@ export class AuthService {
     if (user.isDeleted) {
       throw new BadRequestException('User is deleted!');
     }
-    if (!user.isActive) {
-      return {isActive: false  ,  access_token: null , refresh_token :null}
-    }
+    // if (!user.isActive) {
+    //   return {isActive: false  ,  access_token: null , refresh_token :null}
+    // }
 
     const isMatch = await bcrypt.compare(dto.password, user.password);
     if (!isMatch) {

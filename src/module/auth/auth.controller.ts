@@ -155,9 +155,9 @@ export class AuthController {
       sameSite: 'none', // Allow cross-origin requests to send the cookie
     });
     return sendResponse(res, {
-      statusCode: result.isActive ? HttpStatus.OK : HttpStatus.FORBIDDEN,
-      success: result.isActive ??  true,
-      message: result.isActive ? 'Login successful' : 'Account is not active',
+      statusCode: HttpStatus.OK ,
+      success:   true,
+      message:  'Login successful',
       data: result,
     });
   }
