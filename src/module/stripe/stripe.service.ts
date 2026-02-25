@@ -124,13 +124,13 @@ export class StripeService {
       },
     });
 
-    if (session.url) {
-      await this.emailService.sendEmail({
-        to: user.email,
-        subject: 'Your Stripe Checkout Session',
-        text: `Use this link to complete your subscription checkout: ${session.url}`,
-      });
-    }
+    // if (session.url) {
+    //   await this.emailService.sendEmail({
+    //     to: user.email,
+    //     subject: 'Your Stripe Checkout Session',
+    //     text: `Use this link to complete your subscription checkout: ${session.url}`,
+    //   });
+    // }
 
     return session;
   }
