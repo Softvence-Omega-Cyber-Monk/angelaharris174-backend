@@ -10,6 +10,7 @@
  */
 export type * from './models/Comment'
 export type * from './models/LoginSession'
+export type * from './models/HighlightsView'
 export type * from './models/LikeHighlights'
 export type * from './models/highlights'
 export type * from './models/Like'

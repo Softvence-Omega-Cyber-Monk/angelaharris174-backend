@@ -16,7 +16,9 @@ model Notification {
     postId String?
     post   Post?   @relation(fields: [postId], references: [id], onDelete: Cascade)
 
-    createdAt DateTime @default(now())
+    highlightId String?
+    highlight   highlights? @relation(fields: [highlightId], references: [id], onDelete: Cascade)
+    createdAt   DateTime    @default(now())
 
     @@index([userId])
 }

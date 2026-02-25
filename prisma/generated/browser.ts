@@ -28,6 +28,11 @@ export type Comment = Prisma.CommentModel
  */
 export type LoginSession = Prisma.LoginSessionModel
 /**
+ * Model HighlightsView
+ * 
+ */
+export type HighlightsView = Prisma.HighlightsViewModel
+/**
  * Model LikeHighlights
  * 
  */

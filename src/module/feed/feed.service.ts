@@ -1,9 +1,18 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { NotificationService } from '../notification/notification.service';
+import { FeedType } from './dto/toggleLike.dto';
 
 @Injectable()
 export class FeedService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private notificationService: NotificationService,
+  ) {}
 
   async getSmartFeed(userId: string, page: number = 1, limit: number = 20) {
     const skip = (page - 1) * limit;
@@ -61,6 +70,7 @@ export class FeedService {
             where: { userId },
             select: { id: true },
           },
+          highlightsViews: { where: { userId }, select: { id: true } },
         },
         orderBy: { createdAt: 'desc' },
         take: dbTake,
@@ -76,12 +86,12 @@ export class FeedService {
         isSeen: views.length > 0,
         isLiked: likesList.length > 0,
       })),
-      ...highlightsList.map(({ likedBy, ...h }) => ({
+      ...highlightsList.map(({ likedBy, highlightsViews, ...h }) => ({
         ...h,
         feedType: 'HIGHLIGHT',
         totalLikes: h.likes || 0,
         totalViews: h.views || 0,
-        isSeen: false,
+        isSeen: highlightsViews.length > 0,
         isLiked: likedBy.length > 0,
       })),
     ];
@@ -106,5 +116,135 @@ export class FeedService {
     });
 
     return sortedFeed.slice(skip, skip + limit);
+  }
+
+  // ---  like OR unlike -----
+  async toggleLike(id: string, userId: string, feedType: FeedType) {
+    const target =
+      feedType === FeedType.POST
+        ? await this.prisma.client.post.findUnique({
+            where: { id },
+            select: { userId: true, likes: true },
+          })
+        : await this.prisma.client.highlights.findUnique({
+            where: { id },
+            select: { userId: true, likes: true },
+          });
+
+    if (!target) {
+      throw new NotFoundException(`${feedType} not found`);
+    }
+
+    return await this.prisma.client.$transaction(async (tx) => {
+      const existingLike =
+        feedType === FeedType.POST
+          ? await tx.like.findUnique({
+              where: { userId_postId: { userId, postId: id } },
+            })
+          : await tx.likeHighlights.findUnique({
+              where: { userId_highlightId: { userId, highlightId: id } },
+            });
+
+      if (existingLike) {
+        // --- UNLIKE LOGIC ---
+        if (feedType === FeedType.POST) {
+          await tx.like.delete({ where: { id: existingLike.id } });
+          await tx.post.update({
+            where: { id },
+            data: { likes: { decrement: target.likes > 0 ? 1 : 0 } },
+          });
+        } else {
+          await tx.likeHighlights.delete({ where: { id: existingLike.id } });
+          await tx.highlights.update({
+            where: { id },
+            data: { likes: { decrement: target.likes > 0 ? 1 : 0 } },
+          });
+        }
+        return { liked: false, message: 'Like removed' };
+      } else {
+        // --- LIKE LOGIC ---
+        if (feedType === FeedType.POST) {
+          await tx.like.create({ data: { userId, postId: id } });
+          await tx.post.update({
+            where: { id },
+            data: { likes: { increment: 1 } },
+          });
+        } else {
+          await tx.likeHighlights.create({ data: { userId, highlightId: id } });
+          await tx.highlights.update({
+            where: { id },
+            data: { likes: { increment: 1 } },
+          });
+        }
+
+        if (target.userId !== userId) {
+          const liker = await tx.user.findUnique({
+            where: { id: userId },
+            select: { athleteFullName: true },
+          });
+
+          await this.notificationService.createAndSend({
+            recipientId: target.userId,
+            senderId: userId,
+            postId: feedType === FeedType.POST ? id : undefined,
+            highlightId: feedType === FeedType.HIGHLIGHT ? id : undefined,
+            title: 'New Like ❤️',
+            message: `${liker?.athleteFullName || 'Someone'} liked your ${feedType.toLowerCase()}`,
+            type: 'LIKE',
+          });
+        }
+
+        return { liked: true, message: `${feedType} liked` };
+      }
+    });
+  }
+
+  async markAsSeen(id: string, userId: string, feedType: FeedType) {
+    if (feedType === FeedType.POST) {
+      const post = await this.prisma.client.post.findUnique({ where: { id } });
+      if (!post) throw new BadRequestException('Invalid Post ID');
+    } else {
+      const highlight = await this.prisma.client.highlights.findUnique({
+        where: { id },
+      });
+      if (!highlight) throw new BadRequestException('Invalid Highlight ID');
+    }
+
+    return await this.prisma.client.$transaction(async (tx) => {
+      if (feedType === FeedType.POST) {
+        // ১. পোস্ট ভিউ লজিক
+        const existingView = await tx.postView.findUnique({
+          where: { userId_postId: { userId, postId: id } },
+        });
+
+        if (!existingView) {
+          await tx.postView.create({ data: { userId, postId: id } });
+          await tx.post.update({
+            where: { id },
+            data: { viewCount: { increment: 1 } },
+          });
+          return { success: true, message: 'Post view incremented' };
+        }
+      } else {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+        const existingView = await tx.highlightsView.findUnique({
+          where: { userId_highlightsId: { userId, highlightsId: id } },
+        });
+
+        if (!existingView) {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+          await tx.highlightsView.create({
+            data: { userId, highlightsId: id },
+          });
+          await tx.highlights.update({
+            where: { id },
+            data: { views: { increment: 1 } },
+          });
+          return { success: true, message: 'Highlight view incremented' };
+        }
+      }
+
+      return { success: false, message: 'Already seen' };
+    });
   }
 }

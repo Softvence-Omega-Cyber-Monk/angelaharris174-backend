@@ -26,6 +26,7 @@ import { Subscription } from 'src/common/decorators/subscription.decorator';
 import { subscribeStatus } from '@prisma';
 
 @Controller('post')
+@UseGuards(JwtGuard)
 export class PostController {
   constructor(
     private readonly postService: PostService,

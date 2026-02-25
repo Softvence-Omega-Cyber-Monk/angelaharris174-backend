@@ -1,7 +1,18 @@
-import { Controller, Get, Query, Req, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseUUIDPipe,
+  Post,
+  Query,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { FeedService } from './feed.service';
 import { JwtGuard } from 'src/common/guards/jwt.guard';
 import { Request } from 'express';
+import { ToggleLikeDto } from './dto/toggleLike.dto';
 
 @Controller('post-reel')
 @UseGuards(JwtGuard)
@@ -19,5 +30,29 @@ export class FeedController {
     const limitNum = parseInt(limit, 100) || 20;
 
     return await this.feedService.getSmartFeed(userId, pageNum, limitNum);
+  }
+
+  @Post(':id/like')
+  async toggleLike(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() toggleLikeDto: ToggleLikeDto,
+    @Req() req: Request,
+  ) {
+    const userId = req.user!.id;
+    return await this.feedService.toggleLike(
+      id,
+      userId,
+      toggleLikeDto.feedType,
+    );
+  }
+
+  @Post(':id/seen')
+  async markAsSeen(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() dto: ToggleLikeDto,
+    @Req() req: Request,
+  ) {
+    const userId = req.user!.id;
+    return await this.feedService.markAsSeen(id, userId, dto.feedType);
   }
 }

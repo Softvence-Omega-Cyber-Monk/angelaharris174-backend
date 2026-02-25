@@ -8,7 +8,6 @@ import {
   IsNumber,
   Min,
   Max,
-  IsBoolean,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type, Transform } from 'class-transformer';
@@ -38,7 +37,7 @@ export class RegisterDto {
     description: 'Unique email address',
   })
   @IsNotEmpty({ message: 'Email is required!' })
-  @IsEmail({}, { message: 'Invalid email format' })
+  // @IsEmail({}, { message: 'Invalid email format' })
   email: string;
 
   @ApiProperty({
@@ -133,7 +132,7 @@ export class RegisterDto {
   @Type(() => Number)
   @IsNumber(
     { maxDecimalPlaces: 2 },
-    { message: 'GPA must be a number with up to 2 decimal places' }
+    { message: 'GPA must be a number with up to 2 decimal places' },
   )
   @Min(0.0)
   @Max(4.0)
