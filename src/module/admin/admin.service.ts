@@ -1,5 +1,6 @@
 // src/admin/admin.service.ts
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import * as bcrypt from 'bcrypt';
 import { PrismaService } from '../prisma/prisma.service';
 import { subscribeStatus, userRole } from '@prisma';
 import { GetUsersQueryDto } from './dto/admin.dto';
@@ -335,12 +336,16 @@ export class AdminService {
         // 3. Set defaults for optional enum fields
         const role = dto.systemRole ?? userRole.ATHLATE; // Default role
         const subscribeStatusValue = dto.subscriptionPlan ?? subscribeStatus.FREE; // Default subscription
+        const hashedPassword = await bcrypt.hash(
+            dto.password,
+            parseInt(process.env.SALT_ROUND!, 10),
+        );
 
         // 4. Create the user in database
         const newUser = await this.prisma.client.user.create({
             data: {
                 email: dto.email,
-                password: "hashedPassword",
+                password: hashedPassword,
                 athleteFullName: dto.athleteFullName,
                 role: role as userRole,
                 subscribeStatus: subscribeStatusValue as subscribeStatus,

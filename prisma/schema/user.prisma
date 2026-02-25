@@ -74,6 +74,7 @@ model User {
     referredBy   String?
     profileLink  String?
 
+    oranaizaitonCode String?
     @@index([email])
     @@index([athleteFullName])
 }

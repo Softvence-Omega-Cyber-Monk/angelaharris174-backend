@@ -60,6 +60,7 @@ export const ModelName = {
   Message: 'Message',
   MessageAttachment: 'MessageAttachment',
   Notification: 'Notification',
+  Organization: 'Organization',
   OtpCode: 'OtpCode',
   PostView: 'PostView',
   Post: 'Post',
@@ -201,6 +202,23 @@ export const NotificationScalarFieldEnum = {
 export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
 
 
+export const OrganizationScalarFieldEnum = {
+  id: 'id',
+  organizationName: 'organizationName',
+  organizationCode: 'organizationCode',
+  email: 'email',
+  imaageUrl: 'imaageUrl',
+  accessUrl: 'accessUrl',
+  totalClicks: 'totalClicks',
+  uniqueVisitors: 'uniqueVisitors',
+  lastAccessed: 'lastAccessed',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type OrganizationScalarFieldEnum = (typeof OrganizationScalarFieldEnum)[keyof typeof OrganizationScalarFieldEnum]
+
+
 export const OtpCodeScalarFieldEnum = {
   id: 'id',
   email: 'email',
@@ -333,7 +351,8 @@ export const UserScalarFieldEnum = {
   parentEmail: 'parentEmail',
   referralCode: 'referralCode',
   referredBy: 'referredBy',
-  profileLink: 'profileLink'
+  profileLink: 'profileLink',
+  oranaizaitonCode: 'oranaizaitonCode'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]

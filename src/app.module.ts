@@ -6,6 +6,7 @@ import { PrismaModule } from './module/prisma/prisma.module';
 import { AuthModule } from './module/auth/auth.module';
 import { HighlightsModule } from './module/highlights/highlights.module';
 import { StripeModule } from './module/stripe/stripe.module';
+import { EmailModule } from './module/email/email.module';
 import { SeederService } from './seeder/seeder.service';
 import { AdminModule } from './module/admin/admin.module';
 import { PostModule } from './module/post/post.module';
@@ -14,6 +15,7 @@ import { CommentModule } from './module/comment/comment.module';
 import { NotificationModule } from './module/notification/notification.module';
 import { ChatModule } from './module/chat/chat.module';
 import { FeedModule } from './module/feed/feed.module';
+import { OrganizationModule } from './module/organization/organization.module';
 
 @Module({
   imports: [ConfigModule.forRoot({
@@ -23,6 +25,7 @@ import { FeedModule } from './module/feed/feed.module';
     PrismaModule,
     HighlightsModule,
     StripeModule,
+    EmailModule,
     AdminModule,
     // miraz vai 
     PostModule,
@@ -30,10 +33,12 @@ import { FeedModule } from './module/feed/feed.module';
     CommentModule,
     NotificationModule,
     ChatModule,
-    FeedModule
+    FeedModule,
+    OrganizationModule
 
   ],
   controllers: [AppController],
   providers: [AppService , SeederService],
 })
 export class AppModule { }
+

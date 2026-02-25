@@ -275,6 +275,16 @@ export interface PrismaClient<
   get notification(): Prisma.NotificationDelegate<ExtArgs, { omit: OmitOpts }>;
 
   /**
+   * `prisma.organization`: Exposes CRUD operations for the **Organization** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Organizations
+    * const organizations = await prisma.organization.findMany()
+    * ```
+    */
+  get organization(): Prisma.OrganizationDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
    * `prisma.otpCode`: Exposes CRUD operations for the **OtpCode** model.
     * Example usage:
     * ```ts

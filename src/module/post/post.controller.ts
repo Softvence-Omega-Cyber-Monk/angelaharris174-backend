@@ -22,6 +22,8 @@ import { JwtGuard } from 'src/common/guards/jwt.guard';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { S3Service } from '../s3/s3.service';
 import { Request } from 'express';
+import { Subscription } from 'src/common/decorators/subscription.decorator';
+import { subscribeStatus } from '@prisma';
 
 @Controller('post')
 @UseGuards(JwtGuard)
@@ -29,7 +31,7 @@ export class PostController {
   constructor(
     private readonly postService: PostService,
     private readonly s3Service: S3Service,
-  ) {}
+  ) { }
 
   // Feed
   @Get('feed')
@@ -69,6 +71,7 @@ export class PostController {
   }
 
   @Post('create')
+  @Subscription(subscribeStatus.ELITE, subscribeStatus.PRO)
   @UseInterceptors(FilesInterceptor('images', 10))
   async createPost(
     @UploadedFiles() files: Array<Express.Multer.File>,

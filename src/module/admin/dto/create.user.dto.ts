@@ -32,4 +32,11 @@ export class CreateUserDto {
     example: 'FREE' 
   })
   subscriptionPlan: string;
+
+  @IsNotEmpty()
+  @ApiProperty({ 
+    description: 'Password', 
+    example: '123456' 
+  })
+  password: string;
 }

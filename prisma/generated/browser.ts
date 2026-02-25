@@ -63,6 +63,11 @@ export type MessageAttachment = Prisma.MessageAttachmentModel
  */
 export type Notification = Prisma.NotificationModel
 /**
+ * Model Organization
+ * 
+ */
+export type Organization = Prisma.OrganizationModel
+/**
  * Model OtpCode
  * 
  */

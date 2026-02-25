@@ -5,6 +5,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './strategy/jwt.strategy';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { S3Module } from '../s3/s3.module';
+import { EmailModule } from '../email/email.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { S3Module } from '../s3/s3.module';
       }),
     }),
     S3Module,
+    EmailModule,
   ],
   providers: [AuthService, JwtStrategy],
   controllers: [AuthController],
