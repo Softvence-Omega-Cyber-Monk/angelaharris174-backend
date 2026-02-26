@@ -2111,6 +2111,7 @@ export const UserScalarFieldEnum = {
   updatedAt: 'updatedAt',
   stripeCustomerId: 'stripeCustomerId',
   subscribeStatus: 'subscribeStatus',
+  bio: 'bio',
   athleteFullName: 'athleteFullName',
   dateOfBirth: 'dateOfBirth',
   email: 'email',

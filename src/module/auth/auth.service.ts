@@ -67,6 +67,7 @@ export class AuthService {
         parentName: dto.parentName ?? undefined,
         city: dto.city ?? undefined,
         state: dto.state ?? undefined,
+        bio: dto.bio ?? undefined,
         gradYear: dto.gradYear ?? undefined,
         position: dto.position ?? undefined,
         height: dto.height ?? undefined,
@@ -314,6 +315,7 @@ export class AuthService {
 
     if (dto.parentName !== undefined) data.parentName = dto.parentName;
     if (dto.city !== undefined) data.city = dto.city;
+    if (dto.bio !== undefined) data.bio = dto.bio;
     if (dto.state !== undefined) data.state = dto.state;
     if (dto.position !== undefined) data.position = dto.position;
     if (dto.school !== undefined) data.school = dto.school;
@@ -494,6 +496,7 @@ export class AuthService {
         dateOfBirth: true,
         parentName: true,
         city: true,
+        bio: true,
         state: true,
         gradYear: true,
         position: true,
@@ -572,8 +575,6 @@ export class AuthService {
 
     return updatedUser;
   }
-
-
 
   async getUserStats(userId: string) {
     const user = await this.prisma.client.user.findUnique({

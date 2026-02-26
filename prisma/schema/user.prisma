@@ -23,6 +23,7 @@ model User {
     stripeCustomerId String?
     subscribeStatus  subscribeStatus  @default(FREE)
     // Required core identity fields
+    bio              String?
     athleteFullName  String
     dateOfBirth      DateTime? // stored as DATE in DB (PostgreSQL supports it)
     email            String           @unique
