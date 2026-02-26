@@ -497,6 +497,29 @@ export class AuthService {
     });
   }
 
+  async getPublicUserById(userId: string) {
+    const user = await this.prisma.client.user.findUnique({
+      where: { id: userId },
+      omit: { password: true },
+      include: {
+        highligts: {
+          orderBy: [{ updatedAt: 'desc' }, { createdAt: 'desc' }],
+        },
+        _count: {
+          select: {
+            highligts: true,
+          },
+        },
+      },
+    });
+
+    if (!user || user.isDeleted || !user.isActive) {
+      throw new NotFoundException('User not found');
+    }
+
+    return user;
+  }
+
   async recordProfileView(targetUserId: string, currentUserId: string) {
     // 1. Verify the target user exists and is active
     const targetUser = await this.prisma.client.user.findUnique({
