@@ -32,6 +32,32 @@ export class FeedController {
     return await this.feedService.getSmartFeed(userId, pageNum, limitNum);
   }
 
+  @Get('my-feeds')
+  async getMyFeeds(
+    @Req() req: Request,
+    @Query('page') page: string,
+    @Query('limit') limit: string,
+  ) {
+    const userId = req.user!.id;
+    const pageNum = parseInt(page, 10) || 1;
+    const limitNum = parseInt(limit, 10) || 20;
+
+    return await this.feedService.getMyFeeds(userId, pageNum, limitNum);
+  }
+
+  @Get('user-feeds/:id')
+  async getSingleUserFeeds(
+    @Req() req: Request,
+    @Param('id', ParseUUIDPipe) userId: string,
+    @Query('page') page: string,
+    @Query('limit') limit: string,
+  ) {
+    const pageNum = parseInt(page, 10) || 1;
+    const limitNum = parseInt(limit, 10) || 20;
+
+    return await this.feedService.getMyFeeds(userId, pageNum, limitNum);
+  }
+
   @Post(':id/like')
   async toggleLike(
     @Param('id', ParseUUIDPipe) id: string,
