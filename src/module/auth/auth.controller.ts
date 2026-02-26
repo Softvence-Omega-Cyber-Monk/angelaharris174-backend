@@ -330,6 +330,19 @@ export class AuthController {
     });
   }
 
+  @Public()
+  @Get('user/:id')
+  async getPublicUserById(@Param('id') id: string, @Res() res: Response) {
+    const result = await this.authService.getPublicUserById(id);
+
+    return sendResponse(res, {
+      statusCode: HttpStatus.OK,
+      success: true,
+      message: 'User profile retrieved',
+      data: result,
+    });
+  }
+
   @Patch('profile-view/:id')
   async trackProfileView(@Param('id') targetId: string, @Req() req: Request) {
     // Ensure your JWT strategy attaches the user object to req.user
