@@ -74,6 +74,11 @@ export class RegisterDto {
   @IsString()
   city?: string;
 
+  @ApiProperty({ example: 'Add your Bio', required: false })
+  @IsOptional()
+  @IsString()
+  bio?: string;
+
   @ApiProperty({ example: 'NY', required: false })
   @IsOptional()
   @IsString()

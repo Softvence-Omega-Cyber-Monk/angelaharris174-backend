@@ -89,7 +89,8 @@ export class StripeController {
 
     return {
       success: true,
-      url: session.url, // Redirect frontend to this URL
+      url: session.url, 
+      message : 'Please check your email for the checkout link to complete your subscription',
     };
   }
 
