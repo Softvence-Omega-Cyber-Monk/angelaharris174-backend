@@ -20,6 +20,7 @@ import { UpdateUserDto } from './dto/update-account.dto';
 import { S3Service } from '../s3/s3.service';
 import { EmailService } from '../email/email.service';
 import { RequestResetCodeDto } from './dto/forgetPasswordDto';
+import { ResetPasswordDto } from './dto/forgetPasswordDto';
 import { VerifyResetCodeDto } from './dto/forgetPasswordDto';
 import type { Request, Response } from 'express';
 import sendResponse from 'src/utils/sendResponse';
@@ -382,17 +383,39 @@ export class AuthService {
       data: { email: dto.email, code: hashedCode, expiresAt },
     });
 
-    // await this.mailerService.sendMail({
-    //   to: dto.email,
-    //   subject: 'Reset Password Code',
-    //   text: `Your OTP code is ${code}. It will expire in 5 minutes.`,
-    // });
+    await this.emailService.sendEmail({
+      to: dto.email,
+      subject: 'Reset Password Code',
+      text: `Your OTP code is ${code}. It will expire in 5 minutes.`,
+    });
 
     return { message: 'Reset code sent' };
   }
 
   async verifyResetCode(dto: VerifyResetCodeDto) {
     return verifyOtp(this.prisma.client, dto.email, dto.code);
+  }
+
+  async resetPassword(dto: ResetPasswordDto) {
+    const user = await this.prisma.client.user.findUnique({
+      where: { email: dto.email },
+    });
+
+    if (!user || user.isDeleted) {
+      throw new NotFoundException('User not found');
+    }
+
+    const hashedPassword = await bcrypt.hash(
+      dto.newPassword,
+      parseInt(process.env.SALT_ROUND!, 10),
+    );
+
+    await this.prisma.client.user.update({
+      where: { email: dto.email },
+      data: { password: hashedPassword },
+    });
+
+    return { message: 'Password reset successful' };
   }
 
   async verifyEmailOtp(dto: VerifyResetCodeDto) {

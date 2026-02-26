@@ -34,7 +34,7 @@ import { ChangePasswordDto } from './dto/change-password.dto';
 import { userRole } from '@prisma';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UpdateUserDto } from './dto/update-account.dto';
-import { RequestResetCodeDto, VerifyResetCodeDto } from './dto/forgetPasswordDto';
+import { RequestResetCodeDto, ResetPasswordDto, VerifyResetCodeDto } from './dto/forgetPasswordDto';
 
 
 @Controller('auth')
@@ -263,8 +263,8 @@ export class AuthController {
 
   @Public()
   @Post('forget-reset-password')
-  async resetPassword(@Body() dto: VerifyResetCodeDto, @Res() res: Response) {
-    const result = await this.authService.verifyResetCode(
+  async resetPassword(@Body() dto: ResetPasswordDto, @Res() res: Response) {
+    const result = await this.authService.resetPassword(
       dto
     );
 

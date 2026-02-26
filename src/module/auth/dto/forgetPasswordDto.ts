@@ -26,3 +26,20 @@ export class VerifyResetCodeDto {
   @Length(4, 4, { message: 'Code must be 4 characters' })
   code: string;
 }
+
+export class ResetPasswordDto {
+  @ApiProperty({
+    example: 'user@example.com',
+    description: 'Registered email address',
+  })
+  @IsEmail({}, { message: 'Invalid email address' })
+  email: string;
+
+  @ApiProperty({
+    example: 'newSecurePassword123',
+    description: 'New password to set for the account',
+  })
+  @IsNotEmpty({ message: 'New password is required' })
+  @IsString()
+  newPassword: string;
+}
