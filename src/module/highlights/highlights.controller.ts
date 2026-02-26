@@ -91,21 +91,7 @@ export class HighlightsController {
         });
     }
 
-    @Public()
-    @Get('view/:id')
-    async incrementView(
-        @Param('id') id: string,
-        @Res() res: Response
-    ) {
-        const result = await this.highlightService.incrementView(id);
 
-        return sendResponse(res, {
-            statusCode: HttpStatus.OK,
-            success: true,
-            message: 'Highlight view incremented successfully',
-            data: result,
-        });
-    }
 
     @Delete('deleteHighlights/:id')
     @Subscription(subscribeStatus.ELITE, subscribeStatus.PRO)
@@ -122,6 +108,22 @@ export class HighlightsController {
             statusCode: HttpStatus.OK,
             success: true,
             message: 'Highlight deleted successfully',
+            data: result,
+        });
+    }
+
+    @Public()
+    @Get(':id')
+    async incrementView(
+        @Param('id') id: string,
+        @Res() res: Response
+    ) {
+        const result = await this.highlightService.incrementView(id);
+
+        return sendResponse(res, {
+            statusCode: HttpStatus.OK,
+            success: true,
+            message: 'Highlight retrieved successfully',
             data: result,
         });
     }
