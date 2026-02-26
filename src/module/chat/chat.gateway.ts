@@ -64,6 +64,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
       this.server.to(receiverId).emit('newMessage', savedMessage);
       this.server.to(senderId).emit('messageSent', savedMessage);
     } catch (error: any) {
+      console.log(error.message);
       client.emit('error', { message: 'Failed to send message' });
     }
   }

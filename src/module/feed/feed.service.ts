@@ -226,13 +226,11 @@ export class FeedService {
           return { success: true, message: 'Post view incremented' };
         }
       } else {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
         const existingView = await tx.highlightsView.findUnique({
           where: { userId_highlightsId: { userId, highlightsId: id } },
         });
 
         if (!existingView) {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-call
           await tx.highlightsView.create({
             data: { userId, highlightsId: id },
           });
@@ -246,5 +244,66 @@ export class FeedService {
 
       return { success: false, message: 'Already seen' };
     });
+  }
+
+  // Single User all feeds
+  async getMyFeeds(userId: string, page: number = 1, limit: number = 20) {
+    const skip = (page - 1) * limit;
+
+    const [posts, highlights] = await Promise.all([
+      this.prisma.client.post.findMany({
+        where: { userId },
+        select: {
+          id: true,
+          images: {
+            select: {
+              id: true,
+              url: true,
+            },
+          },
+          viewCount: true,
+          likes: true,
+          createdAt: true,
+        },
+        orderBy: { createdAt: 'desc' },
+        take: skip + limit,
+      }),
+      this.prisma.client.highlights.findMany({
+        where: { userId, isProcessing: false },
+        select: {
+          id: true,
+          mergedVideoUrl: true,
+          caption: true,
+          description: true,
+          views: true,
+          likes: true,
+          createdAt: true,
+          highLightsLink: true,
+        },
+        orderBy: { createdAt: 'desc' },
+        take: skip + limit,
+      }),
+    ]);
+
+    const combinedFeed = [
+      ...posts.map((p) => ({
+        ...p,
+        feedType: 'POST',
+        totalLikes: p.likes || 0,
+        totalViews: p.viewCount || 0,
+      })),
+      ...highlights.map(({ views, likes, ...h }) => ({
+        ...h,
+        feedType: 'HIGHLIGHT',
+        totalLikes: likes || 0,
+        totalViews: views || 0,
+      })),
+    ];
+
+    const sortedFeed = combinedFeed.sort((a, b) => {
+      return b.createdAt.getTime() - a.createdAt.getTime();
+    });
+
+    return sortedFeed.slice(skip, skip + limit);
   }
 }
