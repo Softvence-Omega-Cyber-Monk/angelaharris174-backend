@@ -279,12 +279,12 @@ export class AuthController {
   @Public()
   @Post('verify-otp')
   async verifyOtpCode(@Body() dto: VerifyResetCodeDto, @Res() res: Response) {
-    const result = await this.authService.verifyEmailOtp(dto);
+    const result = await this.authService.verifyResetCode(dto);
 
     return sendResponse(res, {
       statusCode: HttpStatus.OK,
       success: true,
-      message: 'OTP verified and account activated',
+      message: 'OTP verified successfully',
       data: result,
     });
   }
