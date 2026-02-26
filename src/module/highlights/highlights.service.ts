@@ -271,12 +271,7 @@ export class HighlightsService {
       throw new BadRequestException('Highlight not found');
     }
 
-        return this.prisma.client.highlights.update({
-            where: { id: highlightId },
-            data: {
-                views: { increment: 1 },
-            },
-        });
+        return highlight
     }
 
     async deleteHighlight(highlightId: string, userId: string, userRole?: string) {
