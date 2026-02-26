@@ -58,6 +58,7 @@ export type UserMinAggregateOutputType = {
   updatedAt: Date | null
   stripeCustomerId: string | null
   subscribeStatus: $Enums.subscribeStatus | null
+  bio: string | null
   athleteFullName: string | null
   dateOfBirth: Date | null
   email: string | null
@@ -98,6 +99,7 @@ export type UserMaxAggregateOutputType = {
   updatedAt: Date | null
   stripeCustomerId: string | null
   subscribeStatus: $Enums.subscribeStatus | null
+  bio: string | null
   athleteFullName: string | null
   dateOfBirth: Date | null
   email: string | null
@@ -138,6 +140,7 @@ export type UserCountAggregateOutputType = {
   updatedAt: number
   stripeCustomerId: number
   subscribeStatus: number
+  bio: number
   athleteFullName: number
   dateOfBirth: number
   email: number
@@ -206,6 +209,7 @@ export type UserMinAggregateInputType = {
   updatedAt?: true
   stripeCustomerId?: true
   subscribeStatus?: true
+  bio?: true
   athleteFullName?: true
   dateOfBirth?: true
   email?: true
@@ -246,6 +250,7 @@ export type UserMaxAggregateInputType = {
   updatedAt?: true
   stripeCustomerId?: true
   subscribeStatus?: true
+  bio?: true
   athleteFullName?: true
   dateOfBirth?: true
   email?: true
@@ -286,6 +291,7 @@ export type UserCountAggregateInputType = {
   updatedAt?: true
   stripeCustomerId?: true
   subscribeStatus?: true
+  bio?: true
   athleteFullName?: true
   dateOfBirth?: true
   email?: true
@@ -413,6 +419,7 @@ export type UserGroupByOutputType = {
   updatedAt: Date
   stripeCustomerId: string | null
   subscribeStatus: $Enums.subscribeStatus
+  bio: string | null
   athleteFullName: string
   dateOfBirth: Date | null
   email: string
@@ -476,6 +483,7 @@ export type UserWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   stripeCustomerId?: Prisma.StringNullableFilter<"User"> | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFilter<"User"> | $Enums.subscribeStatus
+  bio?: Prisma.StringNullableFilter<"User"> | string | null
   athleteFullName?: Prisma.StringFilter<"User"> | string
   dateOfBirth?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   email?: Prisma.StringFilter<"User"> | string
@@ -531,6 +539,7 @@ export type UserOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   stripeCustomerId?: Prisma.SortOrderInput | Prisma.SortOrder
   subscribeStatus?: Prisma.SortOrder
+  bio?: Prisma.SortOrderInput | Prisma.SortOrder
   athleteFullName?: Prisma.SortOrder
   dateOfBirth?: Prisma.SortOrderInput | Prisma.SortOrder
   email?: Prisma.SortOrder
@@ -590,6 +599,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   stripeCustomerId?: Prisma.StringNullableFilter<"User"> | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFilter<"User"> | $Enums.subscribeStatus
+  bio?: Prisma.StringNullableFilter<"User"> | string | null
   athleteFullName?: Prisma.StringFilter<"User"> | string
   dateOfBirth?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   password?: Prisma.StringFilter<"User"> | string
@@ -644,6 +654,7 @@ export type UserOrderByWithAggregationInput = {
   updatedAt?: Prisma.SortOrder
   stripeCustomerId?: Prisma.SortOrderInput | Prisma.SortOrder
   subscribeStatus?: Prisma.SortOrder
+  bio?: Prisma.SortOrderInput | Prisma.SortOrder
   athleteFullName?: Prisma.SortOrder
   dateOfBirth?: Prisma.SortOrderInput | Prisma.SortOrder
   email?: Prisma.SortOrder
@@ -692,6 +703,7 @@ export type UserScalarWhereWithAggregatesInput = {
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   stripeCustomerId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusWithAggregatesFilter<"User"> | $Enums.subscribeStatus
+  bio?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   athleteFullName?: Prisma.StringWithAggregatesFilter<"User"> | string
   dateOfBirth?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   email?: Prisma.StringWithAggregatesFilter<"User"> | string
@@ -732,6 +744,7 @@ export type UserCreateInput = {
   updatedAt?: Date | string
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
+  bio?: string | null
   athleteFullName: string
   dateOfBirth?: Date | string | null
   email: string
@@ -787,6 +800,7 @@ export type UserUncheckedCreateInput = {
   updatedAt?: Date | string
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
+  bio?: string | null
   athleteFullName: string
   dateOfBirth?: Date | string | null
   email: string
@@ -842,6 +856,7 @@ export type UserUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -897,6 +912,7 @@ export type UserUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -952,6 +968,7 @@ export type UserCreateManyInput = {
   updatedAt?: Date | string
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
+  bio?: string | null
   athleteFullName: string
   dateOfBirth?: Date | string | null
   email: string
@@ -992,6 +1009,7 @@ export type UserUpdateManyMutationInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1032,6 +1050,7 @@ export type UserUncheckedUpdateManyInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1092,6 +1111,7 @@ export type UserCountOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
   stripeCustomerId?: Prisma.SortOrder
   subscribeStatus?: Prisma.SortOrder
+  bio?: Prisma.SortOrder
   athleteFullName?: Prisma.SortOrder
   dateOfBirth?: Prisma.SortOrder
   email?: Prisma.SortOrder
@@ -1145,6 +1165,7 @@ export type UserMaxOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
   stripeCustomerId?: Prisma.SortOrder
   subscribeStatus?: Prisma.SortOrder
+  bio?: Prisma.SortOrder
   athleteFullName?: Prisma.SortOrder
   dateOfBirth?: Prisma.SortOrder
   email?: Prisma.SortOrder
@@ -1185,6 +1206,7 @@ export type UserMinOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
   stripeCustomerId?: Prisma.SortOrder
   subscribeStatus?: Prisma.SortOrder
+  bio?: Prisma.SortOrder
   athleteFullName?: Prisma.SortOrder
   dateOfBirth?: Prisma.SortOrder
   email?: Prisma.SortOrder
@@ -1490,6 +1512,7 @@ export type UserCreateWithoutCommentsInput = {
   updatedAt?: Date | string
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
+  bio?: string | null
   athleteFullName: string
   dateOfBirth?: Date | string | null
   email: string
@@ -1544,6 +1567,7 @@ export type UserUncheckedCreateWithoutCommentsInput = {
   updatedAt?: Date | string
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
+  bio?: string | null
   athleteFullName: string
   dateOfBirth?: Date | string | null
   email: string
@@ -1614,6 +1638,7 @@ export type UserUpdateWithoutCommentsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1668,6 +1693,7 @@ export type UserUncheckedUpdateWithoutCommentsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1722,6 +1748,7 @@ export type UserCreateWithoutConversationsInput = {
   updatedAt?: Date | string
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
+  bio?: string | null
   athleteFullName: string
   dateOfBirth?: Date | string | null
   email: string
@@ -1776,6 +1803,7 @@ export type UserUncheckedCreateWithoutConversationsInput = {
   updatedAt?: Date | string
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
+  bio?: string | null
   athleteFullName: string
   dateOfBirth?: Date | string | null
   email: string
@@ -1854,6 +1882,7 @@ export type UserScalarWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   stripeCustomerId?: Prisma.StringNullableFilter<"User"> | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFilter<"User"> | $Enums.subscribeStatus
+  bio?: Prisma.StringNullableFilter<"User"> | string | null
   athleteFullName?: Prisma.StringFilter<"User"> | string
   dateOfBirth?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   email?: Prisma.StringFilter<"User"> | string
@@ -1894,6 +1923,7 @@ export type UserCreateWithoutLoginSessionsInput = {
   updatedAt?: Date | string
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
+  bio?: string | null
   athleteFullName: string
   dateOfBirth?: Date | string | null
   email: string
@@ -1948,6 +1978,7 @@ export type UserUncheckedCreateWithoutLoginSessionsInput = {
   updatedAt?: Date | string
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
+  bio?: string | null
   athleteFullName: string
   dateOfBirth?: Date | string | null
   email: string
@@ -2018,6 +2049,7 @@ export type UserUpdateWithoutLoginSessionsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2072,6 +2104,7 @@ export type UserUncheckedUpdateWithoutLoginSessionsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2126,6 +2159,7 @@ export type UserCreateWithoutViewedHighlightsInput = {
   updatedAt?: Date | string
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
+  bio?: string | null
   athleteFullName: string
   dateOfBirth?: Date | string | null
   email: string
@@ -2180,6 +2214,7 @@ export type UserUncheckedCreateWithoutViewedHighlightsInput = {
   updatedAt?: Date | string
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
+  bio?: string | null
   athleteFullName: string
   dateOfBirth?: Date | string | null
   email: string
@@ -2250,6 +2285,7 @@ export type UserUpdateWithoutViewedHighlightsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2304,6 +2340,7 @@ export type UserUncheckedUpdateWithoutViewedHighlightsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2358,6 +2395,7 @@ export type UserCreateWithoutLikesHilghlightsInput = {
   updatedAt?: Date | string
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
+  bio?: string | null
   athleteFullName: string
   dateOfBirth?: Date | string | null
   email: string
@@ -2412,6 +2450,7 @@ export type UserUncheckedCreateWithoutLikesHilghlightsInput = {
   updatedAt?: Date | string
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
+  bio?: string | null
   athleteFullName: string
   dateOfBirth?: Date | string | null
   email: string
@@ -2482,6 +2521,7 @@ export type UserUpdateWithoutLikesHilghlightsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2536,6 +2576,7 @@ export type UserUncheckedUpdateWithoutLikesHilghlightsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2590,6 +2631,7 @@ export type UserCreateWithoutHighligtsInput = {
   updatedAt?: Date | string
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
+  bio?: string | null
   athleteFullName: string
   dateOfBirth?: Date | string | null
   email: string
@@ -2644,6 +2686,7 @@ export type UserUncheckedCreateWithoutHighligtsInput = {
   updatedAt?: Date | string
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
+  bio?: string | null
   athleteFullName: string
   dateOfBirth?: Date | string | null
   email: string
@@ -2714,6 +2757,7 @@ export type UserUpdateWithoutHighligtsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2768,6 +2812,7 @@ export type UserUncheckedUpdateWithoutHighligtsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2822,6 +2867,7 @@ export type UserCreateWithoutLikesPostInput = {
   updatedAt?: Date | string
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
+  bio?: string | null
   athleteFullName: string
   dateOfBirth?: Date | string | null
   email: string
@@ -2876,6 +2922,7 @@ export type UserUncheckedCreateWithoutLikesPostInput = {
   updatedAt?: Date | string
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
+  bio?: string | null
   athleteFullName: string
   dateOfBirth?: Date | string | null
   email: string
@@ -2946,6 +2993,7 @@ export type UserUpdateWithoutLikesPostInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -3000,6 +3048,7 @@ export type UserUncheckedUpdateWithoutLikesPostInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -3054,6 +3103,7 @@ export type UserCreateWithoutSentMessagesInput = {
   updatedAt?: Date | string
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
+  bio?: string | null
   athleteFullName: string
   dateOfBirth?: Date | string | null
   email: string
@@ -3108,6 +3158,7 @@ export type UserUncheckedCreateWithoutSentMessagesInput = {
   updatedAt?: Date | string
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
+  bio?: string | null
   athleteFullName: string
   dateOfBirth?: Date | string | null
   email: string
@@ -3167,6 +3218,7 @@ export type UserCreateWithoutReceivedMessagesInput = {
   updatedAt?: Date | string
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
+  bio?: string | null
   athleteFullName: string
   dateOfBirth?: Date | string | null
   email: string
@@ -3221,6 +3273,7 @@ export type UserUncheckedCreateWithoutReceivedMessagesInput = {
   updatedAt?: Date | string
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
+  bio?: string | null
   athleteFullName: string
   dateOfBirth?: Date | string | null
   email: string
@@ -3291,6 +3344,7 @@ export type UserUpdateWithoutSentMessagesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -3345,6 +3399,7 @@ export type UserUncheckedUpdateWithoutSentMessagesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -3410,6 +3465,7 @@ export type UserUpdateWithoutReceivedMessagesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -3464,6 +3520,7 @@ export type UserUncheckedUpdateWithoutReceivedMessagesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -3518,6 +3575,7 @@ export type UserCreateWithoutReceivedNotificationsInput = {
   updatedAt?: Date | string
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
+  bio?: string | null
   athleteFullName: string
   dateOfBirth?: Date | string | null
   email: string
@@ -3572,6 +3630,7 @@ export type UserUncheckedCreateWithoutReceivedNotificationsInput = {
   updatedAt?: Date | string
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
+  bio?: string | null
   athleteFullName: string
   dateOfBirth?: Date | string | null
   email: string
@@ -3631,6 +3690,7 @@ export type UserCreateWithoutSentNotificationsInput = {
   updatedAt?: Date | string
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
+  bio?: string | null
   athleteFullName: string
   dateOfBirth?: Date | string | null
   email: string
@@ -3685,6 +3745,7 @@ export type UserUncheckedCreateWithoutSentNotificationsInput = {
   updatedAt?: Date | string
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
+  bio?: string | null
   athleteFullName: string
   dateOfBirth?: Date | string | null
   email: string
@@ -3755,6 +3816,7 @@ export type UserUpdateWithoutReceivedNotificationsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -3809,6 +3871,7 @@ export type UserUncheckedUpdateWithoutReceivedNotificationsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -3874,6 +3937,7 @@ export type UserUpdateWithoutSentNotificationsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -3928,6 +3992,7 @@ export type UserUncheckedUpdateWithoutSentNotificationsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -3982,6 +4047,7 @@ export type UserCreateWithoutViewedPostsInput = {
   updatedAt?: Date | string
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
+  bio?: string | null
   athleteFullName: string
   dateOfBirth?: Date | string | null
   email: string
@@ -4036,6 +4102,7 @@ export type UserUncheckedCreateWithoutViewedPostsInput = {
   updatedAt?: Date | string
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
+  bio?: string | null
   athleteFullName: string
   dateOfBirth?: Date | string | null
   email: string
@@ -4106,6 +4173,7 @@ export type UserUpdateWithoutViewedPostsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -4160,6 +4228,7 @@ export type UserUncheckedUpdateWithoutViewedPostsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -4214,6 +4283,7 @@ export type UserCreateWithoutPostsInput = {
   updatedAt?: Date | string
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
+  bio?: string | null
   athleteFullName: string
   dateOfBirth?: Date | string | null
   email: string
@@ -4268,6 +4338,7 @@ export type UserUncheckedCreateWithoutPostsInput = {
   updatedAt?: Date | string
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
+  bio?: string | null
   athleteFullName: string
   dateOfBirth?: Date | string | null
   email: string
@@ -4338,6 +4409,7 @@ export type UserUpdateWithoutPostsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -4392,6 +4464,7 @@ export type UserUncheckedUpdateWithoutPostsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -4446,6 +4519,7 @@ export type UserCreateWithoutSubscriptionsInput = {
   updatedAt?: Date | string
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
+  bio?: string | null
   athleteFullName: string
   dateOfBirth?: Date | string | null
   email: string
@@ -4500,6 +4574,7 @@ export type UserUncheckedCreateWithoutSubscriptionsInput = {
   updatedAt?: Date | string
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
+  bio?: string | null
   athleteFullName: string
   dateOfBirth?: Date | string | null
   email: string
@@ -4570,6 +4645,7 @@ export type UserUpdateWithoutSubscriptionsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -4624,6 +4700,7 @@ export type UserUncheckedUpdateWithoutSubscriptionsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -4678,6 +4755,7 @@ export type UserCreateWithoutTransactionsInput = {
   updatedAt?: Date | string
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
+  bio?: string | null
   athleteFullName: string
   dateOfBirth?: Date | string | null
   email: string
@@ -4732,6 +4810,7 @@ export type UserUncheckedCreateWithoutTransactionsInput = {
   updatedAt?: Date | string
   stripeCustomerId?: string | null
   subscribeStatus?: $Enums.subscribeStatus
+  bio?: string | null
   athleteFullName: string
   dateOfBirth?: Date | string | null
   email: string
@@ -4802,6 +4881,7 @@ export type UserUpdateWithoutTransactionsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -4856,6 +4936,7 @@ export type UserUncheckedUpdateWithoutTransactionsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -4910,6 +4991,7 @@ export type UserUpdateWithoutConversationsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -4964,6 +5046,7 @@ export type UserUncheckedUpdateWithoutConversationsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -5018,6 +5101,7 @@ export type UserUncheckedUpdateManyWithoutConversationsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscribeStatus?: Prisma.EnumsubscribeStatusFieldUpdateOperationsInput | $Enums.subscribeStatus
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   athleteFullName?: Prisma.StringFieldUpdateOperationsInput | string
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -5215,6 +5299,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   updatedAt?: boolean
   stripeCustomerId?: boolean
   subscribeStatus?: boolean
+  bio?: boolean
   athleteFullName?: boolean
   dateOfBirth?: boolean
   email?: boolean
@@ -5271,6 +5356,7 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   updatedAt?: boolean
   stripeCustomerId?: boolean
   subscribeStatus?: boolean
+  bio?: boolean
   athleteFullName?: boolean
   dateOfBirth?: boolean
   email?: boolean
@@ -5311,6 +5397,7 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   updatedAt?: boolean
   stripeCustomerId?: boolean
   subscribeStatus?: boolean
+  bio?: boolean
   athleteFullName?: boolean
   dateOfBirth?: boolean
   email?: boolean
@@ -5351,6 +5438,7 @@ export type UserSelectScalar = {
   updatedAt?: boolean
   stripeCustomerId?: boolean
   subscribeStatus?: boolean
+  bio?: boolean
   athleteFullName?: boolean
   dateOfBirth?: boolean
   email?: boolean
@@ -5385,7 +5473,7 @@ export type UserSelectScalar = {
   oranaizaitonCode?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "stripeCustomerId" | "subscribeStatus" | "athleteFullName" | "dateOfBirth" | "email" | "password" | "imgUrl" | "parentName" | "city" | "state" | "gradYear" | "position" | "height" | "weight" | "school" | "gpa" | "agreedToTerms" | "fcmToken" | "isActive" | "isDeleted" | "role" | "ppg" | "rpg" | "apg" | "spg" | "blk" | "adminTilte" | "profileViews" | "lastViewed" | "parentEmail" | "referralCode" | "referredBy" | "profileLink" | "oranaizaitonCode", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "stripeCustomerId" | "subscribeStatus" | "bio" | "athleteFullName" | "dateOfBirth" | "email" | "password" | "imgUrl" | "parentName" | "city" | "state" | "gradYear" | "position" | "height" | "weight" | "school" | "gpa" | "agreedToTerms" | "fcmToken" | "isActive" | "isDeleted" | "role" | "ppg" | "rpg" | "apg" | "spg" | "blk" | "adminTilte" | "profileViews" | "lastViewed" | "parentEmail" | "referralCode" | "referredBy" | "profileLink" | "oranaizaitonCode", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   highligts?: boolean | Prisma.User$highligtsArgs<ExtArgs>
   subscriptions?: boolean | Prisma.User$subscriptionsArgs<ExtArgs>
@@ -5432,6 +5520,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     updatedAt: Date
     stripeCustomerId: string | null
     subscribeStatus: $Enums.subscribeStatus
+    bio: string | null
     athleteFullName: string
     dateOfBirth: Date | null
     email: string
@@ -5907,6 +5996,7 @@ export interface UserFieldRefs {
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly stripeCustomerId: Prisma.FieldRef<"User", 'String'>
   readonly subscribeStatus: Prisma.FieldRef<"User", 'subscribeStatus'>
+  readonly bio: Prisma.FieldRef<"User", 'String'>
   readonly athleteFullName: Prisma.FieldRef<"User", 'String'>
   readonly dateOfBirth: Prisma.FieldRef<"User", 'DateTime'>
   readonly email: Prisma.FieldRef<"User", 'String'>

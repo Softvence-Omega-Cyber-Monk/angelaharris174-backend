@@ -6,8 +6,9 @@ import {
   IsUUID,
   ValidateNested,
   IsIn,
+  ValidateIf,
 } from 'class-validator';
-import { Type } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 
 class AttachmentDto {
   @IsString()
@@ -29,8 +30,13 @@ export class SendMessageDto {
   @IsNotEmpty({ message: 'receiverId is required' })
   receiverId: string;
 
-  @IsString()
   @IsOptional()
+  @IsString()
+  @Transform(({ value }) => (typeof value === 'string' ? value.trim() : value))
+  @ValidateIf((o) => !o.files || o.files.length === 0)
+  @IsNotEmpty({
+    message: 'Message content cannot be empty if no files are attached',
+  })
   content?: string;
 
   @IsOptional()
