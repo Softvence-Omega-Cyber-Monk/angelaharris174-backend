@@ -398,6 +398,10 @@ export class AuthService {
     const hashedCode = await hashOtpCode(code);
     const expiresAt = new Date(Date.now() + 5 * 60 * 1000);
 
+    await this.prisma.client.otpCode.deleteMany({
+      where: { email: dto.email },
+    });
+
     await this.prisma.client.otpCode.create({
       data: { email: dto.email, code: hashedCode, expiresAt },
     });
@@ -464,6 +468,20 @@ export class AuthService {
       throw new NotFoundException('User not found');
     }
 
+    const verifiedOtp = await this.prisma.client.otpCode.findFirst({
+      where: {
+        email: dto.email,
+        verified: true,
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    if (!verifiedOtp || verifiedOtp.expiresAt < new Date()) {
+      throw new BadRequestException(
+        'OTP verification required before resetting password',
+      );
+    }
+
     const hashedPassword = await bcrypt.hash(
       dto.newPassword,
       parseInt(process.env.SALT_ROUND!, 10),
@@ -472,6 +490,10 @@ export class AuthService {
     await this.prisma.client.user.update({
       where: { email: dto.email },
       data: { password: hashedPassword },
+    });
+
+    await this.prisma.client.otpCode.deleteMany({
+      where: { email: dto.email },
     });
 
     return { message: 'Password reset successful' };
