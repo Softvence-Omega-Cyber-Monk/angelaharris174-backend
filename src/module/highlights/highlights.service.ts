@@ -25,17 +25,7 @@ export class HighlightsService {
         );
       }
 
-      const existingHighlight = await this.prisma.client.highlights.findFirst({
-        where: { userId },
-        select: { id: true },
-      });
-
-      if (existingHighlight) {
-        throw new BadRequestException(
-          'Only one highlight video is allowed per user',
-        );
-      }
-
+   
       // 1. Create a highlight record in the database with isProcessing = true
       // We store an initial placeholder for clips, which we'll update soon
       const highlight = await this.prisma.client.highlights.create({
