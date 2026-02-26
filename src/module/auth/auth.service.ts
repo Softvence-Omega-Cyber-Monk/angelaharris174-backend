@@ -11,7 +11,12 @@ import * as bcrypt from 'bcrypt';
 // import { RegisterDto } from './dto/register.dto';
 import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from './dto/login.dto';
-import { generateOtpCode, getTokens, hashOtpCode, verifyOtp } from './auth.utils';
+import {
+  generateOtpCode,
+  getTokens,
+  hashOtpCode,
+  verifyOtp,
+} from './auth.utils';
 // import { SystemRole } from '@prisma';
 import { RegisterDto } from './dto/register.dto';
 // import { userRole } from '@prisma';
@@ -24,6 +29,8 @@ import { ResetPasswordDto } from './dto/forgetPasswordDto';
 import { VerifyResetCodeDto } from './dto/forgetPasswordDto';
 import type { Request, Response } from 'express';
 import sendResponse from 'src/utils/sendResponse';
+import * as ejs from 'ejs';
+import * as path from 'path';
 
 @Injectable()
 export class AuthService {
@@ -32,7 +39,7 @@ export class AuthService {
     private jwtService: JwtService,
     private s3Service: S3Service,
     private emailService: EmailService,
-  ) { }
+  ) {}
 
   async register(dto: RegisterDto, imageUrl?: string | null) {
     const existingUser = await this.prisma.client.user.findUnique({
@@ -75,24 +82,23 @@ export class AuthService {
         school: dto.school ?? undefined,
         gpa: dto.gpa ?? undefined,
         fcmToken: dto.fcmToken ?? undefined,
-        referralCode: "REF_" + Math.floor(100000 + Math.random() * 900000).toString(), // Generate a unique referral code
+        referralCode:
+          'REF_' + Math.floor(100000 + Math.random() * 900000).toString(), // Generate a unique referral code
         isActive: true,
         parentEmail: dto.parentEmail,
         referredBy: dto.referredBy ?? undefined,
-        oranaizaitonCode: dto.organizationCode ?? undefined
+        oranaizaitonCode: dto.organizationCode ?? undefined,
         // role defaults to ATHLATE per your Prisma schema
         // isActive, isDeleted default to false
       },
     });
 
-    const profileLink = process.env.BASE_URL + '/profile/' + newUser.id
-
-
+    const profileLink = process.env.BASE_URL + '/profile/' + newUser.id;
 
     const updatedUser = await this.prisma.client.user.update({
       where: { id: newUser.id },
-      data: { profileLink }
-    })
+      data: { profileLink },
+    });
 
     const otpCode = generateOtpCode();
     const hashedOtp = await hashOtpCode(otpCode);
@@ -120,7 +126,8 @@ export class AuthService {
   }
 
   // login
-  async login(dto: LoginDto, req: Request, res: Response) { // <-- Added req: Request
+  async login(dto: LoginDto, req: Request, res: Response) {
+    // <-- Added req: Request
     const user = await this.prisma.client.user.findUnique({
       where: { email: dto.email },
     });
@@ -128,7 +135,6 @@ export class AuthService {
     if (!user || !dto.password) {
       throw new ForbiddenException('Invalid credentials');
     }
-
 
     if (user.isDeleted) {
       throw new BadRequestException('User is deleted!');
@@ -148,7 +154,6 @@ export class AuthService {
       user.email,
       user.role,
       user.subscribeStatus,
-
     );
 
     // --- START: Login History Logic ---
@@ -170,7 +175,7 @@ export class AuthService {
       'unknown';
 
     // 3. (Optional) Fetch Location from IP using an external API
-    // For production, use a paid service or cache this. 
+    // For production, use a paid service or cache this.
     // Here is a free example using ipapi.co (be careful with rate limits)
     let city = null;
     let region = null;
@@ -213,22 +218,30 @@ export class AuthService {
 
   private detectOs(userAgent: string): string {
     if (userAgent.includes('Windows')) return 'Windows';
-    if (userAgent.includes('Mac OS') || userAgent.includes('Macintosh')) return 'macOS';
+    if (userAgent.includes('Mac OS') || userAgent.includes('Macintosh'))
+      return 'macOS';
     if (userAgent.includes('Android')) return 'Android';
-    if (userAgent.includes('iPhone') || userAgent.includes('iPad') || userAgent.includes('iOS')) return 'iOS';
+    if (
+      userAgent.includes('iPhone') ||
+      userAgent.includes('iPad') ||
+      userAgent.includes('iOS')
+    )
+      return 'iOS';
     if (userAgent.includes('Linux')) return 'Linux';
     return 'Unknown Device';
   }
 
   private detectBrowser(userAgent: string): string {
     if (userAgent.includes('Edg/')) return 'Edge';
-    if (userAgent.includes('OPR/') || userAgent.includes('Opera')) return 'Opera';
-    if (userAgent.includes('Chrome/') && !userAgent.includes('Edg/')) return 'Chrome';
-    if (userAgent.includes('Safari/') && !userAgent.includes('Chrome/')) return 'Safari';
+    if (userAgent.includes('OPR/') || userAgent.includes('Opera'))
+      return 'Opera';
+    if (userAgent.includes('Chrome/') && !userAgent.includes('Edg/'))
+      return 'Chrome';
+    if (userAgent.includes('Safari/') && !userAgent.includes('Chrome/'))
+      return 'Safari';
     if (userAgent.includes('Firefox/')) return 'Firefox';
     return 'Browser';
   }
-
 
   // // change password
   async changePassword(id: string, dto: ChangePasswordDto) {
@@ -275,7 +288,6 @@ export class AuthService {
         user.email,
         user.role,
         user.subscribeStatus,
-
       );
     } catch {
       throw new UnauthorizedException('Invalid refresh token');
@@ -300,7 +312,8 @@ export class AuthService {
     const data: any = {};
 
     // Handle string fields
-    if (dto.athleteFullName !== undefined) data.athleteFullName = dto.athleteFullName;
+    if (dto.athleteFullName !== undefined)
+      data.athleteFullName = dto.athleteFullName;
 
     // Handle email update — only if it's actually changing
     if (dto.email !== undefined && dto.email !== existingUser.email) {
@@ -308,7 +321,9 @@ export class AuthService {
         where: { email: dto.email },
       });
       if (emailTaken) {
-        throw new BadRequestException('Email is already in use by another account');
+        throw new BadRequestException(
+          'Email is already in use by another account',
+        );
       }
       data.email = dto.email;
     }
@@ -368,10 +383,12 @@ export class AuthService {
   }
 
   // forget and reset password
+
   async requestResetCode(dto: RequestResetCodeDto) {
     const user = await this.prisma.client.user.findUnique({
       where: { email: dto.email },
     });
+
     if (!user) throw new NotFoundException('User not found');
     if (user.isDeleted) {
       throw new BadRequestException('The account is deleted!');
@@ -385,14 +402,54 @@ export class AuthService {
       data: { email: dto.email, code: hashedCode, expiresAt },
     });
 
-    await this.emailService.sendEmail({
-      to: dto.email,
-      subject: 'Reset Password Code',
-      text: `Your OTP code is ${code}. It will expire in 5 minutes.`,
+    const templatePath = path.join(
+      process.cwd(),
+      'src',
+      'module',
+      'auth',
+      'mails',
+      'forget-password.ejs',
+    );
+
+    const html = await ejs.renderFile(templatePath, {
+      user: { name: user.athleteFullName },
+      resetCode: code,
     });
 
-    return { message: 'Reset code sent' };
+    await this.emailService.sendEmail({
+      to: dto.email,
+      subject: 'Highlightz - Reset Password Code',
+      html: html,
+    });
+
+    return { message: 'Reset code sent successfully' };
   }
+
+  // async requestResetCode(dto: RequestResetCodeDto) {
+  //   const user = await this.prisma.client.user.findUnique({
+  //     where: { email: dto.email },
+  //   });
+  //   if (!user) throw new NotFoundException('User not found');
+  //   if (user.isDeleted) {
+  //     throw new BadRequestException('The account is deleted!');
+  //   }
+
+  //   const code = generateOtpCode();
+  //   const hashedCode = await hashOtpCode(code);
+  //   const expiresAt = new Date(Date.now() + 5 * 60 * 1000);
+
+  //   await this.prisma.client.otpCode.create({
+  //     data: { email: dto.email, code: hashedCode, expiresAt },
+  //   });
+
+  //   await this.emailService.sendEmail({
+  //     to: dto.email,
+  //     subject: 'Reset Password Code',
+  //     text: `Your OTP code is ${code}. It will expire in 5 minutes.`,
+  //   });
+
+  //   return { message: 'Reset code sent' };
+  // }
 
   async verifyResetCode(dto: VerifyResetCodeDto) {
     return verifyOtp(this.prisma.client, dto.email, dto.code);
@@ -560,7 +617,7 @@ export class AuthService {
     // 2. Logic: If the viewer is the owner, do not update stats
     if (currentUserId === targetUserId) {
       // Return the user data without modifying the DB
-      return { message: 'welcome to yoor profile' }
+      return { message: 'welcome to yoor profile' };
     }
 
     // Increment profileViews by 1 and set lastViewed to now
@@ -637,7 +694,4 @@ export class AuthService {
       },
     });
   }
-
-
 }
-
