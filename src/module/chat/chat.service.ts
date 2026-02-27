@@ -136,12 +136,7 @@ export class ChatService {
   }
 
   // Chat History
-  async getChatHistory(
-    userId: string,
-    contactId: string,
-    limit: number = 20,
-    skip: number = 0,
-  ) {
+  async getChatHistory(userId: string, contactId: string) {
     try {
       return await this.prisma.client.message.findMany({
         where: {
@@ -153,9 +148,7 @@ export class ChatService {
         include: {
           attachments: true,
         },
-        orderBy: { createdAt: 'desc' },
-        take: limit,
-        skip: skip,
+        orderBy: { createdAt: 'asc' },
       });
     } catch (error) {
       console.log(error);
@@ -166,7 +159,7 @@ export class ChatService {
   // My Chat List
   async getMyChatList(
     userId: string,
-    limit: number = 20,
+    limit: number = 50,
     skip: number = 0,
   ): Promise<ChatListItem[]> {
     try {
