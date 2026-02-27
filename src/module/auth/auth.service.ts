@@ -429,32 +429,6 @@ export class AuthService {
     return { message: 'Reset code sent successfully' };
   }
 
-  // async requestResetCode(dto: RequestResetCodeDto) {
-  //   const user = await this.prisma.client.user.findUnique({
-  //     where: { email: dto.email },
-  //   });
-  //   if (!user) throw new NotFoundException('User not found');
-  //   if (user.isDeleted) {
-  //     throw new BadRequestException('The account is deleted!');
-  //   }
-
-  //   const code = generateOtpCode();
-  //   const hashedCode = await hashOtpCode(code);
-  //   const expiresAt = new Date(Date.now() + 5 * 60 * 1000);
-
-  //   await this.prisma.client.otpCode.create({
-  //     data: { email: dto.email, code: hashedCode, expiresAt },
-  //   });
-
-  //   await this.emailService.sendEmail({
-  //     to: dto.email,
-  //     subject: 'Reset Password Code',
-  //     text: `Your OTP code is ${code}. It will expire in 5 minutes.`,
-  //   });
-
-  //   return { message: 'Reset code sent' };
-  // }
-
   async verifyResetCode(dto: VerifyResetCodeDto) {
     return verifyOtp(this.prisma.client, dto.email, dto.code);
   }
@@ -541,10 +515,24 @@ export class AuthService {
       data: { email: dto.email, code: hashedCode, expiresAt },
     });
 
+    const templatePath = path.join(
+      process.cwd(),
+      'src',
+      'module',
+      'auth',
+      'mails',
+      'verify-email.ejs',
+    );
+
+    const html = await ejs.renderFile(templatePath, {
+      user: { name: user.athleteFullName },
+      verificationCode: code,
+    });
+
     await this.emailService.sendEmail({
       to: dto.email,
-      subject: 'Verify your email',
-      text: `Your verification code is ${code}. It will expire in 5 minutes.`,
+      subject: 'Highlightz - Verify Your Email',
+      html: html,
     });
 
     return { message: 'Verification code resent' };
