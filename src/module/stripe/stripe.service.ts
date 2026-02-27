@@ -758,12 +758,14 @@ export class StripeService {
       transactions: recentTransactions.map((tx) => {
         const plan = tx.plan || tx.subscription?.plan;
         return {
+          id:tx.id,
           transactionId: tx.transactionId,
           customer: tx.user?.athleteFullName || 'Unknown',
           plan: plan?.name || 'N/A', // 🌟 Accurate plan name
-          amount: tx.amount / 100, // Convert cents to dollars
+          amount: tx.amount, // Convert cents to dollars
           status: tx.status === 'succeeded' ? 'Successfull' : tx.status,
           billingDate: tx.billingDate,
+          recieptUrl: tx.receiptUrl,
         };
       }),
     };
