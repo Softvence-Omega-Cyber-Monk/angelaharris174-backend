@@ -1,4 +1,10 @@
-import { BadRequestException, Injectable, InternalServerErrorException, Logger, NotFoundException, ForbiddenException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+  NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { S3Service } from '../s3/s3.service';
 import { HighlightsDto } from './dto/highlights.dto';
@@ -25,7 +31,6 @@ export class HighlightsService {
         );
       }
 
-   
       // 1. Create a highlight record in the database with isProcessing = true
       // We store an initial placeholder for clips, which we'll update soon
       const highlight = await this.prisma.client.highlights.create({
@@ -261,37 +266,41 @@ export class HighlightsService {
       throw new BadRequestException('Highlight not found');
     }
 
-        return highlight
+    return highlight;
+  }
+
+  async deleteHighlight(
+    highlightId: string,
+    userId: string,
+    userRole?: string,
+  ) {
+    const highlight = await this.prisma.client.highlights.findUnique({
+      where: { id: highlightId },
+    });
+
+    if (!highlight) {
+      throw new NotFoundException('Highlight not found');
     }
 
-    async deleteHighlight(highlightId: string, userId: string, userRole?: string) {
-        const highlight = await this.prisma.client.highlights.findUnique({
-            where: { id: highlightId },
-        });
+    const clips = (highlight.clips as any[]) || [];
+    const urlsToDelete = [
+      ...clips.map((c) => c?.url).filter(Boolean),
+      highlight.mergedVideoUrl,
+    ].filter(Boolean) as string[];
 
-        if (!highlight) {
-            throw new NotFoundException('Highlight not found');
-        }
-
-        const clips = (highlight.clips as any[]) || [];
-        const urlsToDelete = [
-            ...clips.map((c) => c?.url).filter(Boolean),
-            highlight.mergedVideoUrl,
-        ].filter(Boolean) as string[];
-
-        for (const url of urlsToDelete) {
-            await this.s3Service.deleteFile(url);
-        }
-
-        await this.prisma.client.$transaction([
-            this.prisma.client.likeHighlights.deleteMany({
-                where: { highlightId },
-            }),
-            this.prisma.client.highlights.delete({
-                where: { id: highlightId },
-            }),
-        ]);
-
-        return { message: 'Highlight deleted successfully' };
+    for (const url of urlsToDelete) {
+      await this.s3Service.deleteFile(url);
     }
+
+    await this.prisma.client.$transaction([
+      this.prisma.client.likeHighlights.deleteMany({
+        where: { highlightId },
+      }),
+      this.prisma.client.highlights.delete({
+        where: { id: highlightId },
+      }),
+    ]);
+
+    return { message: 'Highlight deleted successfully' };
+  }
 }
