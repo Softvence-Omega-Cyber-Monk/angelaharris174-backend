@@ -119,7 +119,11 @@ export class UpdateUserDto {
   @Max(4.0)
   gpa?: number;
 
-  @ApiProperty({ example: 'Head Coach', description: 'Admin title', required: false })
+  @ApiProperty({
+    example: 'Head Coach',
+    description: 'Admin title',
+    required: false,
+  })
   @IsOptional()
   @EmptyToUndefined()
   @IsString()
