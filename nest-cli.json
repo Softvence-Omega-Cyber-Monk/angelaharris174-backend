@@ -6,7 +6,7 @@
     "deleteOutDir": true,
     "assets": [
       {
-        "include": "module/auth/mails/*.ejs",
+        "include": "**/mails/*.ejs", 
         "watchAssets": true
       }
     ]
