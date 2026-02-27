@@ -406,14 +406,16 @@ export class AuthService {
       data: { email: dto.email, code: hashedCode, expiresAt },
     });
 
-    const templatePath = path.join(
-      process.cwd(),
-      'src',
-      'module',
-      'auth',
-      'mails',
-      'forget-password.ejs',
-    );
+    // const templatePath = path.join(
+    //   process.cwd(),
+    //   'src',
+    //   'module',
+    //   'auth',
+    //   'mails',
+    //   'forget-password.ejs',
+    // );
+
+    const templatePath = path.join(__dirname, 'mails', 'forget-password.ejs');
 
     const html = await ejs.renderFile(templatePath, {
       user: { name: user.athleteFullName },
@@ -515,14 +517,16 @@ export class AuthService {
       data: { email: dto.email, code: hashedCode, expiresAt },
     });
 
-    const templatePath = path.join(
-      process.cwd(),
-      'src',
-      'module',
-      'auth',
-      'mails',
-      'verify-email.ejs',
-    );
+    // const templatePath = path.join(
+    //   process.cwd(),
+    //   'src',
+    //   'module',
+    //   'auth',
+    //   'mails',
+    //   'verify-email.ejs',
+    // );
+
+    const templatePath = path.join(__dirname, 'mails', 'verify-email.ejs');
 
     const html = await ejs.renderFile(templatePath, {
       user: { name: user.athleteFullName },
