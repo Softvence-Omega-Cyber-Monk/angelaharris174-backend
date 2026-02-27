@@ -23,7 +23,7 @@ export class OrganizationService {
       throw new BadRequestException('Organization email already exists');
     }
 
-    const accessUrl = process.env.BASE_URL+`/organization?code=${dto.organizationCode}`
+    const accessUrl = process.env.BASE_URL+`/signup?code=${dto.organizationCode}`
     return this.prisma.client.organization.create({
       data: {
         organizationCode: dto.organizationCode,
