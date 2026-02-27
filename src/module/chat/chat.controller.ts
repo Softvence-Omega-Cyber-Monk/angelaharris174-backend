@@ -43,20 +43,10 @@ export class ChatController {
   async getChatHistory(
     @Req() req: Request,
     @Param('contactId') contactId: string,
-    @Query('limit') limit?: string,
-    @Query('skip') skip?: string,
   ): Promise<any> {
     const userId = req.user!.id;
 
-    const take = limit ? parseInt(limit, 10) : 50;
-    const offset = skip ? parseInt(skip, 10) : 0;
-
-    return await this.chatService.getChatHistory(
-      userId,
-      contactId,
-      take,
-      offset,
-    );
+    return await this.chatService.getChatHistory(userId, contactId);
   }
 
   @Post('start/:receiverId')
@@ -74,7 +64,6 @@ export class ChatController {
       // limits: { fileSize: 10 * 1024 * 1024 },
     }),
   )
-
   async uploadFiles(@UploadedFiles() files: Array<Express.Multer.File>) {
     if (!files || files.length === 0) return [];
 
@@ -102,5 +91,4 @@ export class ChatController {
       throw new InternalServerErrorException(`Upload failed: ${error.message}`);
     }
   }
-
 }
