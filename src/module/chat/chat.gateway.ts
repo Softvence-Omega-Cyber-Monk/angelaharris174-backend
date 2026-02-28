@@ -10,7 +10,8 @@ import {
 import { Server, Socket } from 'socket.io';
 import { ChatService } from './chat.service';
 import { SendMessageDto } from './dto/sendMessage.dto';
-import { UsePipes, ValidationPipe } from '@nestjs/common';
+import { UsePipes, ValidationPipe, Logger } from '@nestjs/common';
+import { v4 as uuidv4 } from 'uuid';
 
 @WebSocketGateway({
   cors: { origin: process.env.FRONTEND_URL || '*' },
@@ -19,13 +20,15 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
   server: Server;
 
+  private readonly logger = new Logger(ChatGateway.name);
+
   constructor(private chatService: ChatService) {}
 
   async handleConnection(client: Socket) {
     const userId = client.handshake.query.userId as string;
     if (userId) {
       await client.join(userId);
-      console.log(`User connected and joined room: ${userId}`);
+      this.logger.log(`User connected and joined room: ${userId}`);
     } else {
       client.disconnect();
     }
@@ -33,39 +36,58 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   handleDisconnect(client: Socket) {
     const userId = client.handshake.query.userId as string;
-    console.log(`User disconnected: ${userId}`);
+    this.logger.log(`User disconnected: ${userId}`);
   }
 
   @UsePipes(new ValidationPipe({ transform: true, whitelist: true }))
   @SubscribeMessage('sendMessage')
-  async handleSendMessage(
+  handleSendMessage(
     @ConnectedSocket() client: Socket,
     @MessageBody() payload: SendMessageDto,
   ) {
+    const senderId = client.handshake.query.userId as string;
+    const { receiverId, conversationId } = payload;
+
+    if (!conversationId || !senderId || !receiverId) {
+      client.emit('error', { message: 'Missing IDs' });
+      return;
+    }
+
+    const serverGeneratedTempId = `temp_${uuidv4()}`;
+
+    const optimisticMessage = {
+      ...payload,
+      tempId: serverGeneratedTempId,
+      senderId,
+      createdAt: new Date().toISOString(),
+      status: 'sent',
+    };
+
+    this.server.to(receiverId).emit('newMessage', optimisticMessage);
+    client.emit('messageAcknowledged', { tempId: serverGeneratedTempId });
+
     try {
-      const senderId = client.handshake.query.userId as string;
-      const { receiverId, conversationId } = payload;
-
-      if (!conversationId) {
-        console.error('Conversation ID missing');
-        return;
-      }
-
-      if (!senderId || !receiverId) {
-        console.error('Sender or Receiver ID missing');
-        return;
-      }
-
-      const savedMessage = await this.chatService.saveMessage({
-        senderId,
-        ...payload,
-      });
-
-      this.server.to(receiverId).emit('newMessage', savedMessage);
-      this.server.to(senderId).emit('messageSent', savedMessage);
+      this.chatService
+        .saveMessage({
+          senderId,
+          ...payload,
+        })
+        .then((savedMessage) => {
+          this.server.to(senderId).emit('messageSent', {
+            tempId: serverGeneratedTempId,
+            savedMessage,
+          });
+        })
+        .catch((dbError) => {
+          this.logger.error(`Database Error: ${dbError.message}`);
+          client.emit('messageError', {
+            tempId: serverGeneratedTempId,
+            message: 'Message could not be saved to database',
+          });
+        });
     } catch (error: any) {
-      console.log(error.message);
-      client.emit('error', { message: 'Failed to send message' });
+      this.logger.error(`System Error: ${error.message}`);
+      client.emit('error', { message: 'Failed to process message' });
     }
   }
 

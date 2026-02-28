@@ -139,14 +139,16 @@ export class StripeService {
     });
 
     if (session.url) {
-      const templatePath = join(
-        process.cwd(),
-        'src',
-        'module',
-        'stripe',
-        'mails',
-        'stripe-checkout.ejs',
-      );
+      // const templatePath = join(
+      //   process.cwd(),
+      //   'src',
+      //   'module',
+      //   'stripe',
+      //   'mails',
+      //   'stripe-checkout.ejs',
+      // );
+
+      const templatePath = join(__dirname, 'mails', 'stripe-checkout.ejs');
 
       const html = await ejs.renderFile(templatePath, {
         user: { name: user.athleteFullName },
