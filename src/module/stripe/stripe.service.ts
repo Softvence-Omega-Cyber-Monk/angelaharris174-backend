@@ -7,6 +7,7 @@ import { EmailService } from '../email/email.service';
 import * as ejs from 'ejs';
 import { join } from 'path';
 import { Parser } from 'json2csv';
+import { NotificationService } from '../notification/notification.service';
 
 @Injectable()
 export class StripeService {
@@ -15,6 +16,7 @@ export class StripeService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly emailService: EmailService,
+    private readonly notificationService: NotificationService,
   ) {
     const secretKey = process.env.STRIPE_SECRET_KEY;
     if (!secretKey) {
@@ -368,6 +370,12 @@ export class StripeService {
         return;
       }
 
+      const existingSubscription =
+        await this.prisma.client.subscription.findUnique({
+          where: { stripeSubscriptionId: subscriptionId },
+          select: { id: true },
+        });
+
       await this.prisma.client.subscription.upsert({
         where: { stripeSubscriptionId: subscriptionId },
         update: {
@@ -384,6 +392,23 @@ export class StripeService {
           startedAt: new Date(),
         },
       });
+
+      if (!existingSubscription) {
+        const subscribedUser = await this.prisma.client.user.findUnique({
+          where: { id: userId },
+          select: { athleteFullName: true, email: true },
+        });
+
+        const subscriberName =
+          subscribedUser?.athleteFullName || subscribedUser?.email || 'A user';
+
+        await this.notificationService.notifyAdminsSubscriptionSuccess({
+          subscriberId: userId,
+          subscriberName,
+          planName: plan.name,
+        });
+      }
+
       console.log(
         `📝 Subscription ${subscriptionId} synced during checkout for user ${userId} (Plan: ${plan.name})`,
       );

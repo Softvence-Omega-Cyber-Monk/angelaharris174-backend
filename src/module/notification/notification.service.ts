@@ -151,4 +151,44 @@ export class NotificationService {
       data: { isRead: true },
     });
   }
+
+  async notifyAdminsSubscriptionSuccess(params: {
+    subscriberId: string;
+    subscriberName: string;
+    planName: string;
+  }) {
+    const { subscriberId, subscriberName, planName } = params;
+
+    const admins = await this.prisma.client.user.findMany({
+      where: { role: 'ADMIN', isDeleted: false, isActive: true },
+      select: { id: true },
+    });
+
+    if (!admins.length) return [];
+
+    const notifications = await Promise.all(
+      admins.map((admin) =>
+        this.prisma.client.notification.create({
+          data: {
+            userId: admin.id,
+            senderId: subscriberId,
+            title: 'New Subscription',
+            message: `${subscriberName} subscribed to ${planName} plan`,
+            type: 'SUBSCRIPTION',
+          },
+          include: {
+            sender: {
+              select: { athleteFullName: true, imgUrl: true },
+            },
+          },
+        }),
+      ),
+    );
+
+    notifications.forEach((notification, index) => {
+      this.gateway.sendToUser(admins[index].id, notification);
+    });
+
+    return notifications;
+  }
 }
