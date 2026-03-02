@@ -22,11 +22,11 @@ async function bootstrap() {
   app.useBodyParser('urlencoded', { limit: '100mb', extended: true });
 
   app.enableCors({
-    // origin: [
-    //   'http://localhost:5173',
-    //   'http://localhost:5174'
-    // ],
-    origin: true,
+    origin: [
+      'http://localhost:5173',
+      'http://localhost:5174'
+    ],
+    // origin: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });

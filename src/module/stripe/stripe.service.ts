@@ -6,6 +6,7 @@ import { UpdatePlanDto } from './dto/strpe.dto';
 import { EmailService } from '../email/email.service';
 import * as ejs from 'ejs';
 import { join } from 'path';
+import { Parser } from 'json2csv';
 
 @Injectable()
 export class StripeService {
@@ -899,6 +900,72 @@ export class StripeService {
       },
     };
   }
+
+  async generateTransactionCSV() {
+    // 1. Fetch ALL transactions (No pagination/skip)
+    // We use the same 'include' structure to ensure data availability
+    const allTransactions = await this.prisma.client.transaction.findMany({
+      include: {
+        user: { select: { athleteFullName: true, email: true } },
+        plan: true,
+        subscription: { include: { plan: { select: { name: true } } } },
+      },
+      orderBy: { billingDate: 'desc' },
+    });
+
+    // 2. Map using the same helper function
+    const formattedData = allTransactions.map((tx) => this.mapTransactionData(tx));
+
+    // 3. Define the order of columns in the CSV file
+    const fields = [
+      'id',
+      'transactionId',
+      'user',
+      'email',
+      'plan',
+      'amount',
+      'currency',
+      'status',
+      'billingDate',
+      'receiptUrl',
+    ];
+
+    const parser = new Parser({ fields });
+    return parser.parse(formattedData);
+  }
+
+  async generateUserTransactionCSV(userId: string) {
+    const userTransactions = await this.prisma.client.transaction.findMany({
+      where: { userId },
+      include: {
+        user: { select: { athleteFullName: true, email: true } },
+        plan: true,
+        subscription: { include: { plan: { select: { name: true } } } },
+      },
+      orderBy: { billingDate: 'desc' },
+    });
+
+    const formattedData = userTransactions.map((tx) =>
+      this.mapTransactionData(tx),
+    );
+
+    const fields = [
+      'id',
+      'transactionId',
+      'user',
+      'email',
+      'plan',
+      'amount',
+      'currency',
+      'status',
+      'billingDate',
+      'receiptUrl',
+    ];
+
+    const parser = new Parser({ fields });
+    return parser.parse(formattedData);
+  }
+
   async getUserCurrentPlan(userId: string) {
     const subscription = await this.prisma.client.subscription.findFirst({
       where: {
@@ -925,6 +992,48 @@ export class StripeService {
       endedAt: subscription.endedAt,
       plan: subscription.plan,
     };
+  }
+
+  async cancelMySubscription(userId: string) {
+    const activeSubscription = await this.prisma.client.subscription.findFirst({
+      where: {
+        userId,
+        status: 'active',
+      },
+      orderBy: {
+        startedAt: 'desc',
+      },
+    });
+
+    if (!activeSubscription) {
+      throw new HttpException(
+        'No active subscription found',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    if (activeSubscription.stripeSubscriptionId) {
+      await this.stripeClient.subscriptions.cancel(
+        activeSubscription.stripeSubscriptionId,
+      );
+    }
+
+    const updatedSubscription = await this.prisma.client.subscription.update({
+      where: { id: activeSubscription.id },
+      data: {
+        status: 'canceled',
+        endedAt: new Date(),
+      },
+    });
+
+    await this.prisma.client.user.update({
+      where: { id: userId },
+      data: {
+        subscribeStatus: 'FREE',
+      },
+    });
+
+    return updatedSubscription;
   }
 
   async deletePlanById(id: string) {
@@ -1027,5 +1136,21 @@ export class StripeService {
     });
 
     return deletedSubscription;
+  }
+
+   private mapTransactionData(tx: any) {
+    const plan = tx.plan || tx.subscription?.plan;
+    return {
+      id: tx.id,
+      transactionId: tx.transactionId,
+      user: tx.user?.athleteFullName || tx.user?.email || 'Unknown',
+      email: tx.user?.email || 'N/A', // Added email explicitly for CSV utility
+      plan: plan?.name || 'N/A',
+      amount: Number(tx.amount.toFixed(2)),
+      currency: tx.currency,
+      status: tx.status === 'succeeded' ? 'Successfull' : tx.status,
+      billingDate: tx.billingDate ? new Date(tx.billingDate).toISOString().split('T')[0] : 'N/A', // Format date for CSV
+      receiptUrl: tx.receiptUrl || 'N/A',
+    };
   }
 }
