@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { userRole } from '@prisma';
 import { PrismaService } from '../prisma/prisma.service';
 import { NotificationGateway } from './notification.gateway';
 
@@ -68,17 +69,28 @@ export class NotificationService {
     return newNotification;
   }
 
-  async getNotificationsForUser(userId: string) {
+  async getNotificationsForUser(userId: string, role?: string) {
+    const include = {
+      sender: {
+        select: { athleteFullName: true, imgUrl: true },
+      },
+      post: {
+        select: { images: true, caption: true },
+      },
+    };
+
+    if (role === userRole.ADMIN) {
+      return await this.prisma.client.notification.findMany({
+        where: { user: { role: userRole.ADMIN } },
+        include,
+        orderBy: { createdAt: 'desc' },
+        take: 50,
+      });
+    }
+
     return await this.prisma.client.notification.findMany({
       where: { userId },
-      include: {
-        sender: {
-          select: { athleteFullName: true, imgUrl: true },
-        },
-        post: {
-          select: { images: true, caption: true },
-        },
-      },
+      include,
       orderBy: { createdAt: 'desc' },
       take: 50,
     });

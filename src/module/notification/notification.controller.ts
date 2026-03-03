@@ -19,7 +19,8 @@ export class NotificationController {
   @Get()
   async getUserNotifications(@Req() req: Request) {
     const userId = req.user!.id;
-    return this.notificationService.getNotificationsForUser(userId);
+    const role = req.user!.role;
+    return this.notificationService.getNotificationsForUser(userId, role);
   }
 
   @Patch('read-all')

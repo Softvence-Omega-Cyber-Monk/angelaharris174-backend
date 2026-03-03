@@ -141,29 +141,29 @@ export class StripeService {
       },
     });
 
-    if (session.url) {
-      // const templatePath = join(
-      //   process.cwd(),
-      //   'src',
-      //   'module',
-      //   'stripe',
-      //   'mails',
-      //   'stripe-checkout.ejs',
-      // );
+    // if (session.url) {
+    //   // const templatePath = join(
+    //   //   process.cwd(),
+    //   //   'src',
+    //   //   'module',
+    //   //   'stripe',
+    //   //   'mails',
+    //   //   'stripe-checkout.ejs',
+    //   // );
 
-      const templatePath = join(__dirname, 'mails', 'stripe-checkout.ejs');
+    //   const templatePath = join(__dirname, 'mails', 'stripe-checkout.ejs');
 
-      const html = await ejs.renderFile(templatePath, {
-        user: { name: user.athleteFullName },
-        checkoutUrl: session.url,
-      });
+    //   const html = await ejs.renderFile(templatePath, {
+    //     user: { name: user.athleteFullName },
+    //     checkoutUrl: session.url,
+    //   });
 
-      await this.emailService.sendEmail({
-        to: user.email,
-        subject: 'Highlightz - Complete Your Subscription',
-        html: html,
-      });
-    }
+    //   await this.emailService.sendEmail({
+    //     to: user.email,
+    //     subject: 'Highlightz - Complete Your Subscription',
+    //     html: html,
+    //   });
+    // }
 
     return session;
   }

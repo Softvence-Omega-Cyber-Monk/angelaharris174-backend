@@ -17,6 +17,10 @@ export class DashboardStatsDto {
     count: number;
     percentageChange: number;
   };
+  totalviews: {
+    count: number;
+    percentageChange: number;
+  };
   currentYearStats: {
     year: number;
     totalNewUsers: number;
