@@ -24,7 +24,8 @@ async function bootstrap() {
   app.enableCors({
     origin: [
       'http://localhost:5173',
-      'http://localhost:5174'
+      'http://localhost:5174',
+      'https://highlightz.vercel.app'
     ],
     // origin: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',

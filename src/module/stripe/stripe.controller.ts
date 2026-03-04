@@ -1,11 +1,12 @@
 // src/stripe/stripe.controller.ts
-import { Controller, Post, Body, Req, Res, UseGuards, HttpException, HttpStatus, Get, Patch, Param, RawBody, Query, Delete, Header } from '@nestjs/common';
+import { Controller, Post, Body, Req, Res, HttpException, HttpStatus, Get, Patch, Param, RawBody, Query, Delete, Header } from '@nestjs/common';
 import type { Request, Response } from 'express';
 import { StripeService } from './stripe.service';
-import { AuthGuard } from '@nestjs/passport'; // assuming you have auth
 import { ApiBody, ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { CreateCheckoutSessionDto, CreateProductDto, UpdatePlanDto } from './dto/strpe.dto';
+import { CreateCheckoutSessionDto, CreateProductDto, TransferOrganizationCommissionDto, UpdatePlanDto } from './dto/strpe.dto';
 import { Public } from 'src/common/decorators/public.decorators';
+import { Roles } from 'src/common/decorators/roles.decorator';
+import { userRole } from '@prisma';
 
 @ApiTags('Stripe')
 @Controller('stripe')
@@ -432,6 +433,31 @@ export class StripeController {
     };
   }
 
+  @Post('admin/organization/:organizationId/transfer-commission')
+  @Roles(userRole.ADMIN)
+  @ApiOperation({
+    summary:
+      'Transfer commission from platform account to organization connected account',
+  })
+  async transferOrganizationCommission(
+    @Req() req: Request,
+    @Param('organizationId') organizationId: string,
+    @Body() dto: TransferOrganizationCommissionDto,
+  ) {
+    const adminId = req.user?.id;
+    const result = await this.stripeService.transferOrganizationCommission(
+      organizationId,
+      dto.amount,
+      dto.currency || 'usd',
+      adminId,
+    );
+
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'Organization commission transferred successfully',
+      data: result,
+    };
+  }
 
 
 }

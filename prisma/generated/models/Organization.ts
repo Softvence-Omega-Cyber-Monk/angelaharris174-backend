@@ -27,11 +27,21 @@ export type AggregateOrganization = {
 }
 
 export type OrganizationAvgAggregateOutputType = {
+  commissionRatePercent: number | null
+  totalCommissionEarned: number | null
+  commissionBalance: number | null
+  totalCommissionPaid: number | null
+  subscriptionPaymentCount: number | null
   totalClicks: number | null
   uniqueVisitors: number | null
 }
 
 export type OrganizationSumAggregateOutputType = {
+  commissionRatePercent: number | null
+  totalCommissionEarned: number | null
+  commissionBalance: number | null
+  totalCommissionPaid: number | null
+  subscriptionPaymentCount: number | null
   totalClicks: number | null
   uniqueVisitors: number | null
 }
@@ -43,6 +53,31 @@ export type OrganizationMinAggregateOutputType = {
   email: string | null
   imaageUrl: string | null
   accessUrl: string | null
+  contactPhone: string | null
+  website: string | null
+  country: string | null
+  addressLine1: string | null
+  addressLine2: string | null
+  city: string | null
+  state: string | null
+  postalCode: string | null
+  stripeAccountId: string | null
+  stripeAccountType: string | null
+  stripeOnboardingCompleted: boolean | null
+  stripeChargesEnabled: boolean | null
+  stripePayoutsEnabled: boolean | null
+  bankAccountHolderName: string | null
+  bankName: string | null
+  bankAccountLast4: string | null
+  bankRoutingLast4: string | null
+  bankCountry: string | null
+  bankCurrency: string | null
+  commissionRatePercent: number | null
+  totalCommissionEarned: number | null
+  commissionBalance: number | null
+  totalCommissionPaid: number | null
+  subscriptionPaymentCount: number | null
+  lastCommissionAt: Date | null
   totalClicks: number | null
   uniqueVisitors: number | null
   lastAccessed: Date | null
@@ -57,6 +92,31 @@ export type OrganizationMaxAggregateOutputType = {
   email: string | null
   imaageUrl: string | null
   accessUrl: string | null
+  contactPhone: string | null
+  website: string | null
+  country: string | null
+  addressLine1: string | null
+  addressLine2: string | null
+  city: string | null
+  state: string | null
+  postalCode: string | null
+  stripeAccountId: string | null
+  stripeAccountType: string | null
+  stripeOnboardingCompleted: boolean | null
+  stripeChargesEnabled: boolean | null
+  stripePayoutsEnabled: boolean | null
+  bankAccountHolderName: string | null
+  bankName: string | null
+  bankAccountLast4: string | null
+  bankRoutingLast4: string | null
+  bankCountry: string | null
+  bankCurrency: string | null
+  commissionRatePercent: number | null
+  totalCommissionEarned: number | null
+  commissionBalance: number | null
+  totalCommissionPaid: number | null
+  subscriptionPaymentCount: number | null
+  lastCommissionAt: Date | null
   totalClicks: number | null
   uniqueVisitors: number | null
   lastAccessed: Date | null
@@ -71,6 +131,31 @@ export type OrganizationCountAggregateOutputType = {
   email: number
   imaageUrl: number
   accessUrl: number
+  contactPhone: number
+  website: number
+  country: number
+  addressLine1: number
+  addressLine2: number
+  city: number
+  state: number
+  postalCode: number
+  stripeAccountId: number
+  stripeAccountType: number
+  stripeOnboardingCompleted: number
+  stripeChargesEnabled: number
+  stripePayoutsEnabled: number
+  bankAccountHolderName: number
+  bankName: number
+  bankAccountLast4: number
+  bankRoutingLast4: number
+  bankCountry: number
+  bankCurrency: number
+  commissionRatePercent: number
+  totalCommissionEarned: number
+  commissionBalance: number
+  totalCommissionPaid: number
+  subscriptionPaymentCount: number
+  lastCommissionAt: number
   totalClicks: number
   uniqueVisitors: number
   lastAccessed: number
@@ -81,11 +166,21 @@ export type OrganizationCountAggregateOutputType = {
 
 
 export type OrganizationAvgAggregateInputType = {
+  commissionRatePercent?: true
+  totalCommissionEarned?: true
+  commissionBalance?: true
+  totalCommissionPaid?: true
+  subscriptionPaymentCount?: true
   totalClicks?: true
   uniqueVisitors?: true
 }
 
 export type OrganizationSumAggregateInputType = {
+  commissionRatePercent?: true
+  totalCommissionEarned?: true
+  commissionBalance?: true
+  totalCommissionPaid?: true
+  subscriptionPaymentCount?: true
   totalClicks?: true
   uniqueVisitors?: true
 }
@@ -97,6 +192,31 @@ export type OrganizationMinAggregateInputType = {
   email?: true
   imaageUrl?: true
   accessUrl?: true
+  contactPhone?: true
+  website?: true
+  country?: true
+  addressLine1?: true
+  addressLine2?: true
+  city?: true
+  state?: true
+  postalCode?: true
+  stripeAccountId?: true
+  stripeAccountType?: true
+  stripeOnboardingCompleted?: true
+  stripeChargesEnabled?: true
+  stripePayoutsEnabled?: true
+  bankAccountHolderName?: true
+  bankName?: true
+  bankAccountLast4?: true
+  bankRoutingLast4?: true
+  bankCountry?: true
+  bankCurrency?: true
+  commissionRatePercent?: true
+  totalCommissionEarned?: true
+  commissionBalance?: true
+  totalCommissionPaid?: true
+  subscriptionPaymentCount?: true
+  lastCommissionAt?: true
   totalClicks?: true
   uniqueVisitors?: true
   lastAccessed?: true
@@ -111,6 +231,31 @@ export type OrganizationMaxAggregateInputType = {
   email?: true
   imaageUrl?: true
   accessUrl?: true
+  contactPhone?: true
+  website?: true
+  country?: true
+  addressLine1?: true
+  addressLine2?: true
+  city?: true
+  state?: true
+  postalCode?: true
+  stripeAccountId?: true
+  stripeAccountType?: true
+  stripeOnboardingCompleted?: true
+  stripeChargesEnabled?: true
+  stripePayoutsEnabled?: true
+  bankAccountHolderName?: true
+  bankName?: true
+  bankAccountLast4?: true
+  bankRoutingLast4?: true
+  bankCountry?: true
+  bankCurrency?: true
+  commissionRatePercent?: true
+  totalCommissionEarned?: true
+  commissionBalance?: true
+  totalCommissionPaid?: true
+  subscriptionPaymentCount?: true
+  lastCommissionAt?: true
   totalClicks?: true
   uniqueVisitors?: true
   lastAccessed?: true
@@ -125,6 +270,31 @@ export type OrganizationCountAggregateInputType = {
   email?: true
   imaageUrl?: true
   accessUrl?: true
+  contactPhone?: true
+  website?: true
+  country?: true
+  addressLine1?: true
+  addressLine2?: true
+  city?: true
+  state?: true
+  postalCode?: true
+  stripeAccountId?: true
+  stripeAccountType?: true
+  stripeOnboardingCompleted?: true
+  stripeChargesEnabled?: true
+  stripePayoutsEnabled?: true
+  bankAccountHolderName?: true
+  bankName?: true
+  bankAccountLast4?: true
+  bankRoutingLast4?: true
+  bankCountry?: true
+  bankCurrency?: true
+  commissionRatePercent?: true
+  totalCommissionEarned?: true
+  commissionBalance?: true
+  totalCommissionPaid?: true
+  subscriptionPaymentCount?: true
+  lastCommissionAt?: true
   totalClicks?: true
   uniqueVisitors?: true
   lastAccessed?: true
@@ -226,6 +396,31 @@ export type OrganizationGroupByOutputType = {
   email: string
   imaageUrl: string | null
   accessUrl: string | null
+  contactPhone: string | null
+  website: string | null
+  country: string | null
+  addressLine1: string | null
+  addressLine2: string | null
+  city: string | null
+  state: string | null
+  postalCode: string | null
+  stripeAccountId: string | null
+  stripeAccountType: string | null
+  stripeOnboardingCompleted: boolean
+  stripeChargesEnabled: boolean
+  stripePayoutsEnabled: boolean
+  bankAccountHolderName: string | null
+  bankName: string | null
+  bankAccountLast4: string | null
+  bankRoutingLast4: string | null
+  bankCountry: string | null
+  bankCurrency: string | null
+  commissionRatePercent: number
+  totalCommissionEarned: number
+  commissionBalance: number
+  totalCommissionPaid: number
+  subscriptionPaymentCount: number
+  lastCommissionAt: Date | null
   totalClicks: number | null
   uniqueVisitors: number | null
   lastAccessed: Date | null
@@ -263,6 +458,31 @@ export type OrganizationWhereInput = {
   email?: Prisma.StringFilter<"Organization"> | string
   imaageUrl?: Prisma.StringNullableFilter<"Organization"> | string | null
   accessUrl?: Prisma.StringNullableFilter<"Organization"> | string | null
+  contactPhone?: Prisma.StringNullableFilter<"Organization"> | string | null
+  website?: Prisma.StringNullableFilter<"Organization"> | string | null
+  country?: Prisma.StringNullableFilter<"Organization"> | string | null
+  addressLine1?: Prisma.StringNullableFilter<"Organization"> | string | null
+  addressLine2?: Prisma.StringNullableFilter<"Organization"> | string | null
+  city?: Prisma.StringNullableFilter<"Organization"> | string | null
+  state?: Prisma.StringNullableFilter<"Organization"> | string | null
+  postalCode?: Prisma.StringNullableFilter<"Organization"> | string | null
+  stripeAccountId?: Prisma.StringNullableFilter<"Organization"> | string | null
+  stripeAccountType?: Prisma.StringNullableFilter<"Organization"> | string | null
+  stripeOnboardingCompleted?: Prisma.BoolFilter<"Organization"> | boolean
+  stripeChargesEnabled?: Prisma.BoolFilter<"Organization"> | boolean
+  stripePayoutsEnabled?: Prisma.BoolFilter<"Organization"> | boolean
+  bankAccountHolderName?: Prisma.StringNullableFilter<"Organization"> | string | null
+  bankName?: Prisma.StringNullableFilter<"Organization"> | string | null
+  bankAccountLast4?: Prisma.StringNullableFilter<"Organization"> | string | null
+  bankRoutingLast4?: Prisma.StringNullableFilter<"Organization"> | string | null
+  bankCountry?: Prisma.StringNullableFilter<"Organization"> | string | null
+  bankCurrency?: Prisma.StringNullableFilter<"Organization"> | string | null
+  commissionRatePercent?: Prisma.FloatFilter<"Organization"> | number
+  totalCommissionEarned?: Prisma.FloatFilter<"Organization"> | number
+  commissionBalance?: Prisma.FloatFilter<"Organization"> | number
+  totalCommissionPaid?: Prisma.FloatFilter<"Organization"> | number
+  subscriptionPaymentCount?: Prisma.IntFilter<"Organization"> | number
+  lastCommissionAt?: Prisma.DateTimeNullableFilter<"Organization"> | Date | string | null
   totalClicks?: Prisma.IntNullableFilter<"Organization"> | number | null
   uniqueVisitors?: Prisma.IntNullableFilter<"Organization"> | number | null
   lastAccessed?: Prisma.DateTimeNullableFilter<"Organization"> | Date | string | null
@@ -277,6 +497,31 @@ export type OrganizationOrderByWithRelationInput = {
   email?: Prisma.SortOrder
   imaageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   accessUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  contactPhone?: Prisma.SortOrderInput | Prisma.SortOrder
+  website?: Prisma.SortOrderInput | Prisma.SortOrder
+  country?: Prisma.SortOrderInput | Prisma.SortOrder
+  addressLine1?: Prisma.SortOrderInput | Prisma.SortOrder
+  addressLine2?: Prisma.SortOrderInput | Prisma.SortOrder
+  city?: Prisma.SortOrderInput | Prisma.SortOrder
+  state?: Prisma.SortOrderInput | Prisma.SortOrder
+  postalCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  stripeAccountId?: Prisma.SortOrderInput | Prisma.SortOrder
+  stripeAccountType?: Prisma.SortOrderInput | Prisma.SortOrder
+  stripeOnboardingCompleted?: Prisma.SortOrder
+  stripeChargesEnabled?: Prisma.SortOrder
+  stripePayoutsEnabled?: Prisma.SortOrder
+  bankAccountHolderName?: Prisma.SortOrderInput | Prisma.SortOrder
+  bankName?: Prisma.SortOrderInput | Prisma.SortOrder
+  bankAccountLast4?: Prisma.SortOrderInput | Prisma.SortOrder
+  bankRoutingLast4?: Prisma.SortOrderInput | Prisma.SortOrder
+  bankCountry?: Prisma.SortOrderInput | Prisma.SortOrder
+  bankCurrency?: Prisma.SortOrderInput | Prisma.SortOrder
+  commissionRatePercent?: Prisma.SortOrder
+  totalCommissionEarned?: Prisma.SortOrder
+  commissionBalance?: Prisma.SortOrder
+  totalCommissionPaid?: Prisma.SortOrder
+  subscriptionPaymentCount?: Prisma.SortOrder
+  lastCommissionAt?: Prisma.SortOrderInput | Prisma.SortOrder
   totalClicks?: Prisma.SortOrderInput | Prisma.SortOrder
   uniqueVisitors?: Prisma.SortOrderInput | Prisma.SortOrder
   lastAccessed?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -294,6 +539,31 @@ export type OrganizationWhereUniqueInput = Prisma.AtLeast<{
   organizationName?: Prisma.StringFilter<"Organization"> | string
   imaageUrl?: Prisma.StringNullableFilter<"Organization"> | string | null
   accessUrl?: Prisma.StringNullableFilter<"Organization"> | string | null
+  contactPhone?: Prisma.StringNullableFilter<"Organization"> | string | null
+  website?: Prisma.StringNullableFilter<"Organization"> | string | null
+  country?: Prisma.StringNullableFilter<"Organization"> | string | null
+  addressLine1?: Prisma.StringNullableFilter<"Organization"> | string | null
+  addressLine2?: Prisma.StringNullableFilter<"Organization"> | string | null
+  city?: Prisma.StringNullableFilter<"Organization"> | string | null
+  state?: Prisma.StringNullableFilter<"Organization"> | string | null
+  postalCode?: Prisma.StringNullableFilter<"Organization"> | string | null
+  stripeAccountId?: Prisma.StringNullableFilter<"Organization"> | string | null
+  stripeAccountType?: Prisma.StringNullableFilter<"Organization"> | string | null
+  stripeOnboardingCompleted?: Prisma.BoolFilter<"Organization"> | boolean
+  stripeChargesEnabled?: Prisma.BoolFilter<"Organization"> | boolean
+  stripePayoutsEnabled?: Prisma.BoolFilter<"Organization"> | boolean
+  bankAccountHolderName?: Prisma.StringNullableFilter<"Organization"> | string | null
+  bankName?: Prisma.StringNullableFilter<"Organization"> | string | null
+  bankAccountLast4?: Prisma.StringNullableFilter<"Organization"> | string | null
+  bankRoutingLast4?: Prisma.StringNullableFilter<"Organization"> | string | null
+  bankCountry?: Prisma.StringNullableFilter<"Organization"> | string | null
+  bankCurrency?: Prisma.StringNullableFilter<"Organization"> | string | null
+  commissionRatePercent?: Prisma.FloatFilter<"Organization"> | number
+  totalCommissionEarned?: Prisma.FloatFilter<"Organization"> | number
+  commissionBalance?: Prisma.FloatFilter<"Organization"> | number
+  totalCommissionPaid?: Prisma.FloatFilter<"Organization"> | number
+  subscriptionPaymentCount?: Prisma.IntFilter<"Organization"> | number
+  lastCommissionAt?: Prisma.DateTimeNullableFilter<"Organization"> | Date | string | null
   totalClicks?: Prisma.IntNullableFilter<"Organization"> | number | null
   uniqueVisitors?: Prisma.IntNullableFilter<"Organization"> | number | null
   lastAccessed?: Prisma.DateTimeNullableFilter<"Organization"> | Date | string | null
@@ -308,6 +578,31 @@ export type OrganizationOrderByWithAggregationInput = {
   email?: Prisma.SortOrder
   imaageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   accessUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  contactPhone?: Prisma.SortOrderInput | Prisma.SortOrder
+  website?: Prisma.SortOrderInput | Prisma.SortOrder
+  country?: Prisma.SortOrderInput | Prisma.SortOrder
+  addressLine1?: Prisma.SortOrderInput | Prisma.SortOrder
+  addressLine2?: Prisma.SortOrderInput | Prisma.SortOrder
+  city?: Prisma.SortOrderInput | Prisma.SortOrder
+  state?: Prisma.SortOrderInput | Prisma.SortOrder
+  postalCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  stripeAccountId?: Prisma.SortOrderInput | Prisma.SortOrder
+  stripeAccountType?: Prisma.SortOrderInput | Prisma.SortOrder
+  stripeOnboardingCompleted?: Prisma.SortOrder
+  stripeChargesEnabled?: Prisma.SortOrder
+  stripePayoutsEnabled?: Prisma.SortOrder
+  bankAccountHolderName?: Prisma.SortOrderInput | Prisma.SortOrder
+  bankName?: Prisma.SortOrderInput | Prisma.SortOrder
+  bankAccountLast4?: Prisma.SortOrderInput | Prisma.SortOrder
+  bankRoutingLast4?: Prisma.SortOrderInput | Prisma.SortOrder
+  bankCountry?: Prisma.SortOrderInput | Prisma.SortOrder
+  bankCurrency?: Prisma.SortOrderInput | Prisma.SortOrder
+  commissionRatePercent?: Prisma.SortOrder
+  totalCommissionEarned?: Prisma.SortOrder
+  commissionBalance?: Prisma.SortOrder
+  totalCommissionPaid?: Prisma.SortOrder
+  subscriptionPaymentCount?: Prisma.SortOrder
+  lastCommissionAt?: Prisma.SortOrderInput | Prisma.SortOrder
   totalClicks?: Prisma.SortOrderInput | Prisma.SortOrder
   uniqueVisitors?: Prisma.SortOrderInput | Prisma.SortOrder
   lastAccessed?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -330,6 +625,31 @@ export type OrganizationScalarWhereWithAggregatesInput = {
   email?: Prisma.StringWithAggregatesFilter<"Organization"> | string
   imaageUrl?: Prisma.StringNullableWithAggregatesFilter<"Organization"> | string | null
   accessUrl?: Prisma.StringNullableWithAggregatesFilter<"Organization"> | string | null
+  contactPhone?: Prisma.StringNullableWithAggregatesFilter<"Organization"> | string | null
+  website?: Prisma.StringNullableWithAggregatesFilter<"Organization"> | string | null
+  country?: Prisma.StringNullableWithAggregatesFilter<"Organization"> | string | null
+  addressLine1?: Prisma.StringNullableWithAggregatesFilter<"Organization"> | string | null
+  addressLine2?: Prisma.StringNullableWithAggregatesFilter<"Organization"> | string | null
+  city?: Prisma.StringNullableWithAggregatesFilter<"Organization"> | string | null
+  state?: Prisma.StringNullableWithAggregatesFilter<"Organization"> | string | null
+  postalCode?: Prisma.StringNullableWithAggregatesFilter<"Organization"> | string | null
+  stripeAccountId?: Prisma.StringNullableWithAggregatesFilter<"Organization"> | string | null
+  stripeAccountType?: Prisma.StringNullableWithAggregatesFilter<"Organization"> | string | null
+  stripeOnboardingCompleted?: Prisma.BoolWithAggregatesFilter<"Organization"> | boolean
+  stripeChargesEnabled?: Prisma.BoolWithAggregatesFilter<"Organization"> | boolean
+  stripePayoutsEnabled?: Prisma.BoolWithAggregatesFilter<"Organization"> | boolean
+  bankAccountHolderName?: Prisma.StringNullableWithAggregatesFilter<"Organization"> | string | null
+  bankName?: Prisma.StringNullableWithAggregatesFilter<"Organization"> | string | null
+  bankAccountLast4?: Prisma.StringNullableWithAggregatesFilter<"Organization"> | string | null
+  bankRoutingLast4?: Prisma.StringNullableWithAggregatesFilter<"Organization"> | string | null
+  bankCountry?: Prisma.StringNullableWithAggregatesFilter<"Organization"> | string | null
+  bankCurrency?: Prisma.StringNullableWithAggregatesFilter<"Organization"> | string | null
+  commissionRatePercent?: Prisma.FloatWithAggregatesFilter<"Organization"> | number
+  totalCommissionEarned?: Prisma.FloatWithAggregatesFilter<"Organization"> | number
+  commissionBalance?: Prisma.FloatWithAggregatesFilter<"Organization"> | number
+  totalCommissionPaid?: Prisma.FloatWithAggregatesFilter<"Organization"> | number
+  subscriptionPaymentCount?: Prisma.IntWithAggregatesFilter<"Organization"> | number
+  lastCommissionAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Organization"> | Date | string | null
   totalClicks?: Prisma.IntNullableWithAggregatesFilter<"Organization"> | number | null
   uniqueVisitors?: Prisma.IntNullableWithAggregatesFilter<"Organization"> | number | null
   lastAccessed?: Prisma.DateTimeNullableWithAggregatesFilter<"Organization"> | Date | string | null
@@ -344,6 +664,31 @@ export type OrganizationCreateInput = {
   email: string
   imaageUrl?: string | null
   accessUrl?: string | null
+  contactPhone?: string | null
+  website?: string | null
+  country?: string | null
+  addressLine1?: string | null
+  addressLine2?: string | null
+  city?: string | null
+  state?: string | null
+  postalCode?: string | null
+  stripeAccountId?: string | null
+  stripeAccountType?: string | null
+  stripeOnboardingCompleted?: boolean
+  stripeChargesEnabled?: boolean
+  stripePayoutsEnabled?: boolean
+  bankAccountHolderName?: string | null
+  bankName?: string | null
+  bankAccountLast4?: string | null
+  bankRoutingLast4?: string | null
+  bankCountry?: string | null
+  bankCurrency?: string | null
+  commissionRatePercent?: number
+  totalCommissionEarned?: number
+  commissionBalance?: number
+  totalCommissionPaid?: number
+  subscriptionPaymentCount?: number
+  lastCommissionAt?: Date | string | null
   totalClicks?: number | null
   uniqueVisitors?: number | null
   lastAccessed?: Date | string | null
@@ -358,6 +703,31 @@ export type OrganizationUncheckedCreateInput = {
   email: string
   imaageUrl?: string | null
   accessUrl?: string | null
+  contactPhone?: string | null
+  website?: string | null
+  country?: string | null
+  addressLine1?: string | null
+  addressLine2?: string | null
+  city?: string | null
+  state?: string | null
+  postalCode?: string | null
+  stripeAccountId?: string | null
+  stripeAccountType?: string | null
+  stripeOnboardingCompleted?: boolean
+  stripeChargesEnabled?: boolean
+  stripePayoutsEnabled?: boolean
+  bankAccountHolderName?: string | null
+  bankName?: string | null
+  bankAccountLast4?: string | null
+  bankRoutingLast4?: string | null
+  bankCountry?: string | null
+  bankCurrency?: string | null
+  commissionRatePercent?: number
+  totalCommissionEarned?: number
+  commissionBalance?: number
+  totalCommissionPaid?: number
+  subscriptionPaymentCount?: number
+  lastCommissionAt?: Date | string | null
   totalClicks?: number | null
   uniqueVisitors?: number | null
   lastAccessed?: Date | string | null
@@ -372,6 +742,31 @@ export type OrganizationUpdateInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   imaageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   accessUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeAccountType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeOnboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stripeChargesEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stripePayoutsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bankAccountHolderName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bankName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bankAccountLast4?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bankRoutingLast4?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bankCountry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bankCurrency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  commissionRatePercent?: Prisma.FloatFieldUpdateOperationsInput | number
+  totalCommissionEarned?: Prisma.FloatFieldUpdateOperationsInput | number
+  commissionBalance?: Prisma.FloatFieldUpdateOperationsInput | number
+  totalCommissionPaid?: Prisma.FloatFieldUpdateOperationsInput | number
+  subscriptionPaymentCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCommissionAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   totalClicks?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   uniqueVisitors?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   lastAccessed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -386,6 +781,31 @@ export type OrganizationUncheckedUpdateInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   imaageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   accessUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeAccountType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeOnboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stripeChargesEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stripePayoutsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bankAccountHolderName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bankName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bankAccountLast4?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bankRoutingLast4?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bankCountry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bankCurrency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  commissionRatePercent?: Prisma.FloatFieldUpdateOperationsInput | number
+  totalCommissionEarned?: Prisma.FloatFieldUpdateOperationsInput | number
+  commissionBalance?: Prisma.FloatFieldUpdateOperationsInput | number
+  totalCommissionPaid?: Prisma.FloatFieldUpdateOperationsInput | number
+  subscriptionPaymentCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCommissionAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   totalClicks?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   uniqueVisitors?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   lastAccessed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -400,6 +820,31 @@ export type OrganizationCreateManyInput = {
   email: string
   imaageUrl?: string | null
   accessUrl?: string | null
+  contactPhone?: string | null
+  website?: string | null
+  country?: string | null
+  addressLine1?: string | null
+  addressLine2?: string | null
+  city?: string | null
+  state?: string | null
+  postalCode?: string | null
+  stripeAccountId?: string | null
+  stripeAccountType?: string | null
+  stripeOnboardingCompleted?: boolean
+  stripeChargesEnabled?: boolean
+  stripePayoutsEnabled?: boolean
+  bankAccountHolderName?: string | null
+  bankName?: string | null
+  bankAccountLast4?: string | null
+  bankRoutingLast4?: string | null
+  bankCountry?: string | null
+  bankCurrency?: string | null
+  commissionRatePercent?: number
+  totalCommissionEarned?: number
+  commissionBalance?: number
+  totalCommissionPaid?: number
+  subscriptionPaymentCount?: number
+  lastCommissionAt?: Date | string | null
   totalClicks?: number | null
   uniqueVisitors?: number | null
   lastAccessed?: Date | string | null
@@ -414,6 +859,31 @@ export type OrganizationUpdateManyMutationInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   imaageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   accessUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeAccountType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeOnboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stripeChargesEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stripePayoutsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bankAccountHolderName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bankName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bankAccountLast4?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bankRoutingLast4?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bankCountry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bankCurrency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  commissionRatePercent?: Prisma.FloatFieldUpdateOperationsInput | number
+  totalCommissionEarned?: Prisma.FloatFieldUpdateOperationsInput | number
+  commissionBalance?: Prisma.FloatFieldUpdateOperationsInput | number
+  totalCommissionPaid?: Prisma.FloatFieldUpdateOperationsInput | number
+  subscriptionPaymentCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCommissionAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   totalClicks?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   uniqueVisitors?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   lastAccessed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -428,6 +898,31 @@ export type OrganizationUncheckedUpdateManyInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   imaageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   accessUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeAccountType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeOnboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stripeChargesEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stripePayoutsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bankAccountHolderName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bankName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bankAccountLast4?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bankRoutingLast4?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bankCountry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bankCurrency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  commissionRatePercent?: Prisma.FloatFieldUpdateOperationsInput | number
+  totalCommissionEarned?: Prisma.FloatFieldUpdateOperationsInput | number
+  commissionBalance?: Prisma.FloatFieldUpdateOperationsInput | number
+  totalCommissionPaid?: Prisma.FloatFieldUpdateOperationsInput | number
+  subscriptionPaymentCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCommissionAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   totalClicks?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   uniqueVisitors?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   lastAccessed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -442,6 +937,31 @@ export type OrganizationCountOrderByAggregateInput = {
   email?: Prisma.SortOrder
   imaageUrl?: Prisma.SortOrder
   accessUrl?: Prisma.SortOrder
+  contactPhone?: Prisma.SortOrder
+  website?: Prisma.SortOrder
+  country?: Prisma.SortOrder
+  addressLine1?: Prisma.SortOrder
+  addressLine2?: Prisma.SortOrder
+  city?: Prisma.SortOrder
+  state?: Prisma.SortOrder
+  postalCode?: Prisma.SortOrder
+  stripeAccountId?: Prisma.SortOrder
+  stripeAccountType?: Prisma.SortOrder
+  stripeOnboardingCompleted?: Prisma.SortOrder
+  stripeChargesEnabled?: Prisma.SortOrder
+  stripePayoutsEnabled?: Prisma.SortOrder
+  bankAccountHolderName?: Prisma.SortOrder
+  bankName?: Prisma.SortOrder
+  bankAccountLast4?: Prisma.SortOrder
+  bankRoutingLast4?: Prisma.SortOrder
+  bankCountry?: Prisma.SortOrder
+  bankCurrency?: Prisma.SortOrder
+  commissionRatePercent?: Prisma.SortOrder
+  totalCommissionEarned?: Prisma.SortOrder
+  commissionBalance?: Prisma.SortOrder
+  totalCommissionPaid?: Prisma.SortOrder
+  subscriptionPaymentCount?: Prisma.SortOrder
+  lastCommissionAt?: Prisma.SortOrder
   totalClicks?: Prisma.SortOrder
   uniqueVisitors?: Prisma.SortOrder
   lastAccessed?: Prisma.SortOrder
@@ -450,6 +970,11 @@ export type OrganizationCountOrderByAggregateInput = {
 }
 
 export type OrganizationAvgOrderByAggregateInput = {
+  commissionRatePercent?: Prisma.SortOrder
+  totalCommissionEarned?: Prisma.SortOrder
+  commissionBalance?: Prisma.SortOrder
+  totalCommissionPaid?: Prisma.SortOrder
+  subscriptionPaymentCount?: Prisma.SortOrder
   totalClicks?: Prisma.SortOrder
   uniqueVisitors?: Prisma.SortOrder
 }
@@ -461,6 +986,31 @@ export type OrganizationMaxOrderByAggregateInput = {
   email?: Prisma.SortOrder
   imaageUrl?: Prisma.SortOrder
   accessUrl?: Prisma.SortOrder
+  contactPhone?: Prisma.SortOrder
+  website?: Prisma.SortOrder
+  country?: Prisma.SortOrder
+  addressLine1?: Prisma.SortOrder
+  addressLine2?: Prisma.SortOrder
+  city?: Prisma.SortOrder
+  state?: Prisma.SortOrder
+  postalCode?: Prisma.SortOrder
+  stripeAccountId?: Prisma.SortOrder
+  stripeAccountType?: Prisma.SortOrder
+  stripeOnboardingCompleted?: Prisma.SortOrder
+  stripeChargesEnabled?: Prisma.SortOrder
+  stripePayoutsEnabled?: Prisma.SortOrder
+  bankAccountHolderName?: Prisma.SortOrder
+  bankName?: Prisma.SortOrder
+  bankAccountLast4?: Prisma.SortOrder
+  bankRoutingLast4?: Prisma.SortOrder
+  bankCountry?: Prisma.SortOrder
+  bankCurrency?: Prisma.SortOrder
+  commissionRatePercent?: Prisma.SortOrder
+  totalCommissionEarned?: Prisma.SortOrder
+  commissionBalance?: Prisma.SortOrder
+  totalCommissionPaid?: Prisma.SortOrder
+  subscriptionPaymentCount?: Prisma.SortOrder
+  lastCommissionAt?: Prisma.SortOrder
   totalClicks?: Prisma.SortOrder
   uniqueVisitors?: Prisma.SortOrder
   lastAccessed?: Prisma.SortOrder
@@ -475,6 +1025,31 @@ export type OrganizationMinOrderByAggregateInput = {
   email?: Prisma.SortOrder
   imaageUrl?: Prisma.SortOrder
   accessUrl?: Prisma.SortOrder
+  contactPhone?: Prisma.SortOrder
+  website?: Prisma.SortOrder
+  country?: Prisma.SortOrder
+  addressLine1?: Prisma.SortOrder
+  addressLine2?: Prisma.SortOrder
+  city?: Prisma.SortOrder
+  state?: Prisma.SortOrder
+  postalCode?: Prisma.SortOrder
+  stripeAccountId?: Prisma.SortOrder
+  stripeAccountType?: Prisma.SortOrder
+  stripeOnboardingCompleted?: Prisma.SortOrder
+  stripeChargesEnabled?: Prisma.SortOrder
+  stripePayoutsEnabled?: Prisma.SortOrder
+  bankAccountHolderName?: Prisma.SortOrder
+  bankName?: Prisma.SortOrder
+  bankAccountLast4?: Prisma.SortOrder
+  bankRoutingLast4?: Prisma.SortOrder
+  bankCountry?: Prisma.SortOrder
+  bankCurrency?: Prisma.SortOrder
+  commissionRatePercent?: Prisma.SortOrder
+  totalCommissionEarned?: Prisma.SortOrder
+  commissionBalance?: Prisma.SortOrder
+  totalCommissionPaid?: Prisma.SortOrder
+  subscriptionPaymentCount?: Prisma.SortOrder
+  lastCommissionAt?: Prisma.SortOrder
   totalClicks?: Prisma.SortOrder
   uniqueVisitors?: Prisma.SortOrder
   lastAccessed?: Prisma.SortOrder
@@ -483,12 +1058,17 @@ export type OrganizationMinOrderByAggregateInput = {
 }
 
 export type OrganizationSumOrderByAggregateInput = {
+  commissionRatePercent?: Prisma.SortOrder
+  totalCommissionEarned?: Prisma.SortOrder
+  commissionBalance?: Prisma.SortOrder
+  totalCommissionPaid?: Prisma.SortOrder
+  subscriptionPaymentCount?: Prisma.SortOrder
   totalClicks?: Prisma.SortOrder
   uniqueVisitors?: Prisma.SortOrder
 }
 
-export type NullableIntFieldUpdateOperationsInput = {
-  set?: number | null
+export type FloatFieldUpdateOperationsInput = {
+  set?: number
   increment?: number
   decrement?: number
   multiply?: number
@@ -497,6 +1077,14 @@ export type NullableIntFieldUpdateOperationsInput = {
 
 export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
+}
+
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
 }
 
 
@@ -508,6 +1096,31 @@ export type OrganizationSelect<ExtArgs extends runtime.Types.Extensions.Internal
   email?: boolean
   imaageUrl?: boolean
   accessUrl?: boolean
+  contactPhone?: boolean
+  website?: boolean
+  country?: boolean
+  addressLine1?: boolean
+  addressLine2?: boolean
+  city?: boolean
+  state?: boolean
+  postalCode?: boolean
+  stripeAccountId?: boolean
+  stripeAccountType?: boolean
+  stripeOnboardingCompleted?: boolean
+  stripeChargesEnabled?: boolean
+  stripePayoutsEnabled?: boolean
+  bankAccountHolderName?: boolean
+  bankName?: boolean
+  bankAccountLast4?: boolean
+  bankRoutingLast4?: boolean
+  bankCountry?: boolean
+  bankCurrency?: boolean
+  commissionRatePercent?: boolean
+  totalCommissionEarned?: boolean
+  commissionBalance?: boolean
+  totalCommissionPaid?: boolean
+  subscriptionPaymentCount?: boolean
+  lastCommissionAt?: boolean
   totalClicks?: boolean
   uniqueVisitors?: boolean
   lastAccessed?: boolean
@@ -522,6 +1135,31 @@ export type OrganizationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   email?: boolean
   imaageUrl?: boolean
   accessUrl?: boolean
+  contactPhone?: boolean
+  website?: boolean
+  country?: boolean
+  addressLine1?: boolean
+  addressLine2?: boolean
+  city?: boolean
+  state?: boolean
+  postalCode?: boolean
+  stripeAccountId?: boolean
+  stripeAccountType?: boolean
+  stripeOnboardingCompleted?: boolean
+  stripeChargesEnabled?: boolean
+  stripePayoutsEnabled?: boolean
+  bankAccountHolderName?: boolean
+  bankName?: boolean
+  bankAccountLast4?: boolean
+  bankRoutingLast4?: boolean
+  bankCountry?: boolean
+  bankCurrency?: boolean
+  commissionRatePercent?: boolean
+  totalCommissionEarned?: boolean
+  commissionBalance?: boolean
+  totalCommissionPaid?: boolean
+  subscriptionPaymentCount?: boolean
+  lastCommissionAt?: boolean
   totalClicks?: boolean
   uniqueVisitors?: boolean
   lastAccessed?: boolean
@@ -536,6 +1174,31 @@ export type OrganizationSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   email?: boolean
   imaageUrl?: boolean
   accessUrl?: boolean
+  contactPhone?: boolean
+  website?: boolean
+  country?: boolean
+  addressLine1?: boolean
+  addressLine2?: boolean
+  city?: boolean
+  state?: boolean
+  postalCode?: boolean
+  stripeAccountId?: boolean
+  stripeAccountType?: boolean
+  stripeOnboardingCompleted?: boolean
+  stripeChargesEnabled?: boolean
+  stripePayoutsEnabled?: boolean
+  bankAccountHolderName?: boolean
+  bankName?: boolean
+  bankAccountLast4?: boolean
+  bankRoutingLast4?: boolean
+  bankCountry?: boolean
+  bankCurrency?: boolean
+  commissionRatePercent?: boolean
+  totalCommissionEarned?: boolean
+  commissionBalance?: boolean
+  totalCommissionPaid?: boolean
+  subscriptionPaymentCount?: boolean
+  lastCommissionAt?: boolean
   totalClicks?: boolean
   uniqueVisitors?: boolean
   lastAccessed?: boolean
@@ -550,6 +1213,31 @@ export type OrganizationSelectScalar = {
   email?: boolean
   imaageUrl?: boolean
   accessUrl?: boolean
+  contactPhone?: boolean
+  website?: boolean
+  country?: boolean
+  addressLine1?: boolean
+  addressLine2?: boolean
+  city?: boolean
+  state?: boolean
+  postalCode?: boolean
+  stripeAccountId?: boolean
+  stripeAccountType?: boolean
+  stripeOnboardingCompleted?: boolean
+  stripeChargesEnabled?: boolean
+  stripePayoutsEnabled?: boolean
+  bankAccountHolderName?: boolean
+  bankName?: boolean
+  bankAccountLast4?: boolean
+  bankRoutingLast4?: boolean
+  bankCountry?: boolean
+  bankCurrency?: boolean
+  commissionRatePercent?: boolean
+  totalCommissionEarned?: boolean
+  commissionBalance?: boolean
+  totalCommissionPaid?: boolean
+  subscriptionPaymentCount?: boolean
+  lastCommissionAt?: boolean
   totalClicks?: boolean
   uniqueVisitors?: boolean
   lastAccessed?: boolean
@@ -557,7 +1245,7 @@ export type OrganizationSelectScalar = {
   updatedAt?: boolean
 }
 
-export type OrganizationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationName" | "organizationCode" | "email" | "imaageUrl" | "accessUrl" | "totalClicks" | "uniqueVisitors" | "lastAccessed" | "createdAt" | "updatedAt", ExtArgs["result"]["organization"]>
+export type OrganizationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationName" | "organizationCode" | "email" | "imaageUrl" | "accessUrl" | "contactPhone" | "website" | "country" | "addressLine1" | "addressLine2" | "city" | "state" | "postalCode" | "stripeAccountId" | "stripeAccountType" | "stripeOnboardingCompleted" | "stripeChargesEnabled" | "stripePayoutsEnabled" | "bankAccountHolderName" | "bankName" | "bankAccountLast4" | "bankRoutingLast4" | "bankCountry" | "bankCurrency" | "commissionRatePercent" | "totalCommissionEarned" | "commissionBalance" | "totalCommissionPaid" | "subscriptionPaymentCount" | "lastCommissionAt" | "totalClicks" | "uniqueVisitors" | "lastAccessed" | "createdAt" | "updatedAt", ExtArgs["result"]["organization"]>
 
 export type $OrganizationPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Organization"
@@ -569,6 +1257,31 @@ export type $OrganizationPayload<ExtArgs extends runtime.Types.Extensions.Intern
     email: string
     imaageUrl: string | null
     accessUrl: string | null
+    contactPhone: string | null
+    website: string | null
+    country: string | null
+    addressLine1: string | null
+    addressLine2: string | null
+    city: string | null
+    state: string | null
+    postalCode: string | null
+    stripeAccountId: string | null
+    stripeAccountType: string | null
+    stripeOnboardingCompleted: boolean
+    stripeChargesEnabled: boolean
+    stripePayoutsEnabled: boolean
+    bankAccountHolderName: string | null
+    bankName: string | null
+    bankAccountLast4: string | null
+    bankRoutingLast4: string | null
+    bankCountry: string | null
+    bankCurrency: string | null
+    commissionRatePercent: number
+    totalCommissionEarned: number
+    commissionBalance: number
+    totalCommissionPaid: number
+    subscriptionPaymentCount: number
+    lastCommissionAt: Date | null
     totalClicks: number | null
     uniqueVisitors: number | null
     lastAccessed: Date | null
@@ -1003,6 +1716,31 @@ export interface OrganizationFieldRefs {
   readonly email: Prisma.FieldRef<"Organization", 'String'>
   readonly imaageUrl: Prisma.FieldRef<"Organization", 'String'>
   readonly accessUrl: Prisma.FieldRef<"Organization", 'String'>
+  readonly contactPhone: Prisma.FieldRef<"Organization", 'String'>
+  readonly website: Prisma.FieldRef<"Organization", 'String'>
+  readonly country: Prisma.FieldRef<"Organization", 'String'>
+  readonly addressLine1: Prisma.FieldRef<"Organization", 'String'>
+  readonly addressLine2: Prisma.FieldRef<"Organization", 'String'>
+  readonly city: Prisma.FieldRef<"Organization", 'String'>
+  readonly state: Prisma.FieldRef<"Organization", 'String'>
+  readonly postalCode: Prisma.FieldRef<"Organization", 'String'>
+  readonly stripeAccountId: Prisma.FieldRef<"Organization", 'String'>
+  readonly stripeAccountType: Prisma.FieldRef<"Organization", 'String'>
+  readonly stripeOnboardingCompleted: Prisma.FieldRef<"Organization", 'Boolean'>
+  readonly stripeChargesEnabled: Prisma.FieldRef<"Organization", 'Boolean'>
+  readonly stripePayoutsEnabled: Prisma.FieldRef<"Organization", 'Boolean'>
+  readonly bankAccountHolderName: Prisma.FieldRef<"Organization", 'String'>
+  readonly bankName: Prisma.FieldRef<"Organization", 'String'>
+  readonly bankAccountLast4: Prisma.FieldRef<"Organization", 'String'>
+  readonly bankRoutingLast4: Prisma.FieldRef<"Organization", 'String'>
+  readonly bankCountry: Prisma.FieldRef<"Organization", 'String'>
+  readonly bankCurrency: Prisma.FieldRef<"Organization", 'String'>
+  readonly commissionRatePercent: Prisma.FieldRef<"Organization", 'Float'>
+  readonly totalCommissionEarned: Prisma.FieldRef<"Organization", 'Float'>
+  readonly commissionBalance: Prisma.FieldRef<"Organization", 'Float'>
+  readonly totalCommissionPaid: Prisma.FieldRef<"Organization", 'Float'>
+  readonly subscriptionPaymentCount: Prisma.FieldRef<"Organization", 'Int'>
+  readonly lastCommissionAt: Prisma.FieldRef<"Organization", 'DateTime'>
   readonly totalClicks: Prisma.FieldRef<"Organization", 'Int'>
   readonly uniqueVisitors: Prisma.FieldRef<"Organization", 'Int'>
   readonly lastAccessed: Prisma.FieldRef<"Organization", 'DateTime'>

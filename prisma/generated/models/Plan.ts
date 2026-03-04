@@ -521,14 +521,6 @@ export type PlanNullableScalarRelationFilter = {
   isNot?: Prisma.PlanWhereInput | null
 }
 
-export type FloatFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type PlanCreateNestedOneWithoutSubscriptionsInput = {
   create?: Prisma.XOR<Prisma.PlanCreateWithoutSubscriptionsInput, Prisma.PlanUncheckedCreateWithoutSubscriptionsInput>
   connectOrCreate?: Prisma.PlanCreateOrConnectWithoutSubscriptionsInput
