@@ -9,6 +9,9 @@ import { NotificationService } from '../notification/notification.service';
 @Injectable()
 export class StripeService {
   private stripeClient: Stripe;
+  private truncateMoney(value: number) {
+    return Math.trunc(value * 100) / 100;
+  }
 
   constructor(
     private readonly prisma: PrismaService,
@@ -258,16 +261,83 @@ export class StripeService {
       );
     }
 
-    const transfer = await this.stripeClient.transfers.create({
-      amount: amountInCents,
-      currency: currency.toLowerCase(),
-      destination: organization.stripeAccountId,
-      metadata: {
-        organizationId: organization.id,
-        organizationName: organization.organizationName,
-        adminId: adminId || '',
-      },
-    });
+    const destinationAccount = await this.stripeClient.accounts.retrieve(
+      organization.stripeAccountId,
+    );
+
+    const transfersCapability = destinationAccount.capabilities?.transfers;
+    const canReceiveTransfer =
+      transfersCapability === 'active' &&
+      destinationAccount.details_submitted &&
+      destinationAccount.payouts_enabled;
+
+    if (!canReceiveTransfer) {
+      const refreshUrl =
+        process.env.STRIPE_CONNECT_REFRESH_URL ||
+        `${process.env.FRONTEND_URL}/organization/connect/refresh`;
+      const returnUrl =
+        process.env.STRIPE_CONNECT_RETURN_URL ||
+        `${process.env.FRONTEND_URL}/organization/connect/return`;
+
+      const accountLink = await this.stripeClient.accountLinks.create({
+        account: organization.stripeAccountId,
+        refresh_url: refreshUrl,
+        return_url: returnUrl,
+        type: 'account_onboarding',
+      });
+
+      await this.prisma.client.organization.update({
+        where: { id: organization.id },
+        data: {
+          stripeOnboardingCompleted: destinationAccount.details_submitted,
+          stripeChargesEnabled: destinationAccount.charges_enabled,
+          stripePayoutsEnabled: destinationAccount.payouts_enabled,
+        },
+      });
+
+      throw new HttpException(
+        {
+          message:
+            'Organization Stripe account is not ready to receive transfers. Complete onboarding and required capabilities first.',
+          data: {
+            organizationId: organization.id,
+            stripeAccountId: organization.stripeAccountId,
+            transfersCapability,
+            detailsSubmitted: destinationAccount.details_submitted,
+            payoutsEnabled: destinationAccount.payouts_enabled,
+            chargesEnabled: destinationAccount.charges_enabled,
+            onboardingUrl: accountLink.url,
+            onboardingUrlExpiresAt: accountLink.expires_at,
+          },
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    let transfer: Stripe.Transfer;
+    try {
+      transfer = await this.stripeClient.transfers.create({
+        amount: amountInCents,
+        currency: currency.toLowerCase(),
+        destination: organization.stripeAccountId,
+        metadata: {
+          organizationId: organization.id,
+          organizationName: organization.organizationName,
+          adminId: adminId || '',
+        },
+      });
+    } catch (error) {
+      if (
+        error instanceof Stripe.errors.StripeInvalidRequestError &&
+        error.code === 'insufficient_capabilities_for_transfer'
+      ) {
+        throw new HttpException(
+          'Connected account cannot receive transfers yet. Please complete Stripe onboarding and enable transfer capability.',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+      throw error;
+    }
 
     await this.prisma.client.organization.update({
       where: { id: organization.id },
@@ -667,7 +737,9 @@ export class StripeService {
       if (referralOrganization) {
         const commissionPercent =
           referralOrganization.commissionRatePercent ?? 20;
-        const commissionAmount = (amountPaid / 100) * (commissionPercent / 100);
+        const commissionAmount = this.truncateMoney(
+          (amountPaid / 100) * (commissionPercent / 100),
+        );
 
         await this.prisma.client.organization.update({
           where: { id: referralOrganization.id },

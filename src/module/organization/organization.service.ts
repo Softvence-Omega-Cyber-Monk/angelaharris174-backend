@@ -10,6 +10,22 @@ export class OrganizationService {
     private readonly stripeService: StripeService,
   ) {}
 
+  private formatOrganizationMoney<T extends Record<string, any>>(
+    organization: T | null,
+  ): T | null {
+    if (!organization) return organization;
+    const truncate = (value: any) =>
+      typeof value === 'number' ? Math.trunc(value * 100) / 100 : value;
+
+    return {
+      ...organization,
+      commissionRatePercent: truncate(organization.commissionRatePercent),
+      totalCommissionEarned: truncate(organization.totalCommissionEarned),
+      commissionBalance: truncate(organization.commissionBalance),
+      totalCommissionPaid: truncate(organization.totalCommissionPaid),
+    };
+  }
+
   async createOrganization(dto: CreateOrganizationDto) {
     const existingByCode = await this.prisma.client.organization.findUnique({
       where: { organizationCode: dto.organizationCode },
@@ -61,15 +77,19 @@ export class OrganizationService {
     });
 
     return {
-      organization: updatedOrganization,
+      organization: this.formatOrganizationMoney(updatedOrganization),
       connectOnboarding,
     };
   }
 
   async getOrganizations() {
-    return this.prisma.client.organization.findMany({
+    const organizations = await this.prisma.client.organization.findMany({
       orderBy: { createdAt: 'desc' },
     });
+
+    return organizations.map((organization) =>
+      this.formatOrganizationMoney(organization),
+    );
   }
 
   async getOrganizationById(id: string) {
@@ -81,7 +101,27 @@ export class OrganizationService {
       throw new NotFoundException('Organization not found');
     }
 
-    return organization;
+    const referredUsers = await this.prisma.client.user.findMany({
+      where: {
+        oranaizaitonCode: organization.organizationCode,
+      },
+      select: {
+        id: true,
+        athleteFullName: true,
+        email: true,
+        imgUrl: true,
+        city: true,
+        state: true,
+        subscribeStatus: true,
+        createdAt: true,
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    return {
+      organization: this.formatOrganizationMoney(organization),
+      referredUsers,
+    };
   }
 
   async trackOrganizationAccess(code: string) {
@@ -93,13 +133,15 @@ export class OrganizationService {
       throw new NotFoundException('Organization not found');
     }
 
-    return this.prisma.client.organization.update({
+    const organizationWithClicks = await this.prisma.client.organization.update({
       where: { id: organization.id },
       data: {
         totalClicks: { increment: 1 },
         lastAccessed: new Date(),
       },
     });
+
+    return this.formatOrganizationMoney(organizationWithClicks);
   }
 
   async updateOrganizationImage(id: string, imageUrl: string) {
@@ -111,11 +153,13 @@ export class OrganizationService {
       throw new NotFoundException('Organization not found');
     }
 
-    return this.prisma.client.organization.update({
+    const updatedOrganization = await this.prisma.client.organization.update({
       where: { id },
       data: {
         imaageUrl: imageUrl,
       },
     });
+
+    return this.formatOrganizationMoney(updatedOrganization);
   }
 }
