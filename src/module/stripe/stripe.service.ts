@@ -3,9 +3,6 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import Stripe from 'stripe'; // ✅ Correct import
 import { PrismaService } from '../prisma/prisma.service';
 import { UpdatePlanDto } from './dto/strpe.dto';
-import { EmailService } from '../email/email.service';
-import * as ejs from 'ejs';
-import { join } from 'path';
 import { Parser } from 'json2csv';
 import { NotificationService } from '../notification/notification.service';
 
@@ -15,7 +12,6 @@ export class StripeService {
 
   constructor(
     private readonly prisma: PrismaService,
-    private readonly emailService: EmailService,
     private readonly notificationService: NotificationService,
   ) {
     const secretKey = process.env.STRIPE_SECRET_KEY;
@@ -141,31 +137,152 @@ export class StripeService {
       },
     });
 
-    // if (session.url) {
-    //   // const templatePath = join(
-    //   //   process.cwd(),
-    //   //   'src',
-    //   //   'module',
-    //   //   'stripe',
-    //   //   'mails',
-    //   //   'stripe-checkout.ejs',
-    //   // );
-
-    //   const templatePath = join(__dirname, 'mails', 'stripe-checkout.ejs');
-
-    //   const html = await ejs.renderFile(templatePath, {
-    //     user: { name: user.athleteFullName },
-    //     checkoutUrl: session.url,
-    //   });
-
-    //   await this.emailService.sendEmail({
-    //     to: user.email,
-    //     subject: 'Highlightz - Complete Your Subscription',
-    //     html: html,
-    //   });
-    // }
-
     return session;
+  }
+
+  async createOrganizationConnectOnboardingLink(organizationId: string) {
+    const organization = await this.prisma.client.organization.findUnique({
+      where: { id: organizationId },
+    });
+
+    if (!organization) {
+      throw new HttpException('Organization not found', HttpStatus.NOT_FOUND);
+    }
+
+    let stripeAccountId = organization.stripeAccountId;
+
+    if (!stripeAccountId) {
+      const account = await this.stripeClient.accounts.create({
+        type: 'express',
+        country: organization.country || 'US',
+        email: organization.email,
+        business_type: 'company',
+        business_profile: {
+          name: organization.organizationName,
+          url: organization.website || undefined,
+        },
+        capabilities: {
+          transfers: { requested: true },
+        },
+        metadata: {
+          organizationId: organization.id,
+          organizationCode: organization.organizationCode,
+          organizationName: organization.organizationName,
+          bankHolder: organization.bankAccountHolderName || '',
+          bankName: organization.bankName || '',
+          bankLast4: organization.bankAccountLast4 || '',
+        },
+      });
+
+      stripeAccountId = account.id;
+
+      await this.prisma.client.organization.update({
+        where: { id: organization.id },
+        data: {
+          stripeAccountId,
+          stripeChargesEnabled: account.charges_enabled,
+          stripePayoutsEnabled: account.payouts_enabled,
+          stripeOnboardingCompleted: account.details_submitted,
+        },
+      });
+    }
+
+    const refreshUrl =
+      process.env.STRIPE_CONNECT_REFRESH_URL ||
+      `${process.env.FRONTEND_URL}/organization/connect/refresh`;
+    const returnUrl =
+      process.env.STRIPE_CONNECT_RETURN_URL ||
+      `${process.env.FRONTEND_URL}/organization/connect/return`;
+
+    const accountLink = await this.stripeClient.accountLinks.create({
+      account: stripeAccountId,
+      refresh_url: refreshUrl,
+      return_url: returnUrl,
+      type: 'account_onboarding',
+    });
+
+    return {
+      organizationId: organization.id,
+      stripeAccountId,
+      onboardingUrl: accountLink.url,
+      expiresAt: accountLink.expires_at,
+    };
+  }
+
+  async transferOrganizationCommission(
+    organizationId: string,
+    amount: number,
+    currency: string = 'usd',
+    adminId?: string,
+  ) {
+    const organization = await this.prisma.client.organization.findUnique({
+      where: { id: organizationId },
+      select: {
+        id: true,
+        organizationName: true,
+        stripeAccountId: true,
+        commissionBalance: true,
+      },
+    });
+
+    if (!organization) {
+      throw new HttpException('Organization not found', HttpStatus.NOT_FOUND);
+    }
+
+    if (!organization.stripeAccountId) {
+      throw new HttpException(
+        'Organization stripeAccountId is not configured',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    if (amount <= 0) {
+      throw new HttpException(
+        'Transfer amount must be greater than 0',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    if (amount > organization.commissionBalance) {
+      throw new HttpException(
+        'Transfer amount cannot exceed organization commission balance',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const amountInCents = Math.round(amount * 100);
+    if (amountInCents <= 0) {
+      throw new HttpException(
+        'Transfer amount is too small',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const transfer = await this.stripeClient.transfers.create({
+      amount: amountInCents,
+      currency: currency.toLowerCase(),
+      destination: organization.stripeAccountId,
+      metadata: {
+        organizationId: organization.id,
+        organizationName: organization.organizationName,
+        adminId: adminId || '',
+      },
+    });
+
+    await this.prisma.client.organization.update({
+      where: { id: organization.id },
+      data: {
+        commissionBalance: { decrement: amount },
+        totalCommissionPaid: { increment: amount },
+      },
+    });
+
+    return {
+      transferId: transfer.id,
+      destination: transfer.destination,
+      amount,
+      currency: transfer.currency,
+    };
   }
   // GET all plans
   async findAllPlans() {
@@ -508,6 +625,11 @@ export class StripeService {
       },
     });
 
+    const existingTransaction = await this.prisma.client.transaction.findUnique({
+      where: { transactionId: transactionId },
+      select: { status: true },
+    });
+
     // 3. Create or Update Transaction record
     await this.prisma.client.transaction.upsert({
       where: { transactionId: transactionId },
@@ -529,6 +651,36 @@ export class StripeService {
         billingDate: new Date(),
       },
     });
+
+    const shouldCreditOrganization =
+      !existingTransaction || existingTransaction.status !== 'succeeded';
+
+    console.log('shouldcr', shouldCreditOrganization)
+    if (shouldCreditOrganization && user.oranaizaitonCode) {
+      const referralOrganization =
+        await this.prisma.client.organization.findUnique({
+          where: { organizationCode: user.oranaizaitonCode },
+          select: { id: true, commissionRatePercent: true },
+        });
+
+        console.log('referralOrganization:', referralOrganization);
+      if (referralOrganization) {
+        const commissionPercent =
+          referralOrganization.commissionRatePercent ?? 20;
+        const commissionAmount = (amountPaid / 100) * (commissionPercent / 100);
+
+        await this.prisma.client.organization.update({
+          where: { id: referralOrganization.id },
+          data: {
+            totalCommissionEarned: { increment: commissionAmount },
+            commissionBalance: { increment: commissionAmount },
+            subscriptionPaymentCount: { increment: 1 },
+            lastCommissionAt: new Date(),
+          },
+        });
+      }
+    }
+
     if (subscription?.id) {
       await this.prisma.client.subscription.update({
         where: { id: subscription.id },
