@@ -1,11 +1,12 @@
 // src/stripe/stripe.controller.ts
-import { Controller, Post, Body, Req, Res, UseGuards, HttpException, HttpStatus, Get, Patch, Param, RawBody, Query, Delete } from '@nestjs/common';
+import { Controller, Post, Body, Req, Res, HttpException, HttpStatus, Get, Patch, Param, RawBody, Query, Delete, Header } from '@nestjs/common';
 import type { Request, Response } from 'express';
 import { StripeService } from './stripe.service';
-import { AuthGuard } from '@nestjs/passport'; // assuming you have auth
 import { ApiBody, ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { CreateCheckoutSessionDto, CreateProductDto, UpdatePlanDto } from './dto/strpe.dto';
+import { CreateCheckoutSessionDto, CreateProductDto, TransferOrganizationCommissionDto, UpdatePlanDto } from './dto/strpe.dto';
 import { Public } from 'src/common/decorators/public.decorators';
+import { Roles } from 'src/common/decorators/roles.decorator';
+import { userRole } from '@prisma';
 
 @ApiTags('Stripe')
 @Controller('stripe')
@@ -89,8 +90,8 @@ export class StripeController {
 
     return {
       success: true,
-      url: session.url, 
-      message : 'Please check your email for the checkout link to complete your subscription',
+      url: session.url,
+      message: 'Please check your email for the checkout link to complete your subscription',
     };
   }
 
@@ -236,6 +237,31 @@ export class StripeController {
     };
   }
 
+  @Get('me/transactions/export/csv')
+  @Header('Content-Type', 'text/csv')
+  @Header('Content-Disposition', 'attachment; filename="my-transactions.csv"')
+  @ApiOperation({
+    summary: 'Export current user transactions to CSV (No Pagination)',
+  })
+  @ApiResponse({
+    status: 200,
+    description:
+      'Downloads a CSV file containing all transaction records for the logged-in user.',
+  })
+  async exportMyTransactionsCSV(@Req() req: Request, @Res() res: Response) {
+    try {
+      const userId = req.user!.id;
+      const csvData = await this.stripeService.generateUserTransactionCSV(userId);
+      return res.send(csvData);
+    } catch (error) {
+      return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+        message: 'Failed to generate CSV file',
+        error: error.message,
+      });
+    }
+  }
+
   @Get('me/current-plan')
   @ApiOperation({ summary: 'Get current active plan for the logged-in user' })
   @ApiResponse({ status: 200, description: 'User current plan details' })
@@ -254,6 +280,20 @@ export class StripeController {
     return {
       statusCode: HttpStatus.OK,
       data: plan,
+    };
+  }
+
+  @Patch('me/subscription/cancel')
+  @ApiOperation({ summary: 'Cancel current user active subscription' })
+  @ApiResponse({ status: 200, description: 'Subscription canceled successfully' })
+  async cancelMySubscription(@Req() req: Request) {
+    const userId = req.user!.id;
+    const result = await this.stripeService.cancelMySubscription(userId);
+
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'Subscription canceled successfully',
+      data: result,
     };
   }
 
@@ -276,6 +316,32 @@ export class StripeController {
       data: result.data,
       meta: result.meta,
     };
+  }
+
+  @Public() // In production, add @UseGuards(AdminGuard)
+  @Get('admin/transactions/export/csv')
+  @Header('Content-Type', 'text/csv')
+  @Header('Content-Disposition', 'attachment; filename="transactions.csv"')
+  @ApiOperation({ summary: 'Export ALL transactions to CSV (No Pagination)' })
+  @ApiResponse({
+    status: 200,
+    description: 'Downloads a CSV file containing all transaction records.'
+  })
+  async exportTransactionsCSV(@Res() res: Response) {
+    try {
+      // Call the new service method that fetches ALL data
+      const csvData = await this.stripeService.generateTransactionCSV();
+
+      // Send the raw CSV string as the response
+      return res.send(csvData);
+    } catch (error) {
+      // Return a standard JSON error if CSV generation fails
+      return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+        message: 'Failed to generate CSV file',
+        error: error.message,
+      });
+    }
   }
 
   @Public() // In production, add @UseGuards(AdminGuard)
@@ -367,6 +433,31 @@ export class StripeController {
     };
   }
 
+  @Post('admin/organization/:organizationId/transfer-commission')
+  @Roles(userRole.ADMIN)
+  @ApiOperation({
+    summary:
+      'Transfer commission from platform account to organization connected account',
+  })
+  async transferOrganizationCommission(
+    @Req() req: Request,
+    @Param('organizationId') organizationId: string,
+    @Body() dto: TransferOrganizationCommissionDto,
+  ) {
+    const adminId = req.user?.id;
+    const result = await this.stripeService.transferOrganizationCommission(
+      organizationId,
+      dto.amount,
+      dto.currency || 'usd',
+      adminId,
+    );
 
-  
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'Organization commission transferred successfully',
+      data: result,
+    };
+  }
+
+
 }

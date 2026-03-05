@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { userRole } from '@prisma';
 import { PrismaService } from '../prisma/prisma.service';
 import { NotificationGateway } from './notification.gateway';
 
@@ -68,17 +69,28 @@ export class NotificationService {
     return newNotification;
   }
 
-  async getNotificationsForUser(userId: string) {
+  async getNotificationsForUser(userId: string, role?: string) {
+    const include = {
+      sender: {
+        select: { athleteFullName: true, imgUrl: true },
+      },
+      post: {
+        select: { images: true, caption: true },
+      },
+    };
+
+    if (role === userRole.ADMIN) {
+      return await this.prisma.client.notification.findMany({
+        where: { user: { role: userRole.ADMIN } },
+        include,
+        orderBy: { createdAt: 'desc' },
+        take: 50,
+      });
+    }
+
     return await this.prisma.client.notification.findMany({
       where: { userId },
-      include: {
-        sender: {
-          select: { athleteFullName: true, imgUrl: true },
-        },
-        post: {
-          select: { images: true, caption: true },
-        },
-      },
+      include,
       orderBy: { createdAt: 'desc' },
       take: 50,
     });
@@ -150,5 +162,45 @@ export class NotificationService {
       where: { userId, isRead: false },
       data: { isRead: true },
     });
+  }
+
+  async notifyAdminsSubscriptionSuccess(params: {
+    subscriberId: string;
+    subscriberName: string;
+    planName: string;
+  }) {
+    const { subscriberId, subscriberName, planName } = params;
+
+    const admins = await this.prisma.client.user.findMany({
+      where: { role: 'ADMIN', isDeleted: false, isActive: true },
+      select: { id: true },
+    });
+
+    if (!admins.length) return [];
+
+    const notifications = await Promise.all(
+      admins.map((admin) =>
+        this.prisma.client.notification.create({
+          data: {
+            userId: admin.id,
+            senderId: subscriberId,
+            title: 'New Subscription',
+            message: `${subscriberName} subscribed to ${planName} plan`,
+            type: 'SUBSCRIPTION',
+          },
+          include: {
+            sender: {
+              select: { athleteFullName: true, imgUrl: true },
+            },
+          },
+        }),
+      ),
+    );
+
+    notifications.forEach((notification, index) => {
+      this.gateway.sendToUser(admins[index].id, notification);
+    });
+
+    return notifications;
   }
 }

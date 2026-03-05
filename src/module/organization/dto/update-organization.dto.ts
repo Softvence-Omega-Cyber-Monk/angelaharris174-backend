@@ -1,21 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsOptional, IsString } from 'class-validator';
 
-export class CreateOrganizationDto {
-  @ApiProperty({ example: 'ORG_001' })
+export class UpdateOrganizationDto {
+  @ApiProperty({ example: 'Softvence Academy', required: false })
   @IsString()
-  @IsNotEmpty()
-  organizationCode: string;
-
-  @ApiProperty({ example: 'Softvence Academy' })
-  @IsString()
-  @IsNotEmpty()
-  name: string;
-
-  @ApiProperty({ example: 'org@example.com' })
-  @IsEmail()
-  @IsNotEmpty()
-  email: string;
+  @IsOptional()
+  organizationName?: string;
 
   @ApiProperty({ example: '+1-202-555-0101', required: false })
   @IsString()
@@ -86,4 +76,12 @@ export class CreateOrganizationDto {
   @IsString()
   @IsOptional()
   bankCurrency?: string;
+
+  @ApiProperty({
+    type: 'string',
+    format: 'binary',
+    required: false,
+  })
+  @IsOptional()
+  image?: any;
 }

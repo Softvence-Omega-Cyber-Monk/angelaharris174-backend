@@ -205,6 +205,14 @@ export class AdminService {
             },
         });
 
+        const currentMonthVews = await this.prisma.client.highlightsView.count({
+            where: {
+                createdAt: {
+                    gte: currentMonthStart,
+                },
+            },
+        });
+
         // Get last month counts
         const lastMonthUsers = await this.prisma.client.user.count({
             where: {
@@ -237,6 +245,15 @@ export class AdminService {
             },
         });
 
+        const lastmountviews = await this.prisma.client.highlightsView.count({
+            where: {
+                createdAt: {
+                    gte: lastMonthStart,
+                    lt: lastMonthEnd,
+                },
+            },
+        });
+
         // Calculate percentage changes
         const calculatePercentageChange = (current: number, previous: number): number => {
             if (previous === 0) {
@@ -260,6 +277,7 @@ export class AdminService {
         });
 
         const totalVideos = await this.prisma.client.highlights.count();
+        const totalViews = await this.prisma.client.highlightsView.count();
 
         // Get current year monthly user stats
         const monthlyData = new Map<number, number>();
@@ -312,6 +330,11 @@ export class AdminService {
                 count: totalVideos,
                 percentageChange: calculatePercentageChange(currentMonthVideos, lastMonthVideos),
             },
+            totalviews: {
+                count: totalViews,
+                percentageChange: calculatePercentageChange(currentMonthVews, lastmountviews),
+            },
+         
             currentYearStats: {
                 year: currentYear,
                 totalNewUsers: usersThisYear.length,

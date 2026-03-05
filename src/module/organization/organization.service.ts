@@ -1,10 +1,31 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateOrganizationDto } from './dto/create-organization.dto';
+import { StripeService } from '../stripe/stripe.service';
+import { UpdateOrganizationDto } from './dto/update-organization.dto';
 
 @Injectable()
 export class OrganizationService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly stripeService: StripeService,
+  ) {}
+
+  private formatOrganizationMoney<T extends Record<string, any>>(
+    organization: T | null,
+  ): T | null {
+    if (!organization) return organization;
+    const truncate = (value: any) =>
+      typeof value === 'number' ? Math.trunc(value * 100) / 100 : value;
+
+    return {
+      ...organization,
+      commissionRatePercent: truncate(organization.commissionRatePercent),
+      totalCommissionEarned: truncate(organization.totalCommissionEarned),
+      commissionBalance: truncate(organization.commissionBalance),
+      totalCommissionPaid: truncate(organization.totalCommissionPaid),
+    };
+  }
 
   async createOrganization(dto: CreateOrganizationDto) {
     const existingByCode = await this.prisma.client.organization.findUnique({
@@ -23,21 +44,53 @@ export class OrganizationService {
       throw new BadRequestException('Organization email already exists');
     }
 
-    const accessUrl = process.env.BASE_URL+`/signup?code=${dto.organizationCode}`
-    return this.prisma.client.organization.create({
+    const accessUrl = process.env.BASE_URL + `/signup?code=${dto.organizationCode}`;
+    const organization = await this.prisma.client.organization.create({
       data: {
         organizationCode: dto.organizationCode,
         organizationName: dto.name,
         email: dto.email,
-        accessUrl: accessUrl
+        accessUrl,
+        contactPhone: dto.contactPhone,
+        website: dto.website,
+        country: dto.country,
+        addressLine1: dto.addressLine1,
+        addressLine2: dto.addressLine2,
+        city: dto.city,
+        state: dto.state,
+        postalCode: dto.postalCode,
+        bankAccountHolderName: dto.bankAccountHolderName,
+        bankName: dto.bankName,
+        bankAccountLast4: dto.bankAccountLast4,
+        bankRoutingLast4: dto.bankRoutingLast4,
+        bankCountry: dto.bankCountry,
+        bankCurrency: dto.bankCurrency,
       },
     });
+
+    const connectOnboarding =
+      await this.stripeService.createOrganizationConnectOnboardingLink(
+        organization.id,
+      );
+
+    const updatedOrganization = await this.prisma.client.organization.findUnique({
+      where: { id: organization.id },
+    });
+
+    return {
+      organization: this.formatOrganizationMoney(updatedOrganization),
+      connectOnboarding,
+    };
   }
 
   async getOrganizations() {
-    return this.prisma.client.organization.findMany({
+    const organizations = await this.prisma.client.organization.findMany({
       orderBy: { createdAt: 'desc' },
     });
+
+    return organizations.map((organization) =>
+      this.formatOrganizationMoney(organization),
+    );
   }
 
   async getOrganizationById(id: string) {
@@ -49,7 +102,27 @@ export class OrganizationService {
       throw new NotFoundException('Organization not found');
     }
 
-    return organization;
+    const referredUsers = await this.prisma.client.user.findMany({
+      where: {
+        oranaizaitonCode: organization.organizationCode,
+      },
+      select: {
+        id: true,
+        athleteFullName: true,
+        email: true,
+        imgUrl: true,
+        city: true,
+        state: true,
+        subscribeStatus: true,
+        createdAt: true,
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    return {
+      organization: this.formatOrganizationMoney(organization),
+      referredUsers,
+    };
   }
 
   async trackOrganizationAccess(code: string) {
@@ -61,16 +134,22 @@ export class OrganizationService {
       throw new NotFoundException('Organization not found');
     }
 
-    return this.prisma.client.organization.update({
+    const organizationWithClicks = await this.prisma.client.organization.update({
       where: { id: organization.id },
       data: {
         totalClicks: { increment: 1 },
         lastAccessed: new Date(),
       },
     });
+
+    return this.formatOrganizationMoney(organizationWithClicks);
   }
 
-  async updateOrganizationImage(id: string, imageUrl: string) {
+  async updateOrganization(
+    id: string,
+    dto: UpdateOrganizationDto,
+    imageUrl?: string,
+  ) {
     const organization = await this.prisma.client.organization.findUnique({
       where: { id },
     });
@@ -79,11 +158,44 @@ export class OrganizationService {
       throw new NotFoundException('Organization not found');
     }
 
-    return this.prisma.client.organization.update({
+    const updatedOrganization = await this.prisma.client.organization.update({
       where: { id },
       data: {
+        organizationName: dto.organizationName,
+        contactPhone: dto.contactPhone,
+        website: dto.website,
+        country: dto.country,
+        addressLine1: dto.addressLine1,
+        addressLine2: dto.addressLine2,
+        city: dto.city,
+        state: dto.state,
+        postalCode: dto.postalCode,
+        bankAccountHolderName: dto.bankAccountHolderName,
+        bankName: dto.bankName,
+        bankAccountLast4: dto.bankAccountLast4,
+        bankRoutingLast4: dto.bankRoutingLast4,
+        bankCountry: dto.bankCountry,
+        bankCurrency: dto.bankCurrency,
         imaageUrl: imageUrl,
       },
     });
+
+    return this.formatOrganizationMoney(updatedOrganization);
+  }
+
+  async deleteOrganization(id: string) {
+    const organization = await this.prisma.client.organization.findUnique({
+      where: { id },
+    });
+
+    if (!organization) {
+      throw new NotFoundException('Organization not found');
+    }
+
+    const deletedOrganization = await this.prisma.client.organization.delete({
+      where: { id },
+    });
+
+    return this.formatOrganizationMoney(deletedOrganization);
   }
 }

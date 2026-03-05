@@ -131,3 +131,22 @@ export class CreateCheckoutSessionDto {
   @IsNotEmpty()
   priceId: string;
 }
+
+export class TransferOrganizationCommissionDto {
+  @ApiProperty({
+    description: 'Amount to transfer to organization in dollars',
+    example: 25,
+  })
+  @IsNumber()
+  @Min(0.01)
+  amount: number;
+
+  @ApiProperty({
+    description: 'Currency code',
+    example: 'usd',
+    required: false,
+  })
+  @IsString()
+  @IsOptional()
+  currency?: string;
+}
