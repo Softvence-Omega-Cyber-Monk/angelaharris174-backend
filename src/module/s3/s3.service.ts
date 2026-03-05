@@ -462,23 +462,24 @@ export class S3Service {
           ffmpegCommand.input(meta.path);
         });
 
-        // Construct the concat complex filter with scaling/padding and silent audio handling
+        // Construct concat filter with explicit timeline/audio normalization.
+        // Resetting PTS for both video/audio avoids silent output caused by mismatched timestamps.
         let filter = '';
 
         // 1. Process video streams (standardize to 1280x720)
         for (let i = 0; i < clipsMetadata.length; i++) {
-          filter += `[${i}:v]scale=1280:720:force_original_aspect_ratio=decrease,pad=1280:720:(ow-iw)/2:(oh-ih)/2,setsar=1[v${i}];`;
+          filter += `[${i}:v]scale=1280:720:force_original_aspect_ratio=decrease,pad=1280:720:(ow-iw)/2:(oh-ih)/2,setsar=1,setpts=PTS-STARTPTS[v${i}];`;
         }
 
         // 2. Process audio streams (provide silence if missing)
         for (let i = 0; i < clipsMetadata.length; i++) {
           if (clipsMetadata[i].hasAudio) {
-            // Use existing audio, but ensure it's resampled/standardized if possible
-            // For simplicity, we just reference it here
-            filter += `[${i}:a]aformat=sample_fmts=fltp:sample_rates=44100:channel_layouts=stereo[a${i}];`;
+            // Normalize audio format and timeline before concat.
+            filter += `[${i}:a]aformat=sample_fmts=fltp:sample_rates=44100:channel_layouts=stereo,aresample=async=1:first_pts=0,asetpts=PTS-STARTPTS[a${i}];`;
           } else {
-            // Generate silent audio of the same duration as the video
-            filter += `anullsrc=channel_layout=stereo:sample_rate=44100:d=${clipsMetadata[i].duration}[a${i}];`;
+            // Generate a silent track matching clip duration if audio stream is missing.
+            const safeDuration = Math.max(0.1, clipsMetadata[i].duration || 0);
+            filter += `anullsrc=channel_layout=stereo:sample_rate=44100,atrim=duration=${safeDuration},asetpts=PTS-STARTPTS[a${i}];`;
           }
         }
 
@@ -497,6 +498,8 @@ export class S3Service {
           .outputOptions([
             '-vsync 2', // Handle variable frame rates
             '-pix_fmt yuv420p', // Ensure compatibility with most players
+            '-ar 44100', // Keep audio sample rate consistent
+            '-ac 2', // Keep stereo output
             '-movflags +faststart' // Progressive download support
           ])
           .on('stderr', (stderrLine) => {
