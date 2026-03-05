@@ -68,7 +68,7 @@ export class AdminController {
     @Post('manage-user/:userId')
     @ApiOperation({
         summary: 'Manage user by ID (Admin)',
-        description: 'Perform action on user: delete (soft) or deactivate. Defaults to deactivate if no action specified.',
+        description: 'Perform action on user: delete (soft), deactivate, or activate. Defaults to deactivate if no action specified.',
     })
     @ApiParam({
         name: 'userId',
@@ -79,8 +79,8 @@ export class AdminController {
     @ApiQuery({
         name: 'action',
         required: false,
-        enum: ['delete', 'deactivate'],
-        description: 'Action to perform: delete (sets isDeleted=true) or deactivate (sets isActive=false). Default: deactivate',
+        enum: ['delete', 'deactivate', 'activate'],
+        description: 'Action to perform: delete (sets isDeleted=true), deactivate (sets isActive=false), or activate (sets isActive=true). Default: deactivate',
     })
     async manageUser(
         @Req() req: Request,
@@ -95,7 +95,9 @@ export class AdminController {
         const message =
             action === UserAction.DELETE
                 ? 'User soft-deleted successfully'
-                : 'User deactivated successfully';
+                : action === UserAction.DEACTIVATE
+                    ? 'User deactivated successfully'
+                    : 'User activated successfully';
 
         return sendResponse(res, {
             statusCode: HttpStatus.OK,

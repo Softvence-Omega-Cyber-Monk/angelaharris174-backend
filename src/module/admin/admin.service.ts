@@ -92,6 +92,8 @@ export class AdminService {
             updateData.isDeleted = true;
         } else if (action === UserAction.DEACTIVATE) {
             updateData.isActive = false;
+        } else if (action === UserAction.ACTIVATE) {
+            updateData.isActive = true;
         }
 
         updateData.updatedAt = new Date();
