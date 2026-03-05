@@ -18,10 +18,11 @@ ENV NODE_ENV=production
 
 COPY package*.json ./
 RUN npm ci --omit=dev && npm cache clean --force
+RUN apt-get update -y && apt-get install -y openssl && rm -rf /var/lib/apt/lists/*
 
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/prisma ./prisma
 COPY --from=build /app/prisma.config.ts ./prisma.config.ts
 
-EXPOSE 5000
-CMD ["sh -c", "npx prisma migrate deploy --schema=./prisma/schema.prisma && node dist/src/main.js"]
+EXPOSE 5001
+CMD ["sh", "-c", "npx prisma migrate deploy --schema=./prisma/schema && node dist/src/main.js"]
