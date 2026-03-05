@@ -15,11 +15,11 @@ export class CreateUserDto {
 
  
 
-  @IsEnum(['ADMIN', 'USER', 'ATHLETE'])
+  @IsEnum(['ADMIN', 'USER', 'ATHLATE'])
   @IsNotEmpty()
   @ApiProperty({ 
     description: 'System role', 
-    enum: ['ADMIN', 'USER', 'ATHLETE'],
+    enum: ['ADMIN', 'USER', 'ATHLATE'],
     example: 'ADMIN' 
   })
   systemRole: string;
