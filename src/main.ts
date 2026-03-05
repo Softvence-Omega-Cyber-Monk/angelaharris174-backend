@@ -25,7 +25,8 @@ async function bootstrap() {
     origin: [
       'http://localhost:5173',
       'http://localhost:5174',
-      'https://highlightz.vercel.app'
+      'https://highlightz.vercel.app',
+      'https://www.highlightzapp.co'
     ],
     // origin: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
