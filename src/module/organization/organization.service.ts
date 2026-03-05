@@ -2,6 +2,7 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateOrganizationDto } from './dto/create-organization.dto';
 import { StripeService } from '../stripe/stripe.service';
+import { UpdateOrganizationDto } from './dto/update-organization.dto';
 
 @Injectable()
 export class OrganizationService {
@@ -144,7 +145,11 @@ export class OrganizationService {
     return this.formatOrganizationMoney(organizationWithClicks);
   }
 
-  async updateOrganizationImage(id: string, imageUrl: string) {
+  async updateOrganization(
+    id: string,
+    dto: UpdateOrganizationDto,
+    imageUrl?: string,
+  ) {
     const organization = await this.prisma.client.organization.findUnique({
       where: { id },
     });
@@ -156,10 +161,41 @@ export class OrganizationService {
     const updatedOrganization = await this.prisma.client.organization.update({
       where: { id },
       data: {
+        organizationName: dto.organizationName,
+        contactPhone: dto.contactPhone,
+        website: dto.website,
+        country: dto.country,
+        addressLine1: dto.addressLine1,
+        addressLine2: dto.addressLine2,
+        city: dto.city,
+        state: dto.state,
+        postalCode: dto.postalCode,
+        bankAccountHolderName: dto.bankAccountHolderName,
+        bankName: dto.bankName,
+        bankAccountLast4: dto.bankAccountLast4,
+        bankRoutingLast4: dto.bankRoutingLast4,
+        bankCountry: dto.bankCountry,
+        bankCurrency: dto.bankCurrency,
         imaageUrl: imageUrl,
       },
     });
 
     return this.formatOrganizationMoney(updatedOrganization);
+  }
+
+  async deleteOrganization(id: string) {
+    const organization = await this.prisma.client.organization.findUnique({
+      where: { id },
+    });
+
+    if (!organization) {
+      throw new NotFoundException('Organization not found');
+    }
+
+    const deletedOrganization = await this.prisma.client.organization.delete({
+      where: { id },
+    });
+
+    return this.formatOrganizationMoney(deletedOrganization);
   }
 }
