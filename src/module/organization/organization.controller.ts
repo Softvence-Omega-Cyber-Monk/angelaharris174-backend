@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpStatus,
   Param,
@@ -15,6 +16,7 @@ import { ApiBody, ApiConsumes, ApiOperation, ApiTags } from '@nestjs/swagger';
 import type { Response } from 'express';
 import { OrganizationService } from './organization.service';
 import { CreateOrganizationDto } from './dto/create-organization.dto';
+import { UpdateOrganizationDto } from './dto/update-organization.dto';
 import { Public } from 'src/common/decorators/public.decorators';
 import sendResponse from 'src/utils/sendResponse';
 import { S3Service } from '../s3/s3.service';
@@ -88,46 +90,48 @@ export class OrganizationController {
     });
   }
 
-  @Patch('update-image/:id')
+  @Patch('update/:id')
+  @Roles(userRole.ADMIN)
   @UseInterceptors(FileInterceptor('image'))
   @ApiConsumes('multipart/form-data')
-  @ApiBody({
-    schema: {
-      type: 'object',
-      properties: {
-        image: {
-          type: 'string',
-          format: 'binary',
-        },
-      },
-      required: ['image'],
-    },
-  })
-  @ApiOperation({ summary: 'Update organization image' })
-  async updateImage(
+  @ApiBody({ type: UpdateOrganizationDto })
+  @ApiOperation({ summary: 'Update organization safe fields and optional image' })
+  async updateOrganization(
     @Param('id', ParseUUIDPipe) id: string,
-    @UploadedFile() file: Express.Multer.File,
+    @Body() dto: UpdateOrganizationDto,
     @Res() res: Response,
+    @UploadedFile() file?: Express.Multer.File,
   ) {
-    if (!file) {
-      return sendResponse(res, {
-        statusCode: HttpStatus.BAD_REQUEST,
-        success: false,
-        message: 'Image file is required',
-        data: null,
-      });
-    }
-
-    const imageUrl = await this.s3Service.uploadFile(file, 'organization-images');
-    const organization = await this.organizationService.updateOrganizationImage(
+    const imageUrl = file
+      ? await this.s3Service.uploadFile(file, 'organization-images')
+      : undefined;
+    const organization = await this.organizationService.updateOrganization(
       id,
+      dto,
       imageUrl,
     );
 
     return sendResponse(res, {
       statusCode: HttpStatus.OK,
       success: true,
-      message: 'Organization image updated successfully',
+      message: 'Organization updated successfully',
+      data: organization,
+    });
+  }
+
+  @Delete('delete/:id')
+  @Roles(userRole.ADMIN)
+  @ApiOperation({ summary: 'Delete organization by ID' })
+  async deleteOrganization(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Res() res: Response,
+  ) {
+    const organization = await this.organizationService.deleteOrganization(id);
+
+    return sendResponse(res, {
+      statusCode: HttpStatus.OK,
+      success: true,
+      message: 'Organization deleted successfully',
       data: organization,
     });
   }
