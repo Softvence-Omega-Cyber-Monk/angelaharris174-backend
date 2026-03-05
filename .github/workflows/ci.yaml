@@ -48,16 +48,16 @@ jobs:
             
             # Stop currently running containers and remove orphans (containers not defined in the compose file)
             # This ensures we start with a clean state and avoid conflicts with old containers.
-            docker compose down --remove-orphans 
+            sudo docker compose down --remove-orphans 
             
             # Force remove stopped service containers
-            docker compose rm -f 
+            sudo docker compose rm -f 
             
             # Pull the latest Docker images defined in the compose file (e.g., the new application image)
-            docker compose pull 
+            sudo docker compose pull 
             
             # Start the services in detached mode (background) using the updated images
-            docker compose up -d 
+            sudo docker compose up -d 
             
             # Remove unused "dangling" images to free up disk space on the server
-            docker image prune -f
+            sudo docker image prune -f
