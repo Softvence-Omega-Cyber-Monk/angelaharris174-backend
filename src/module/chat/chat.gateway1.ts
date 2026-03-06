@@ -13,7 +13,7 @@ import { SendMessageDto } from './dto/sendMessage.dto';
 import { UsePipes, ValidationPipe } from '@nestjs/common';
 
 @WebSocketGateway({
-  cors: { origin: process.env.FRONTEND_URL || '*' },
+  cors: { origin: process.env.BASE_URL || '*' },
 })
 export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()

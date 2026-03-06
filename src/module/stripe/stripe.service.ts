@@ -192,10 +192,10 @@ export class StripeService {
 
     const refreshUrl =
       process.env.STRIPE_CONNECT_REFRESH_URL ||
-      `${process.env.FRONTEND_URL}/organization/connect/refresh`;
+      `${process.env.BASE_URL}/organization/connect/refresh`;
     const returnUrl =
       process.env.STRIPE_CONNECT_RETURN_URL ||
-      `${process.env.FRONTEND_URL}/organization/connect/return`;
+      `${process.env.BASE_URL}/organization/connect/return`;
 
     const accountLink = await this.stripeClient.accountLinks.create({
       account: stripeAccountId,
@@ -274,10 +274,10 @@ export class StripeService {
     if (!canReceiveTransfer) {
       const refreshUrl =
         process.env.STRIPE_CONNECT_REFRESH_URL ||
-        `${process.env.FRONTEND_URL}/organization/connect/refresh`;
+        `${process.env.BASE_URL}/organization/connect/refresh`;
       const returnUrl =
         process.env.STRIPE_CONNECT_RETURN_URL ||
-        `${process.env.FRONTEND_URL}/organization/connect/return`;
+        `${process.env.BASE_URL}/organization/connect/return`;
 
       const accountLink = await this.stripeClient.accountLinks.create({
         account: organization.stripeAccountId,
