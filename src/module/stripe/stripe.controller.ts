@@ -76,8 +76,8 @@ export class StripeController {
     const userId = req.user!.id; // From JWTAuthGuard
     const { priceId } = dto;
 
-    const successUrl = `${process.env.FRONTEND_URL}/subscription-success`;
-    const cancelUrl = `${process.env.FRONTEND_URL}/subscription-cancel`;
+    const successUrl = `${process.env.BASE_URL}/user-dashboard/subscription-success`;
+    const cancelUrl = `${process.env.BASE_URL}/user-dashboard/subscription-cancel`;
 
     console.log('Creating checkout session:', { userId, priceId });
 

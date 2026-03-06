@@ -63,7 +63,6 @@ export class HighlightsService {
         const mergedVideoUrl = await this.s3Service.mergeVideos(
           uploadedClips.map((c) => ({ s3Key: c.s3Key, order: c.order })),
         );
-        const highLightsLink = `${process.env.BASE_URL}/?videoUrl=${mergedVideoUrl}`;
         // 4. Update the highlight record with the merged video URL and final clip list
         const updatedHighlight = await this.prisma.client.highlights.update({
           where: { id: highlight.id },
@@ -71,7 +70,7 @@ export class HighlightsService {
             mergedVideoUrl: mergedVideoUrl,
             clips: uploadedClips as any,
             isProcessing: false,
-            highLightsLink: highLightsLink,
+            highLightsLink: mergedVideoUrl,
           },
         });
 

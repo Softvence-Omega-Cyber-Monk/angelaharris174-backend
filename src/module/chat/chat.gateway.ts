@@ -14,7 +14,7 @@ import { UsePipes, ValidationPipe, Logger } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
 
 @WebSocketGateway({
-  cors: { origin: process.env.FRONTEND_URL || '*' },
+  cors: { origin: process.env.BASE_URL || '*' },
 })
 export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
