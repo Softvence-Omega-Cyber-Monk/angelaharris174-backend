@@ -73,8 +73,11 @@ export class OrganizationService {
         organization.id,
       );
 
-    const updatedOrganization = await this.prisma.client.organization.findUnique({
+    const updatedOrganization = await this.prisma.client.organization.update({
       where: { id: organization.id },
+      data: {
+        onBoardingLink: connectOnboarding!.onboardingUrl,
+      },
     });
 
     return {

@@ -24,6 +24,7 @@ model Organization {
     bankRoutingLast4 String?
     bankCountry      String?
     bankCurrency     String?
+    onBoardingLink    String?
     commissionRatePercent Float @default(20)
     totalCommissionEarned Float @default(0)
     commissionBalance Float @default(0)
